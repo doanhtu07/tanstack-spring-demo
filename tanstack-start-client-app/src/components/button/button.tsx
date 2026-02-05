@@ -1,12 +1,13 @@
 import type { PropsWithChildren } from 'react'
+import { ButtonClassNames, SharedClassNames } from '@/utils/class-names'
 
 type Props = PropsWithChildren
 
 export const Button = ({ children }: Props) => {
   return (
-    <button className="button">
+    <button className={ButtonClassNames.root}>
       <p>Test click</p>
-      <div className="children">{children}</div>
+      <div className={SharedClassNames.children}>{children}</div>
     </button>
   )
 }

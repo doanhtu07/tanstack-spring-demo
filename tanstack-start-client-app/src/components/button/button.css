@@ -1,6 +1,6 @@
 @reference 'tailwindcss';
 
-@scope (.button) to (:scope .children) {
+@scope (.button_root) to (:scope .children) {
   :scope {
     @apply gap-2;
     display: flex;
