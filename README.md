@@ -54,10 +54,13 @@ Spring Boot:
 
 - `public`: Static assets
 - `src/api/axios.ts`: Override Axios instance
+- `src/components`: Pure React components without any data
 - `src/orval`: Generated API client code thanks to Orval
 - `src/providers/CsrfProvider.tsx`: CSRF token provider making sure the app has initialized CSRF token
 - `src/routes/__root.tsx`: Root route of the app
-- `src/routes/index.tsx`: Main application route
+- `src/routes/index.tsx`: Home route
+- `src/styles`: Global style + route-level styles
+- `src/utils`: Utility functions for class names, tailwind, etc.
 - `src/router.tsx`: Application router configuration
 - `orval.config.ts`: Orval configuration file to generate API client from OpenAPI spec
 
