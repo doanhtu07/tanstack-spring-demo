@@ -2,12 +2,26 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { translate, useHello } from '@/orval/demo-controller'
 import { useCsrf } from '@/providers/CsrfProvider'
+import { cn } from '@/utils/tailwind-merge'
+import { Button } from '@/components/button/button'
+import homeCss from '@/styles/home.css?url'
+
+const TEST_ID_ROOT = 'index'
 
 export const Route = createFileRoute('/')({
-  component: App,
+  component: Home,
+
+  head: () => ({
+    links: [
+      {
+        rel: 'stylesheet',
+        href: homeCss,
+      },
+    ],
+  }),
 })
 
-function App() {
+function Home() {
   const { ready } = useCsrf()
 
   const { data } = useHello({
@@ -43,5 +57,13 @@ function App() {
 
   // MARK: Renderers
 
-  return <div>Test</div>
+  return (
+    <div className={cn('flex flex-col')} data-testid={`${TEST_ID_ROOT}_root`}>
+      <p>Test</p>
+
+      <Button>
+        <p>Click me!</p>
+      </Button>
+    </div>
+  )
 }

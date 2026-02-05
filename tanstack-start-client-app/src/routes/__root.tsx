@@ -3,7 +3,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import appCss from '../styles.css?url'
+import globalCss from '../styles/global.css?url'
 import { CsrfProvider } from '@/providers/CsrfProvider'
 
 export const Route = createRootRoute({
@@ -23,7 +23,7 @@ export const Route = createRootRoute({
     links: [
       {
         rel: 'stylesheet',
-        href: appCss,
+        href: globalCss,
       },
     ],
   }),
