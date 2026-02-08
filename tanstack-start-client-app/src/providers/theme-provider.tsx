@@ -2,11 +2,15 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { ScriptOnce } from '@tanstack/react-router'
 import type { PropsWithChildren } from 'react'
 import { SharedClassNames } from '@/utils/class-names'
+import { cn } from '@/utils/tailwind-merge'
 
 /**
  * Links:
+ *
  * - https://tanstack.com/router/v1/docs/framework/react/guide/document-head-management#inline-scripts-with-scriptonce
+ *
  * - https://nisabmohd.vercel.app/tanstack-dark (Another cool way to implement dark mode using server action + cookie)
+ *  - But this does not check for media query prefers-color-scheme
  */
 
 // MARK: Helpers
@@ -93,8 +97,16 @@ export function ThemeProvider({
 
   // MARK: Effects
 
+  // Effect: Add transition classes to body ONLY after React hydration to prevent color animation on first load
+  useEffect(() => {
+    const body = globalThis.document.body
+    body.classList.add(cn('transition-[background-color]!'), cn('duration-200'))
+  }, [])
+
+  // Effect: Listen for theme changes and update the document theme class accordingly
   useEffect(() => {
     const root = globalThis.document.documentElement
+
     const mediaQuery = globalThis.window.matchMedia(
       '(prefers-color-scheme: dark)',
     )
@@ -120,7 +132,9 @@ export function ThemeProvider({
     mediaQuery.addEventListener('change', updateTheme)
     updateTheme()
 
-    return () => mediaQuery.removeEventListener('change', updateTheme)
+    return () => {
+      mediaQuery.removeEventListener('change', updateTheme)
+    }
   }, [theme])
 
   // MARK: Renderers

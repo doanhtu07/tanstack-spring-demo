@@ -1,9 +1,12 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import type { PropsWithChildren } from 'react'
 import { initCsrf } from '@/orval/demo-controller'
+
+type CsrfProviderProps = PropsWithChildren
 
 const CsrfContext = createContext<{ ready: boolean }>({ ready: false })
 
-export const CsrfProvider = ({ children }: { children: React.ReactNode }) => {
+export const CsrfProvider = ({ children }: CsrfProviderProps) => {
   const [ready, setReady] = useState(false)
 
   const csrfObj = useMemo(() => ({ ready }), [ready])

@@ -17,5 +17,7 @@
     "typescriptreact"
   ],
 
+  "tailwindCSS.classFunctions": ["cn", "clsx", "twMerge"],
+
   "git.openRepositoryInParentFolders": "always"
 }

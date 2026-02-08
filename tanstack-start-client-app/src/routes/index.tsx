@@ -1,30 +1,23 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
+import { observer } from 'mobx-react-lite'
 import { translate, useHello } from '@/orval/demo-controller'
 import { useCsrf } from '@/providers/csrf-provider'
 import { cn } from '@/utils/tailwind-merge'
 import { Button } from '@/components/button/button'
 import homeCss from '@/styles/home.css?url'
 import { useTheme } from '@/providers/theme-provider'
+import { useStore } from '@/providers/store-provider'
+import { Divider } from '@/components/divider/divider'
 
 const TEST_ID_ROOT = 'index'
 
-export const Route = createFileRoute('/')({
-  component: Home,
-
-  head: () => ({
-    links: [
-      {
-        rel: 'stylesheet',
-        href: homeCss,
-      },
-    ],
-  }),
-})
-
-function Home() {
+const Home = observer(() => {
   const { ready } = useCsrf()
   const { toggleTheme, setTheme } = useTheme()
+  const { counterStore } = useStore()
+
+  const count = counterStore.count
 
   const { data } = useHello({
     query: {
@@ -79,6 +72,37 @@ function Home() {
       >
         <p>System theme</p>
       </Button>
+
+      <Divider />
+
+      <p>Counter: {count}</p>
+
+      <Button
+        onClick={() => counterStore.increment()}
+        data-testid={`${TEST_ID_ROOT}_incrementCounter`}
+      >
+        <p>Increment counter</p>
+      </Button>
+
+      <Button
+        onClick={() => counterStore.decrement()}
+        data-testid={`${TEST_ID_ROOT}_decrementCounter`}
+      >
+        <p>Decrement counter</p>
+      </Button>
     </div>
   )
-}
+})
+
+export const Route = createFileRoute('/')({
+  component: Home,
+
+  head: () => ({
+    links: [
+      {
+        rel: 'stylesheet',
+        href: homeCss,
+      },
+    ],
+  }),
+})

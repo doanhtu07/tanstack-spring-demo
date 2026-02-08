@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import globalCss from '../styles/global.css?url'
 import { CsrfProvider } from '@/providers/csrf-provider'
 import { ThemeProvider } from '@/providers/theme-provider'
+import { StoreProvider } from '@/providers/store-provider'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -41,7 +42,9 @@ function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
 
       <body>
         <CsrfProvider>
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <StoreProvider>{children}</StoreProvider>
+          </ThemeProvider>
         </CsrfProvider>
 
         <TanStackDevtools

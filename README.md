@@ -33,6 +33,7 @@ Tanstack Start:
 
 - React Query: Data fetching and caching
 - Orval: Type-safe API client generation from OpenAPI spec
+- MobX: State management for UI state
 - CSS @scope + Tailwind
 - Theme provider with system theme support and FOUC prevention
 
@@ -58,9 +59,11 @@ Spring Boot:
 - `src/components`: Pure React components without any data
 - `src/orval`: Generated API client code thanks to Orval
 - `src/providers/csrf-provider.tsx`: CSRF token provider making sure the app has initialized CSRF token
+- `src/providers/store-provider.tsx`: MobX store provider
 - `src/providers/theme-provider.tsx`: Theme provider to manage light/dark/system theme and prevent FOUC
 - `src/routes/__root.tsx`: Root route of the app
 - `src/routes/index.tsx`: Home route
+- `src/stores`: MobX stores for UI state management
 - `src/styles`: Global style + route-level styles
 - `src/utils`: Utility functions for class names, tailwind, etc.
 - `src/router.tsx`: Application router configuration
