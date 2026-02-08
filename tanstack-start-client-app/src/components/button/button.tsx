@@ -1,12 +1,24 @@
 import type { PropsWithChildren } from 'react'
 import { ButtonClassNames, SharedClassNames } from '@/utils/class-names'
 
-type Props = PropsWithChildren
+const TEST_ID_ROOT = 'components.button.button'
 
-export const Button = ({ children }: Props) => {
+type Props = PropsWithChildren & {
+  onClick?: () => void
+  'data-testid'?: string
+}
+
+export const Button = ({
+  children,
+  onClick,
+  'data-testid': dataTestId = TEST_ID_ROOT,
+}: Props) => {
   return (
-    <button className={ButtonClassNames.root}>
-      <p>Test click</p>
+    <button
+      className={ButtonClassNames.root}
+      onClick={onClick}
+      data-testid={`${dataTestId}_root`}
+    >
       <div className={SharedClassNames.children}>{children}</div>
     </button>
   )

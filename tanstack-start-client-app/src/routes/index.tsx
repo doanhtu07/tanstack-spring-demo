@@ -1,10 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { translate, useHello } from '@/orval/demo-controller'
-import { useCsrf } from '@/providers/CsrfProvider'
+import { useCsrf } from '@/providers/csrf-provider'
 import { cn } from '@/utils/tailwind-merge'
 import { Button } from '@/components/button/button'
 import homeCss from '@/styles/home.css?url'
+import { useTheme } from '@/providers/theme-provider'
 
 const TEST_ID_ROOT = 'index'
 
@@ -23,6 +24,7 @@ export const Route = createFileRoute('/')({
 
 function Home() {
   const { ready } = useCsrf()
+  const { toggleTheme, setTheme } = useTheme()
 
   const { data } = useHello({
     query: {
@@ -58,11 +60,24 @@ function Home() {
   // MARK: Renderers
 
   return (
-    <div className={cn('flex flex-col')} data-testid={`${TEST_ID_ROOT}_root`}>
-      <p>Test</p>
+    <div
+      className={cn('flex flex-col gap-2 p-10')}
+      data-testid={`${TEST_ID_ROOT}_root`}
+    >
+      <p>Welcome!</p>
 
-      <Button>
-        <p>Click me!</p>
+      <Button
+        onClick={() => toggleTheme()}
+        data-testid={`${TEST_ID_ROOT}_toggleTheme`}
+      >
+        <p>Toggle theme</p>
+      </Button>
+
+      <Button
+        onClick={() => setTheme('system')}
+        data-testid={`${TEST_ID_ROOT}_systemTheme`}
+      >
+        <p>System theme</p>
       </Button>
     </div>
   )

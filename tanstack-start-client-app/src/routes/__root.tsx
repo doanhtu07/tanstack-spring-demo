@@ -4,7 +4,8 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import globalCss from '../styles/global.css?url'
-import { CsrfProvider } from '@/providers/CsrfProvider'
+import { CsrfProvider } from '@/providers/csrf-provider'
+import { ThemeProvider } from '@/providers/theme-provider'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -33,13 +34,15 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
 
       <body>
-        <CsrfProvider>{children}</CsrfProvider>
+        <CsrfProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </CsrfProvider>
 
         <TanStackDevtools
           config={{

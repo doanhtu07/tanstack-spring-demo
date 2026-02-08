@@ -34,6 +34,7 @@ Tanstack Start:
 - React Query: Data fetching and caching
 - Orval: Type-safe API client generation from OpenAPI spec
 - CSS @scope + Tailwind
+- Theme provider with system theme support and FOUC prevention
 
 Spring Boot:
 
@@ -56,7 +57,8 @@ Spring Boot:
 - `src/api/axios.ts`: Override Axios instance
 - `src/components`: Pure React components without any data
 - `src/orval`: Generated API client code thanks to Orval
-- `src/providers/CsrfProvider.tsx`: CSRF token provider making sure the app has initialized CSRF token
+- `src/providers/csrf-provider.tsx`: CSRF token provider making sure the app has initialized CSRF token
+- `src/providers/theme-provider.tsx`: Theme provider to manage light/dark/system theme and prevent FOUC
 - `src/routes/__root.tsx`: Root route of the app
 - `src/routes/index.tsx`: Home route
 - `src/styles`: Global style + route-level styles
