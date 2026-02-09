@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.*;
 public class DemoController {
 
     @GetMapping(value = "/public/init-csrf")
-    public SimpleResponse initCsrf() {
+    public SimpleResponse getInitCsrf() {
         return new SimpleResponse("Welcome to API!");
     }
 
     @GetMapping(value = "/public/hello")
-    public SimpleResponse hello() {
+    public SimpleResponse getHello() {
         return new SimpleResponse("Hello world!");
     }
 
     @PostMapping(value = "/translate")
-    public SimpleResponse translate(@RequestParam String text) {
+    public SimpleResponse postTranslate(@RequestParam String text) {
         return new SimpleResponse("Translated: " + text.toUpperCase());
     }
 

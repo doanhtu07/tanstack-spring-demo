@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { ScriptOnce } from '@tanstack/react-router'
 import type { PropsWithChildren } from 'react'
-import { SharedClassNames } from '@/utils/class-names'
+import { SharedClassNames } from '@/utils/shared-class-names'
 import { cn } from '@/utils/tailwind-merge'
 
 /**

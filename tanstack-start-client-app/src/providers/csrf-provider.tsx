@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { PropsWithChildren } from 'react'
-import { initCsrf } from '@/orval/demo-controller'
+import { getInitCsrf } from '@/orval/demo-controller'
 
 type CsrfProviderProps = PropsWithChildren
 
@@ -15,7 +15,7 @@ export const CsrfProvider = ({ children }: CsrfProviderProps) => {
     let mounted = true
 
     // Hit the server to initialize session & CSRF
-    initCsrf().finally(() => {
+    getInitCsrf().finally(() => {
       if (mounted) setReady(true)
     })
 

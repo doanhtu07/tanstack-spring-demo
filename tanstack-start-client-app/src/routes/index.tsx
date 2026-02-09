@@ -1,14 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { translate, useHello } from '@/orval/demo-controller'
 import { useCsrf } from '@/providers/csrf-provider'
 import { cn } from '@/utils/tailwind-merge'
 import { Button } from '@/components/button/button'
-import homeCss from '@/styles/home.css?url'
 import { useTheme } from '@/providers/theme-provider'
 import { useStore } from '@/providers/store-provider'
 import { Divider } from '@/components/divider/divider'
+import { postTranslate, useGetHello } from '@/orval/demo-controller'
 
 const TEST_ID_ROOT = 'index'
 
@@ -19,7 +18,7 @@ const Home = observer(() => {
 
   const count = counterStore.count
 
-  const { data } = useHello({
+  const { data } = useGetHello({
     query: {
       staleTime: 1000 * 60,
     },
@@ -36,7 +35,7 @@ const Home = observer(() => {
   useEffect(() => {
     if (!ready) return
 
-    translate(
+    postTranslate(
       { text: 'Hello world' },
       {
         auth: { username: 'tudope', password: 'test123' },
@@ -96,13 +95,4 @@ const Home = observer(() => {
 
 export const Route = createFileRoute('/')({
   component: Home,
-
-  head: () => ({
-    links: [
-      {
-        rel: 'stylesheet',
-        href: homeCss,
-      },
-    ],
-  }),
 })

@@ -34,7 +34,7 @@ Tanstack Start:
 - React Query: Data fetching and caching
 - Orval: Type-safe API client generation from OpenAPI spec
 - MobX: State management for UI state
-- CSS @scope + Tailwind
+- CSS modules + Tailwind
 - Theme provider with system theme support and FOUC prevention
 
 Spring Boot:
@@ -70,12 +70,6 @@ Spring Boot:
 - `orval.config.ts`: Orval configuration file to generate API client from OpenAPI spec
 
 ## Issues
-
-- Tanstack Start currently has an issue with CSS Module flash of unstyled content (FOUC)
-  - They are actively working on a fix directly in Vite
-  - Right now, I'm practicing a workaround using CSS native directive `@scope` together with naming convention to avoid CSS styling conflicts
-
----
 
 - For CSS file to not complain about "Unknown at rule" when using Tailwind directives in VSCode:
   - Install `Tailwind CSS IntelliSense` extension in VSCode

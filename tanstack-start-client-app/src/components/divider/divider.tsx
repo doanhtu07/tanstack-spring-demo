@@ -4,7 +4,7 @@ export const Divider = () => {
   return (
     <div
       className={cn(
-        'w-full rounded border border-gray-300 dark:border-gray-500',
+        'cv-dark:border-gray-500 w-full rounded border border-gray-300',
       )}
     />
   )

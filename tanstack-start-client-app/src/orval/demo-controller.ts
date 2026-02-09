@@ -21,16 +21,16 @@ import type {
 } from '@tanstack/react-query'
 
 import type {
+  PostTranslateParams,
   SimpleResponse,
-  TranslateParams,
 } from './openAPIDefinition.schemas'
 
 import { axiosApi } from '../api/axios'
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
 
-export const translate = (
-  params: TranslateParams,
+export const postTranslate = (
+  params: PostTranslateParams,
   options?: SecondParameter<typeof axiosApi>,
   signal?: AbortSignal,
 ) => {
@@ -45,24 +45,24 @@ export const translate = (
   )
 }
 
-export const getTranslateMutationOptions = <
+export const getPostTranslateMutationOptions = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof translate>>,
+    Awaited<ReturnType<typeof postTranslate>>,
     TError,
-    { params: TranslateParams },
+    { params: PostTranslateParams },
     TContext
   >
   request?: SecondParameter<typeof axiosApi>
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof translate>>,
+  Awaited<ReturnType<typeof postTranslate>>,
   TError,
-  { params: TranslateParams },
+  { params: PostTranslateParams },
   TContext
 > => {
-  const mutationKey = ['translate']
+  const mutationKey = ['postTranslate']
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       'mutationKey' in options.mutation &&
@@ -72,43 +72,43 @@ export const getTranslateMutationOptions = <
     : { mutation: { mutationKey }, request: undefined }
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof translate>>,
-    { params: TranslateParams }
+    Awaited<ReturnType<typeof postTranslate>>,
+    { params: PostTranslateParams }
   > = (props) => {
     const { params } = props ?? {}
 
-    return translate(params, requestOptions)
+    return postTranslate(params, requestOptions)
   }
 
   return { mutationFn, ...mutationOptions }
 }
 
-export type TranslateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof translate>>
+export type PostTranslateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postTranslate>>
 >
 
-export type TranslateMutationError = unknown
+export type PostTranslateMutationError = unknown
 
-export const useTranslate = <TError = unknown, TContext = unknown>(
+export const usePostTranslate = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof translate>>,
+      Awaited<ReturnType<typeof postTranslate>>,
       TError,
-      { params: TranslateParams },
+      { params: PostTranslateParams },
       TContext
     >
     request?: SecondParameter<typeof axiosApi>
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
-  Awaited<ReturnType<typeof translate>>,
+  Awaited<ReturnType<typeof postTranslate>>,
   TError,
-  { params: TranslateParams },
+  { params: PostTranslateParams },
   TContext
 > => {
-  return useMutation(getTranslateMutationOptions(options), queryClient)
+  return useMutation(getPostTranslateMutationOptions(options), queryClient)
 }
-export const initCsrf = (
+export const getInitCsrf = (
   options?: SecondParameter<typeof axiosApi>,
   signal?: AbortSignal,
 ) => {
@@ -122,52 +122,52 @@ export const initCsrf = (
   )
 }
 
-export const getInitCsrfQueryKey = () => {
+export const getGetInitCsrfQueryKey = () => {
   return [`http://localhost:8080/api/public/init-csrf`] as const
 }
 
-export const getInitCsrfQueryOptions = <
-  TData = Awaited<ReturnType<typeof initCsrf>>,
+export const getGetInitCsrfQueryOptions = <
+  TData = Awaited<ReturnType<typeof getInitCsrf>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof initCsrf>>, TError, TData>
+    UseQueryOptions<Awaited<ReturnType<typeof getInitCsrf>>, TError, TData>
   >
   request?: SecondParameter<typeof axiosApi>
 }) => {
   const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getInitCsrfQueryKey()
+  const queryKey = queryOptions?.queryKey ?? getGetInitCsrfQueryKey()
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof initCsrf>>> = ({
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getInitCsrf>>> = ({
     signal,
-  }) => initCsrf(requestOptions, signal)
+  }) => getInitCsrf(requestOptions, signal)
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof initCsrf>>,
+    Awaited<ReturnType<typeof getInitCsrf>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type InitCsrfQueryResult = NonNullable<
-  Awaited<ReturnType<typeof initCsrf>>
+export type GetInitCsrfQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getInitCsrf>>
 >
-export type InitCsrfQueryError = unknown
+export type GetInitCsrfQueryError = unknown
 
-export function useInitCsrf<
-  TData = Awaited<ReturnType<typeof initCsrf>>,
+export function useGetInitCsrf<
+  TData = Awaited<ReturnType<typeof getInitCsrf>>,
   TError = unknown,
 >(
   options: {
     query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof initCsrf>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getInitCsrf>>, TError, TData>
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof initCsrf>>,
+          Awaited<ReturnType<typeof getInitCsrf>>,
           TError,
-          Awaited<ReturnType<typeof initCsrf>>
+          Awaited<ReturnType<typeof getInitCsrf>>
         >,
         'initialData'
       >
@@ -177,19 +177,19 @@ export function useInitCsrf<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-export function useInitCsrf<
-  TData = Awaited<ReturnType<typeof initCsrf>>,
+export function useGetInitCsrf<
+  TData = Awaited<ReturnType<typeof getInitCsrf>>,
   TError = unknown,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof initCsrf>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getInitCsrf>>, TError, TData>
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof initCsrf>>,
+          Awaited<ReturnType<typeof getInitCsrf>>,
           TError,
-          Awaited<ReturnType<typeof initCsrf>>
+          Awaited<ReturnType<typeof getInitCsrf>>
         >,
         'initialData'
       >
@@ -199,13 +199,13 @@ export function useInitCsrf<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-export function useInitCsrf<
-  TData = Awaited<ReturnType<typeof initCsrf>>,
+export function useGetInitCsrf<
+  TData = Awaited<ReturnType<typeof getInitCsrf>>,
   TError = unknown,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof initCsrf>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getInitCsrf>>, TError, TData>
     >
     request?: SecondParameter<typeof axiosApi>
   },
@@ -214,13 +214,13 @@ export function useInitCsrf<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 
-export function useInitCsrf<
-  TData = Awaited<ReturnType<typeof initCsrf>>,
+export function useGetInitCsrf<
+  TData = Awaited<ReturnType<typeof getInitCsrf>>,
   TError = unknown,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof initCsrf>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getInitCsrf>>, TError, TData>
     >
     request?: SecondParameter<typeof axiosApi>
   },
@@ -228,7 +228,7 @@ export function useInitCsrf<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
-  const queryOptions = getInitCsrfQueryOptions(options)
+  const queryOptions = getGetInitCsrfQueryOptions(options)
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
@@ -238,7 +238,7 @@ export function useInitCsrf<
   return { ...query, queryKey: queryOptions.queryKey }
 }
 
-export const hello = (
+export const getHello = (
   options?: SecondParameter<typeof axiosApi>,
   signal?: AbortSignal,
 ) => {
@@ -248,50 +248,52 @@ export const hello = (
   )
 }
 
-export const getHelloQueryKey = () => {
+export const getGetHelloQueryKey = () => {
   return [`http://localhost:8080/api/public/hello`] as const
 }
 
-export const getHelloQueryOptions = <
-  TData = Awaited<ReturnType<typeof hello>>,
+export const getGetHelloQueryOptions = <
+  TData = Awaited<ReturnType<typeof getHello>>,
   TError = unknown,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof hello>>, TError, TData>
+    UseQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>
   >
   request?: SecondParameter<typeof axiosApi>
 }) => {
   const { query: queryOptions, request: requestOptions } = options ?? {}
 
-  const queryKey = queryOptions?.queryKey ?? getHelloQueryKey()
+  const queryKey = queryOptions?.queryKey ?? getGetHelloQueryKey()
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof hello>>> = ({
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getHello>>> = ({
     signal,
-  }) => hello(requestOptions, signal)
+  }) => getHello(requestOptions, signal)
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof hello>>,
+    Awaited<ReturnType<typeof getHello>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type HelloQueryResult = NonNullable<Awaited<ReturnType<typeof hello>>>
-export type HelloQueryError = unknown
+export type GetHelloQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getHello>>
+>
+export type GetHelloQueryError = unknown
 
-export function useHello<
-  TData = Awaited<ReturnType<typeof hello>>,
+export function useGetHello<
+  TData = Awaited<ReturnType<typeof getHello>>,
   TError = unknown,
 >(
   options: {
     query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof hello>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof hello>>,
+          Awaited<ReturnType<typeof getHello>>,
           TError,
-          Awaited<ReturnType<typeof hello>>
+          Awaited<ReturnType<typeof getHello>>
         >,
         'initialData'
       >
@@ -301,19 +303,19 @@ export function useHello<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-export function useHello<
-  TData = Awaited<ReturnType<typeof hello>>,
+export function useGetHello<
+  TData = Awaited<ReturnType<typeof getHello>>,
   TError = unknown,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof hello>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof hello>>,
+          Awaited<ReturnType<typeof getHello>>,
           TError,
-          Awaited<ReturnType<typeof hello>>
+          Awaited<ReturnType<typeof getHello>>
         >,
         'initialData'
       >
@@ -323,13 +325,13 @@ export function useHello<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-export function useHello<
-  TData = Awaited<ReturnType<typeof hello>>,
+export function useGetHello<
+  TData = Awaited<ReturnType<typeof getHello>>,
   TError = unknown,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof hello>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>
     >
     request?: SecondParameter<typeof axiosApi>
   },
@@ -338,13 +340,13 @@ export function useHello<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 
-export function useHello<
-  TData = Awaited<ReturnType<typeof hello>>,
+export function useGetHello<
+  TData = Awaited<ReturnType<typeof getHello>>,
   TError = unknown,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof hello>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>
     >
     request?: SecondParameter<typeof axiosApi>
   },
@@ -352,7 +354,7 @@ export function useHello<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
-  const queryOptions = getHelloQueryOptions(options)
+  const queryOptions = getGetHelloQueryOptions(options)
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

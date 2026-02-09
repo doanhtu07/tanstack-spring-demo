@@ -1,0 +1,14 @@
+@reference 'tailwindcss';
+
+.root {
+  @apply gap-2 rounded bg-blue-600 px-2 py-1;
+  display: flex;
+  width: fit-content;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.2s;
+
+  &:hover {
+    @apply bg-blue-500;
+  }
+}

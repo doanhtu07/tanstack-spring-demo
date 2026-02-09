@@ -8,6 +8,6 @@ export interface SimpleResponse {
   message: string
 }
 
-export type TranslateParams = {
+export type PostTranslateParams = {
   text: string
 }

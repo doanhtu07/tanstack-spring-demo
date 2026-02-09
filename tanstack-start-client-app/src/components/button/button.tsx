@@ -1,5 +1,5 @@
+import styles from './button.module.css'
 import type { PropsWithChildren } from 'react'
-import { ButtonClassNames, SharedClassNames } from '@/utils/class-names'
 
 const TEST_ID_ROOT = 'components.button.button'
 
@@ -15,11 +15,11 @@ export const Button = ({
 }: Props) => {
   return (
     <button
-      className={ButtonClassNames.root}
+      className={styles.root}
       onClick={onClick}
       data-testid={`${dataTestId}_root`}
     >
-      <div className={SharedClassNames.children}>{children}</div>
+      {children}
     </button>
   )
 }
