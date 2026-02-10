@@ -8,9 +8,12 @@ This repository is a working demo of a full-stack application:
 
 ## Roadmap
 
+- [ ] Automatic translation system
 - [ ] Liquibase + PostgreSQL
 - [ ] Cookie authentication: Either same-site or cross-site cookies (with proxy server on client)
-- [ ] Socket + STOMP support
+- [ ] Real-time support
+  1. Way 1: Pure Socket + STOMP support
+  2. Way 2: Zero Sync / ElectricSQL sync engines
 
 ## Running the application
 
