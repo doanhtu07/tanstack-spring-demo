@@ -1,0 +1,5 @@
+@reference '#global.css';
+
+.root {
+  @apply w-full rounded border border-gray-300 module-dark:border-gray-500;
+}

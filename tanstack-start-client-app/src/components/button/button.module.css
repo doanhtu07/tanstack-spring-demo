@@ -1,4 +1,4 @@
-@reference 'tailwindcss';
+@reference '#global.css';
 
 .root {
   @apply gap-2 rounded bg-blue-600 px-2 py-1;

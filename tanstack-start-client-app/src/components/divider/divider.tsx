@@ -1,11 +1,5 @@
-import { cn } from '@/utils/tailwind-merge'
+import styles from './divider.module.css'
 
 export const Divider = () => {
-  return (
-    <div
-      className={cn(
-        'cv-dark:border-gray-500 w-full rounded border border-gray-300',
-      )}
-    />
-  )
+  return <div className={styles.root} />
 }

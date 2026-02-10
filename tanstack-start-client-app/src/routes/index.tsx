@@ -1,13 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
+import { Trans, useTranslation } from 'react-i18next'
 import { useCsrf } from '@/providers/csrf-provider'
-import { cn } from '@/utils/tailwind-merge'
 import { Button } from '@/components/button/button'
 import { useTheme } from '@/providers/theme-provider'
 import { useStore } from '@/providers/store-provider'
 import { Divider } from '@/components/divider/divider'
 import { postTranslate, useGetHello } from '@/orval/demo-controller'
+import styles from '@/styles/home.module.css'
 
 const TEST_ID_ROOT = 'index'
 
@@ -15,6 +16,7 @@ const Home = observer(() => {
   const { ready } = useCsrf()
   const { toggleTheme, setTheme } = useTheme()
   const { counterStore } = useStore()
+  const { t } = useTranslation('ns_home')
 
   const count = counterStore.count
 
@@ -52,11 +54,23 @@ const Home = observer(() => {
   // MARK: Renderers
 
   return (
-    <div
-      className={cn('flex flex-col gap-2 p-10')}
-      data-testid={`${TEST_ID_ROOT}_root`}
-    >
-      <p>Welcome!</p>
+    <div className={styles.root} data-testid={`${TEST_ID_ROOT}_root`}>
+      <p>{t('t_welcomeMessage')}</p>
+      <p>{t('t_notifications', { count: 1 })}</p>
+      <p>{t('t_notifications', { count: 2 })}</p>
+
+      <Trans
+        ns="ns_home"
+        i18nKey="t_complexMessage"
+        values={{ helloMessage, count }}
+        components={{
+          Text: <p />,
+          Bold: <strong title={t('t_helloMessage')} />,
+          Link: <Link to="/" className={styles.link} />,
+        }}
+      />
+
+      <Divider />
 
       <Button
         onClick={() => toggleTheme()}

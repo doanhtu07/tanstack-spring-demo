@@ -1,0 +1,7 @@
+{
+  "t_welcomeMessage": "Bienvenue à React et react-i18next",
+  "t_notifications_one": "Vous avez {{count}} notification",
+  "t_notifications_other": "Vous avez {{count}} notifications",
+  "t_complexMessage": "<Text>Bonjour <Bold>{{ helloMessage }}</Bold>, vous avez {{ count }} message(s) non lu(s). <Link>Aller à l'accueil</Link></Text>",
+  "t_helloMessage": "Ceci est un message de bienvenue"
+}

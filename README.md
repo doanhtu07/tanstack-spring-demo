@@ -8,7 +8,7 @@ This repository is a working demo of a full-stack application:
 
 ## Roadmap
 
-- [ ] Automatic translation system
+- [x] Complex translation system
 - [ ] Liquibase + PostgreSQL
 - [ ] Cookie authentication: Either same-site or cross-site cookies (with proxy server on client)
 - [ ] Real-time support
@@ -39,6 +39,7 @@ Tanstack Start:
 - MobX: State management for UI state
 - CSS modules + Tailwind
 - Theme provider with system theme support and FOUC prevention
+- Translation support with react-i18next
 
 Spring Boot:
 

@@ -1,9 +1,9 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import globalCss from '../styles/global.css?url'
+import '@/utils/i18n'
 import { CsrfProvider } from '@/providers/csrf-provider'
 import { ThemeProvider } from '@/providers/theme-provider'
 import { StoreProvider } from '@/providers/store-provider'

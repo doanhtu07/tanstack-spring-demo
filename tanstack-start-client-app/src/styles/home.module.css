@@ -1,0 +1,9 @@
+@reference '#global.css';
+
+.root {
+  @apply flex flex-col gap-2 p-10;
+}
+
+.link {
+  @apply text-blue-600 underline module-dark:text-blue-300;
+}
