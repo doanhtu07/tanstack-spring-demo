@@ -9,8 +9,9 @@ import { useStore } from '@/providers/store-provider'
 import { Divider } from '@/components/divider/divider'
 import { postTranslate, useGetHello } from '@/orval/demo-controller'
 import styles from '@/styles/home.module.css'
+import { getTestId } from '@/utils/test-ids'
 
-const TEST_ID_ROOT = 'index'
+const TEST_ID_ROOT = 'home'
 
 const Home = observer(() => {
   const { ready } = useCsrf()
@@ -54,7 +55,7 @@ const Home = observer(() => {
   // MARK: Renderers
 
   return (
-    <div className={styles.root} data-testid={`${TEST_ID_ROOT}_root`}>
+    <div className={styles.root} {...getTestId([TEST_ID_ROOT, 'root'])}>
       <p>{t('t_welcomeMessage')}</p>
       <p>{t('t_notifications', { count: 1 })}</p>
       <p>{t('t_notifications', { count: 2 })}</p>
@@ -74,14 +75,14 @@ const Home = observer(() => {
 
       <Button
         onClick={() => toggleTheme()}
-        data-testid={`${TEST_ID_ROOT}_toggleTheme`}
+        {...getTestId([TEST_ID_ROOT, 'toggleTheme'])}
       >
         <p>Toggle theme</p>
       </Button>
 
       <Button
         onClick={() => setTheme('system')}
-        data-testid={`${TEST_ID_ROOT}_systemTheme`}
+        {...getTestId([TEST_ID_ROOT, 'systemTheme'])}
       >
         <p>System theme</p>
       </Button>
@@ -92,14 +93,14 @@ const Home = observer(() => {
 
       <Button
         onClick={() => counterStore.increment()}
-        data-testid={`${TEST_ID_ROOT}_incrementCounter`}
+        {...getTestId([TEST_ID_ROOT, 'incrementCounter'])}
       >
         <p>Increment counter</p>
       </Button>
 
       <Button
         onClick={() => counterStore.decrement()}
-        data-testid={`${TEST_ID_ROOT}_decrementCounter`}
+        {...getTestId([TEST_ID_ROOT, 'decrementCounter'])}
       >
         <p>Decrement counter</p>
       </Button>

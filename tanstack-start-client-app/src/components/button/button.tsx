@@ -1,7 +1,6 @@
 import styles from './button.module.css'
 import type { PropsWithChildren } from 'react'
-
-const TEST_ID_ROOT = 'components.button.button'
+import { getTestId } from '@/utils/test-ids'
 
 type Props = PropsWithChildren & {
   onClick?: () => void
@@ -11,13 +10,13 @@ type Props = PropsWithChildren & {
 export const Button = ({
   children,
   onClick,
-  'data-testid': dataTestId = TEST_ID_ROOT,
+  'data-testid': dataTestId,
 }: Props) => {
   return (
     <button
       className={styles.root}
       onClick={onClick}
-      data-testid={`${dataTestId}_root`}
+      {...getTestId([dataTestId, 'root'])}
     >
       {children}
     </button>
