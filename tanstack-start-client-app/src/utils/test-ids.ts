@@ -1,7 +1,8 @@
 export const getTestId = (scopes: Array<string | undefined>) => {
-  scopes = scopes.filter((val) => !!val)
+  const filteredScopes = scopes.filter((val) => !!val)
 
-  if (scopes.length === 0) {
+  // NOTE: Make sure scopes don't contain undefined
+  if (filteredScopes.length !== scopes.length) {
     return {}
   }
 
