@@ -41,6 +41,7 @@ Tanstack Start:
 - CSS modules + Tailwind
 - Theme provider with system theme support and FOUC prevention
 - Translation support with react-i18next
+- Test ID naming ([See doc](./docs/test-ids.md))
 
 Spring Boot:
 
