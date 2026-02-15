@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: openapi-server
+  profiles:
+    active: ${SPRING_PROFILE:dev}
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/electric}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:password}
+
+  jpa:
+    hibernate:
+      ddl-auto: none  # Hibernate will not manage schema; Liquibase handles it
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+logging:
+  level:
+    org:
+      springframework:
+        security: ${LOG_LEVEL_SECURITY:INFO}  # default to INFO if not set

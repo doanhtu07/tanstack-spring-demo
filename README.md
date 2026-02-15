@@ -14,7 +14,8 @@ This repository is a working demo of a full-stack application:
 - [ ] Handle accessibility
 - [ ] Real-time support
     1. Way 1: Pure Socket + STOMP support
-    2. Way 2: Zero Sync / ElectricSQL sync engines
+    2. Way 2: ElectricSQL sync engine or other similar open-source
+    3. Way 3: Convex
 
 ## Running the application
 

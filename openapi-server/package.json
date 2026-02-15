@@ -1,0 +1,19 @@
+{
+  "name": "openapi-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "pnpm exec dotenv -e .env.example -- bash -c 'echo $LIQUIBASE_COMMAND_URL'",
+    "liquibase:validate": "pnpm exec dotenv -e .env.example -- mvn liquibase:validate",
+    "liquibase:status": "pnpm exec dotenv -e .env.example -- mvn liquibase:status",
+    "liquibase:update": "pnpm exec dotenv -e .env.example -- mvn liquibase:update"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.29.3",
+  "devDependencies": {
+    "dotenv-cli": "^11.0.0"
+  }
+}

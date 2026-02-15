@@ -49,6 +49,14 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>3.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -73,6 +81,20 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <configuration>
+                    <!--suppress UnresolvedMavenProperty-->
+                    <changeLogFile>${env.LIQUIBASE_COMMAND_CHANGELOG_FILE}</changeLogFile>
+                    <!--suppress UnresolvedMavenProperty-->
+                    <url>${env.LIQUIBASE_COMMAND_URL}</url>
+                    <!--suppress UnresolvedMavenProperty-->
+                    <username>${env.LIQUIBASE_COMMAND_USERNAME}</username>
+                    <!--suppress UnresolvedMavenProperty-->
+                    <password>${env.LIQUIBASE_COMMAND_PASSWORD}</password>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -1,0 +1,43 @@
+# https://electric-sql.com/docs/guides/installation
+
+name: 'electric_quickstart'
+
+services:
+  postgres:
+    image: docker.io/postgres:18-alpine
+    environment:
+      POSTGRES_DB: electric
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - '5432:5432'
+    tmpfs:
+      - /tmp # fast temp storage
+    volumes:
+      - pgdata:/var/lib/postgresql/data # persistent DB
+    command:
+      - -c
+      - listen_addresses=*
+      - -c
+      - wal_level=logical # Enables logical replication in PostgreSQL (Required for Electric)
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U postgres' ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  electric:
+    image: docker.io/electricsql/electric:latest
+    environment:
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/electric?sslmode=disable
+      # Not suitable for production. Only use insecure mode in development or if you've otherwise secured the Electric API.
+      # See https://electric-sql.com/docs/guides/security
+      ELECTRIC_INSECURE: true
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:
