@@ -9,7 +9,7 @@ This repository is a working demo of a full-stack application:
 ## Roadmap
 
 - [x] Complex translation system
-- [ ] Liquibase + PostgreSQL
+- [x] Liquibase + PostgreSQL
 - [ ] Cookie authentication: Either same-site or cross-site cookies (with proxy server on client)
 - [ ] Handle accessibility
 - [ ] Real-time support
