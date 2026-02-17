@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-updated-at-function
+      author: tudope
+
+      changes:
+        - sql:
+            splitStatements: false # Help Liquibase not stop parsing after first semicolon
+            sql: |
+              CREATE OR REPLACE FUNCTION set_updated_at()
+              RETURNS TRIGGER AS $$
+              BEGIN
+                NEW.updated_at = NOW();
+                RETURN NEW;
+              END;
+              $$ LANGUAGE plpgsql;
+
+      rollback:
+        - sql:
+            sql: |
+              DROP FUNCTION IF EXISTS set_updated_at;
+
+  - changeSet:
+      id: add-updated-at-trigger-authority
+      author: tudope
+
+      changes:
+        - sql:
+            sql: |
+              CREATE TRIGGER trg_authority_updated
+              BEFORE UPDATE ON authority
+              FOR EACH ROW
+              EXECUTE FUNCTION set_updated_at();
+
+      rollback:
+        - sql:
+            sql: DROP TRIGGER IF EXISTS trg_authority_updated ON authority;
+
+  - changeSet:
+      id: add-updated-at-trigger-app-user
+      author: tudope
+
+      changes:
+        - sql:
+            sql: |
+              CREATE TRIGGER trg_app_user_updated
+              BEFORE UPDATE ON app_user
+              FOR EACH ROW
+              EXECUTE FUNCTION set_updated_at();
+
+      rollback:
+        - sql:
+            sql: DROP TRIGGER IF EXISTS trg_app_user_updated ON app_user;

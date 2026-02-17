@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-fk-authority-user
+      author: tudope
+
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: authority
+            baseColumnNames: user_id
+            constraintName: fk_authority_user
+            referencedTableName: app_user
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: authority
+            constraintName: fk_authority_user
+
+  - changeSet:
+      id: add-uq-authority-user-role
+      author: tudope
+
+      changes:
+        - addUniqueConstraint:
+            tableName: authority
+            columnNames: user_id, role
+            constraintName: uq_authority_user_role
+
+      rollback:
+        - dropUniqueConstraint:
+            tableName: authority
+            constraintName: uq_authority_user_role
+
+  - changeSet:
+      id: create-idx-authority-user-id
+      author: tudope
+
+      changes:
+        - createIndex:
+            tableName: authority
+            indexName: idx_authority_user_id
+            columns:
+              - column:
+                  name: user_id
+
+      rollback:
+        - dropIndex:
+            tableName: authority
+            indexName: idx_authority_user_id

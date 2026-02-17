@@ -14,7 +14,7 @@ services:
     tmpfs:
       - /tmp # fast temp storage
     volumes:
-      - pgdata:/var/lib/postgresql/data # persistent DB
+      - pgdata:/var/lib/postgresql # persistent DB
     command:
       - -c
       - listen_addresses=*

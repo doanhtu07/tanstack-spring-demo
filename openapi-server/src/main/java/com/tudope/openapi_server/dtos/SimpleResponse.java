@@ -1,4 +1,4 @@
-package com.tudope.openapi_server.dto;
+package com.tudope.openapi_server.dtos;
 
 import jakarta.validation.constraints.NotNull;
 

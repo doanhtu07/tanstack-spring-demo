@@ -1,3 +1,8 @@
 spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/electric}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:password}
+
   jpa:
     show-sql: true

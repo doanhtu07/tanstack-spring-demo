@@ -1,6 +1,6 @@
 package com.tudope.openapi_server.controllers;
 
-import com.tudope.openapi_server.dto.SimpleResponse;
+import com.tudope.openapi_server.dtos.SimpleResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 

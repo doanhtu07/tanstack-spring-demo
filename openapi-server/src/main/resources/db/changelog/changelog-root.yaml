@@ -1,0 +1,35 @@
+databaseChangeLog:
+  # ------------------------------------------------------------
+  # Enable extensions (pgcrypto)
+  # For PostgreSQL gen_random_uuid()
+  # ------------------------------------------------------------
+  
+  - changeSet:
+      id: enable-pgcrypto
+      author: tudope
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+  # ------------------------------------------------------------
+  # Include other changelogs
+  # ------------------------------------------------------------
+
+  # Tables
+  - include:
+      file: changelog-tables/user.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog-tables/authority.yaml
+      relativeToChangelogFile: true
+
+  # Indexes
+  - include:
+      file: changelog-indexes/authority.yaml
+      relativeToChangelogFile: true
+
+  # Triggers
+  - include:
+      file: changelog-triggers/updated_at.yaml
+      relativeToChangelogFile: true

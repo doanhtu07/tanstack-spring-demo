@@ -4,10 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "pnpm exec dotenv -e .env.example -- bash -c 'echo $LIQUIBASE_COMMAND_URL'",
-    "liquibase:validate": "pnpm exec dotenv -e .env.example -- mvn liquibase:validate",
-    "liquibase:status": "pnpm exec dotenv -e .env.example -- mvn liquibase:status",
-    "liquibase:update": "pnpm exec dotenv -e .env.example -- mvn liquibase:update"
+    "lqb:test": "pnpm exec dotenv -e .env.example -- bash -c 'echo $LIQUIBASE_COMMAND_URL'",
+    "lqb:status": "pnpm exec dotenv -e .env.example -- mvn liquibase:status",
+    "lqb:update": "pnpm exec dotenv -e .env.example -- mvn liquibase:update",
+    "lqb:dropAll": "pnpm exec dotenv -e .env.example -- mvn liquibase:dropAll",
+    "lqb:rollback": "pnpm exec dotenv -e .env.example -- mvn liquibase:rollback",
+    "lqb:validate": "pnpm exec dotenv -e .env.example -- mvn liquibase:validate",
+    "test:unit": "pnpm exec dotenv -e .env.example -- mvn test",
+    "test:it": "pnpm exec dotenv -e .env.example -- mvn failsafe:integration-test",
+    "test:verify": "pnpm exec dotenv -e .env.example -- mvn verify"
   },
   "keywords": [],
   "author": "",
