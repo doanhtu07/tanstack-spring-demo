@@ -1,14 +1,14 @@
 package com.tudope.openapi_server.config;
 
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.auditing.DateTimeProvider;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.Instant;
 import java.util.Optional;
 
-@Configuration
+@TestConfiguration
 @EnableJpaAuditing
 public class TestFixedTimeConfig {
 
