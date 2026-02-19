@@ -1,13 +1,15 @@
 package com.tudope.openapi_server.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
 @Entity
 @Table(name = "authority")
+@EntityListeners(AuditingEntityListener.class)
 public class Authority {
 
     @Id
@@ -17,16 +19,16 @@ public class Authority {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private AppUser appUser;
 
     @Column(name = "role")
     private String role;
 
-    @CreationTimestamp
+    @CreatedDate
     @Column(name = "created_at")
     private Instant createdAt;
 
-    @UpdateTimestamp
+    @LastModifiedDate
     @Column(name = "updated_at")
     private Instant updatedAt;
 
@@ -35,8 +37,8 @@ public class Authority {
     public Authority() {
     }
 
-    public Authority(User user, String role) {
-        this.user = user;
+    public Authority(AppUser appUser, String role) {
+        this.appUser = appUser;
         this.role = role;
     }
 
@@ -62,12 +64,12 @@ public class Authority {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public AppUser getAppUser() {
+        return appUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
     }
 
     public String getRole() {
