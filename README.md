@@ -10,6 +10,7 @@ This repository is a working demo of a full-stack application:
 
 - [x] Complex translation system
 - [x] Liquibase + PostgreSQL
+- [ ] Memory optimization and profiling for Spring Boot application
 - [ ] Cookie authentication: Either same-site or cross-site cookies (with proxy server on client)
 - [ ] Handle accessibility
 - [ ] Real-time support
