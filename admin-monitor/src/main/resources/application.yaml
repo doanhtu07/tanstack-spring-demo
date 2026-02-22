@@ -1,0 +1,24 @@
+spring:
+  profiles:
+    active: ${SPRING_PROFILE:dev}
+
+  application:
+    name: admin-monitor
+
+  boot:
+    admin:
+      instance-auth:
+        # Uses credentials from instance metadata
+        enabled: true
+
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

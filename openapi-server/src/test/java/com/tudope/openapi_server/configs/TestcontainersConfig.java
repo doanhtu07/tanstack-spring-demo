@@ -1,4 +1,4 @@
-package com.tudope.openapi_server.config;
+package com.tudope.openapi_server.configs;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

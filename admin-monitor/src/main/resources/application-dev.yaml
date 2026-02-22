@@ -1,6 +1,3 @@
 spring:
   config:
     import: optional:file:.env.example[.properties]
-
-  jpa:
-    show-sql: true

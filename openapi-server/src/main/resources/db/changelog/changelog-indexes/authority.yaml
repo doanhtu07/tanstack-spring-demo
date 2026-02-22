@@ -3,6 +3,13 @@ databaseChangeLog:
       id: add-fk-authority-user
       author: tudope
 
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            foreignKeyConstraintExists:
+              foreignKeyName: fk_authority_user
+              foreignKeyTableName: authority
+
       changes:
         - addForeignKeyConstraint:
             baseTableName: authority
@@ -21,6 +28,13 @@ databaseChangeLog:
       id: add-uq-authority-user-role
       author: tudope
 
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            uniqueConstraintExists:
+              constraintName: uq_authority_user_role
+              tableName: authority
+
       changes:
         - addUniqueConstraint:
             tableName: authority
@@ -35,6 +49,13 @@ databaseChangeLog:
   - changeSet:
       id: create-idx-authority-user-id
       author: tudope
+
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            indexExists:
+              indexName: idx_authority_user_id
+              tableName: authority
 
       changes:
         - createIndex:

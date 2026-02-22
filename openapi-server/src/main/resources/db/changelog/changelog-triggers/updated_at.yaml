@@ -3,6 +3,8 @@ databaseChangeLog:
       id: add-updated-at-function
       author: tudope
 
+      runOnChange: true
+
       changes:
         - sql:
             splitStatements: false # Help Liquibase not stop parsing after first semicolon
@@ -27,6 +29,8 @@ databaseChangeLog:
       changes:
         - sql:
             sql: |
+              DROP TRIGGER IF EXISTS trg_authority_updated ON authority;
+              
               CREATE TRIGGER trg_authority_updated
               BEFORE UPDATE ON authority
               FOR EACH ROW
@@ -43,6 +47,8 @@ databaseChangeLog:
       changes:
         - sql:
             sql: |
+              DROP TRIGGER IF EXISTS trg_app_user_updated ON app_user;
+              
               CREATE TRIGGER trg_app_user_updated
               BEFORE UPDATE ON app_user
               FOR EACH ROW

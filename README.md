@@ -10,13 +10,13 @@ This repository is a working demo of a full-stack application:
 
 - [x] Complex translation system
 - [x] Liquibase + PostgreSQL
-- [ ] Memory optimization and profiling for Spring Boot application
+- [x] Memory optimization and profiling for Spring Boot application
 - [ ] Cookie authentication: Either same-site or cross-site cookies (with proxy server on client)
 - [ ] Handle accessibility
 - [ ] Real-time support
-  1. Way 1: Pure Socket + STOMP support
-  2. Way 2: ElectricSQL sync engine or other similar open-source
-  3. Way 3: Convex
+    1. Way 1: Pure Socket + STOMP support
+    2. Way 2: ElectricSQL sync engine or other similar open-source
+    3. Way 3: Convex
 
 ## Running the application
 
@@ -50,8 +50,11 @@ Spring Boot:
 - OpenAPI: API documentation and contract
 - Security: Basic auth, CSRF protection for SPA, and CORS configuration
 - Liquibase: Database migrations ([See doc](./docs/spring/liquibase.md))
-- Testing: Unit tests with Surefire and integration tests with Failsafe (Bonus: Testcontainers for running PostgreSQL Docker containers during tests) ([See doc](./docs/spring/testing.md))
-- Spring Audit: Auditing entity with @CreatedBy createdAt, @LastModifiedBy updatedAt, etc. ([See doc](./docs/spring/audit.md))
+- Testing: Unit tests with Surefire and integration tests with Failsafe (Bonus: Testcontainers for running PostgreSQL
+  Docker containers during tests) ([See doc](./docs/spring/testing.md))
+- Spring Audit: Auditing entity with @CreatedBy createdAt, @LastModifiedBy updatedAt,
+  etc. ([See doc](./docs/spring/audit.md))
+- Memory optimization + Profiling: ([See doc](docs/spring/memory-profiling.md))
 
 ## Structure
 
@@ -83,8 +86,8 @@ Spring Boot:
 ## Issues
 
 - For CSS file to not complain about "Unknown at rule" when using Tailwind directives in VSCode:
-  - Install `Tailwind CSS IntelliSense` extension in VSCode
-  - Add file association in VSCode settings -> `"css": "tailwindcss"`
+    - Install `Tailwind CSS IntelliSense` extension in VSCode
+    - Add file association in VSCode settings -> `"css": "tailwindcss"`
 
 - For IntelliJ TypeScript support to function properly, make sure you are not marking `node_modules` as "Excluded"
-  - `node_modules` needs to be automatically marked by IntelliJ as "library root"
+    - `node_modules` needs to be automatically marked by IntelliJ as "library root"

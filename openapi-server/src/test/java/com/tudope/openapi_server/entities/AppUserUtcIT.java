@@ -1,7 +1,7 @@
 package com.tudope.openapi_server.entities;
 
-import com.tudope.openapi_server.config.TestFixedTimeConfig;
-import com.tudope.openapi_server.config.TestcontainersConfig;
+import com.tudope.openapi_server.configs.TestFixedTimeConfig;
+import com.tudope.openapi_server.configs.TestcontainersConfig;
 import com.tudope.openapi_server.repositories.AppUserRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;

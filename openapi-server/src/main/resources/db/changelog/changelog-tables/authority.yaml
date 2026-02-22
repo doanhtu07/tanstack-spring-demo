@@ -8,6 +8,12 @@ databaseChangeLog:
       id: create-authority
       author: tudope
 
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            tableExists:
+              tableName: authority
+
       changes:
         - createTable:
             tableName: authority

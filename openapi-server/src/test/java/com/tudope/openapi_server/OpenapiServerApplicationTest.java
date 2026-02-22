@@ -1,6 +1,6 @@
 package com.tudope.openapi_server;
 
-import com.tudope.openapi_server.config.TestcontainersConfig;
+import com.tudope.openapi_server.configs.TestcontainersConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;

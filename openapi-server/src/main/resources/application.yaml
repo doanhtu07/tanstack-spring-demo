@@ -2,6 +2,20 @@ spring:
   profiles:
     active: ${SPRING_PROFILE:dev}
 
+  boot:
+    admin:
+      client:
+        url: ${ADMIN_MONITOR_URL}  # URL of your Admin Server
+        username: ${ADMIN_MONITOR_USERNAME}
+        password: ${ADMIN_MONITOR_PASSWORD}
+
+        instance:
+          service-base-url: ${SERVICE_BASE_URL}
+          management-base-url: ${MANAGEMENT_BASE_URL}
+          metadata:
+            user.name: ${ADMIN_USERNAME}
+            user.password: ${ADMIN_PASSWORD}
+  
   application:
     name: openapi-server
 
@@ -27,4 +41,27 @@ logging:
   level:
     org:
       springframework:
-        security: ${LOG_LEVEL_SECURITY:INFO}  # default to INFO if not set
+        security: ${LOG_LEVEL_SECURITY}  # default to INFO if not set
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # Expose all actuator endpoints
+
+  endpoint:
+    health:
+      show-details: when_authorized
+      roles: [ "ADMIN" ]
+
+    env:
+      show-values: when_authorized
+      roles: [ "ADMIN" ]
+
+    configprops:
+      show-values: when_authorized
+      roles: [ "ADMIN" ]
+
+  info:
+    env:
+      enabled: true  # Enable the info endpoint with environment details

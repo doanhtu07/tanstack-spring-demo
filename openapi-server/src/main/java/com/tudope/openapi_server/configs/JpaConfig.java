@@ -1,4 +1,4 @@
-package com.tudope.openapi_server.config;
+package com.tudope.openapi_server.configs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
