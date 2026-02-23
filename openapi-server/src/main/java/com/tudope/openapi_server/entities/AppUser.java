@@ -19,6 +19,9 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "password")
     private String password;
 
@@ -46,6 +49,8 @@ public class AppUser {
         this.enabled = enabled;
     }
 
+    // MARK: Methods
+
     public void addAuthority(Authority authority) {
         authorities.add(authority);
         authority.setAppUser(this);
@@ -56,6 +61,18 @@ public class AppUser {
         authority.setAppUser(null);
     }
 
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
+
     // MARK: Getters and Setters
 
     public Long getId() {
@@ -64,6 +81,14 @@ public class AppUser {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

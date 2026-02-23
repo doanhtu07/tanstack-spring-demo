@@ -33,7 +33,7 @@ databaseChangeLog:
                     nullable: false
 
               - column:
-                  name: role
+                  name: permission
                   type: text
                   constraints:
                     nullable: false

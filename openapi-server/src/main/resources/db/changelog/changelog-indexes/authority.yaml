@@ -25,26 +25,26 @@ databaseChangeLog:
             constraintName: fk_authority_user
 
   - changeSet:
-      id: add-uq-authority-user-role
+      id: add-uq-authority-user-permission
       author: tudope
 
       preConditions:
         - onFail: MARK_RAN
         - not:
             uniqueConstraintExists:
-              constraintName: uq_authority_user_role
+              constraintName: uq_authority_user_permission
               tableName: authority
 
       changes:
         - addUniqueConstraint:
             tableName: authority
-            columnNames: user_id, role
-            constraintName: uq_authority_user_role
+            columnNames: user_id, permission
+            constraintName: uq_authority_user_permission
 
       rollback:
         - dropUniqueConstraint:
             tableName: authority
-            constraintName: uq_authority_user_role
+            constraintName: uq_authority_user_permission
 
   - changeSet:
       id: create-idx-authority-user-id

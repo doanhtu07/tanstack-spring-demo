@@ -3,6 +3,7 @@ package com.tudope.admin_monitor.configs;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import com.tudope.admin_monitor.domains.authorities.Permission;
 import com.tudope.admin_monitor.filters.CustomCsrfFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -136,7 +137,7 @@ public class SecurityConfig {
         UserDetails user = User.builder()
                 .username(adminUsername)
                 .password(passwordEncoder.encode(adminPassword))
-                .roles("ADMIN")
+                .authorities(Permission.ROLE_ADMIN.name())
                 .build();
 
         return new InMemoryUserDetailsManager(user);

@@ -1,5 +1,6 @@
 package com.tudope.openapi_server.entities;
 
+import com.tudope.openapi_server.domains.authorities.Permission;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -21,8 +22,9 @@ public class Authority {
     @JoinColumn(name = "user_id")
     private AppUser appUser;
 
-    @Column(name = "role")
-    private String role;
+    @Column(name = "permission")
+    @Enumerated(EnumType.STRING)
+    private Permission permission;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -37,9 +39,9 @@ public class Authority {
     public Authority() {
     }
 
-    public Authority(AppUser appUser, String role) {
+    public Authority(AppUser appUser, Permission permission) {
         this.appUser = appUser;
-        this.role = role;
+        this.permission = permission;
     }
 
     // MARK: Methods
@@ -48,7 +50,7 @@ public class Authority {
     public String toString() {
         return "Authority{" +
                 "id=" + id +
-                ", role='" + role + '\'' +
+                ", permission='" + permission + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
@@ -72,12 +74,12 @@ public class Authority {
         this.appUser = appUser;
     }
 
-    public String getRole() {
-        return role;
+    public Permission getPermission() {
+        return permission;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setPermission(Permission permission) {
+        this.permission = permission;
     }
 
     public Instant getCreatedAt() {

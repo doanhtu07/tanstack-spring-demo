@@ -27,6 +27,13 @@ databaseChangeLog:
                     nullable: false
 
               - column:
+                  name: email
+                  type: text
+                  constraints:
+                    nullable: false
+                    unique: true
+
+              - column:
                   name: password
                   type: text
                   constraints:

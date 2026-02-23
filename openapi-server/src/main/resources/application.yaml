@@ -13,8 +13,8 @@ spring:
           service-base-url: ${SERVICE_BASE_URL}
           management-base-url: ${MANAGEMENT_BASE_URL}
           metadata:
-            user.name: ${ADMIN_USERNAME}
-            user.password: ${ADMIN_PASSWORD}
+            user.name: ${ACTUATOR_USERNAME}
+            user.password: ${ACTUATOR_PASSWORD}
   
   application:
     name: openapi-server
@@ -52,15 +52,15 @@ management:
   endpoint:
     health:
       show-details: when_authorized
-      roles: [ "ADMIN" ]
+      roles: [ "ACTUATOR" ]
 
     env:
       show-values: when_authorized
-      roles: [ "ADMIN" ]
+      roles: [ "ACTUATOR" ]
 
     configprops:
       show-values: when_authorized
-      roles: [ "ADMIN" ]
+      roles: [ "ACTUATOR" ]
 
   info:
     env:
