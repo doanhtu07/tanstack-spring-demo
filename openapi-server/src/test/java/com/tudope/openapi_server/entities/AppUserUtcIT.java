@@ -31,7 +31,7 @@ class AppUserUtcIT {
     @Test
     void createdAt_isStoredAsAbsoluteUtcInstant() {
         // 1. Create an AppUser. Note that createdAt is fixed to 2025-01-01T10:00:00.00Z due to TestFixedTimeConfig
-        AppUser appUser = new AppUser("pw", true);
+        AppUser appUser = new AppUser("test@example.com", "pw", true);
 
         // 2. Act
         appUserRepository.saveAndFlush(appUser);

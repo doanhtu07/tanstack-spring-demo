@@ -1,7 +1,7 @@
 package com.tudope.openapi_server.services;
 
 import com.tudope.openapi_server.domains.authorities.Permission;
-import com.tudope.openapi_server.dtos.SignupRequestBody;
+import com.tudope.openapi_server.dtos.auth.SignupRequestBody;
 import com.tudope.openapi_server.entities.AppUser;
 import com.tudope.openapi_server.entities.Authority;
 import com.tudope.openapi_server.repositories.AppUserRepository;
@@ -29,10 +29,10 @@ public class AuthService {
     @Transactional
     public void registerUser(SignupRequestBody requestBody) {
         // Hash the password
-        String encodedPassword = passwordEncoder.encode(requestBody.getPassword());
+        String encodedPassword = passwordEncoder.encode(requestBody.password());
 
         // Build the User entity
-        AppUser user = new AppUser(encodedPassword, true);
+        AppUser user = new AppUser(requestBody.email(), encodedPassword, true);
 
         // Add default role (using your Authority entity logic)
         Authority userAuthority = new Authority();

@@ -1,6 +1,8 @@
 package com.tudope.openapi_server.controllers;
 
-import com.tudope.openapi_server.dtos.SignupRequestBody;
+import com.tudope.openapi_server.dtos.auth.AppUserDetails;
+import com.tudope.openapi_server.dtos.auth.CurrentUserResponse;
+import com.tudope.openapi_server.dtos.auth.SignupRequestBody;
 import com.tudope.openapi_server.services.AuthService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,7 +26,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/signin")
-    public ResponseEntity<Void> signin(HttpServletRequest request, @RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Void> postSignin(HttpServletRequest request, @RequestParam String email, @RequestParam String password) {
         try {
             authService.signin(request, email, password);
         } catch (ServletException _) {
@@ -34,11 +37,11 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> signup(HttpServletRequest request, @Valid @RequestBody SignupRequestBody requestBody) {
+    public ResponseEntity<Void> postSignup(HttpServletRequest request, @Valid @RequestBody SignupRequestBody requestBody) {
         authService.registerUser(requestBody);
 
         try {
-            authService.signin(request, requestBody.getEmail(), requestBody.getPassword());
+            authService.signin(request, requestBody.email(), requestBody.password());
         } catch (ServletException _) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -47,10 +50,21 @@ public class AuthController {
     }
 
     @PostMapping("/signout")
-    public void fakeSignout() {
+    public void postSignout() {
         // This method body is never reached.
         // It exists only to satisfy the OpenAPI generator.
         throw new IllegalStateException("This request should be intercepted by Spring Security.");
+    }
+
+    @GetMapping("/current-user")
+    public CurrentUserResponse getCurrentUser(
+            @AuthenticationPrincipal AppUserDetails user
+    ) {
+        return new CurrentUserResponse(
+                user.id(),
+                user.getUsername(),
+                user.getAuthorities()
+        );
     }
 
 }

@@ -91,3 +91,8 @@ Spring Boot:
 
 - For IntelliJ TypeScript support to function properly, make sure you are not marking `node_modules` as "Excluded"
     - `node_modules` needs to be automatically marked by IntelliJ as "library root"
+
+- For IntelliJ Spring Boot in Windows WSL2 to show Beans, Health, Mappings, and Environment properly
+    - Make sure you change the run configuration to include `-Djava.rmi.server.hostname=localhost`
+
+![Spring Boot Run Configuration](./docs/images/spring-boot-run-config.png)

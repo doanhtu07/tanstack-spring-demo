@@ -44,7 +44,8 @@ public class AppUser {
     public AppUser() {
     }
 
-    public AppUser(String password, boolean enabled) {
+    public AppUser(String email, String password, boolean enabled) {
+        this.email = email;
         this.password = password;
         this.enabled = enabled;
     }

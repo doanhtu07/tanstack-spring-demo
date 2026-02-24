@@ -8,6 +8,28 @@ export interface SimpleResponse {
   message: string
 }
 
+export interface SignupRequestBody {
+  /** @minLength 1 */
+  email: string
+  /** @minLength 1 */
+  password: string
+}
+
+export interface GrantedAuthority {
+  authority?: string
+}
+
+export interface CurrentUserResponse {
+  id?: number
+  email?: string
+  authorities?: GrantedAuthority[]
+}
+
 export type PostTranslateParams = {
   text: string
+}
+
+export type PostSigninParams = {
+  email: string
+  password: string
 }
