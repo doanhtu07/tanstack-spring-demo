@@ -12,6 +12,8 @@ This repository is a working demo of a full-stack application:
 - [x] Liquibase + PostgreSQL
 - [x] Memory optimization and profiling for Spring Boot application
 - [ ] Cookie authentication: Either same-site or cross-site cookies (with proxy server on client)
+    - [x] Server APIs
+    - [ ] Client sign-in + sign-up pages
 - [ ] Handle accessibility
 - [ ] Real-time support
     1. Way 1: Pure Socket + STOMP support
