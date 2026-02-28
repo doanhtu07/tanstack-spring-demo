@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Trans, useTranslation } from 'react-i18next'
