@@ -85,6 +85,7 @@ export const SignupForm = ({
         render={({ field }) => {
           return (
             <SigninForm
+              isSignup
               monitorChange={(formState) => {
                 field.onChange(formState)
               }}

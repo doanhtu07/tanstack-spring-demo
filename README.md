@@ -2,9 +2,10 @@
 
 This repository is a working demo of a full-stack application:
 
-- Tanstack Start + React Query
+- Tanstack Start + React Query + React Hook Form
 - Orval (OpenAPI code generator for TypeScript)
 - Spring Boot + OpenAPI
+- ElectricSQL
 
 ## Roadmap
 
@@ -41,6 +42,7 @@ Server (Spring Boot):
 Tanstack Start:
 
 - React Query: Data fetching and caching
+- React Hook Form: My own convention of composing nested independent forms + monitoring form states
 - Orval: Type-safe API client generation from OpenAPI spec
 - MobX: State management for UI state
 - CSS modules + Tailwind
@@ -64,7 +66,10 @@ Spring Boot:
 `openapi-server`: Spring Boot application
 
 - `src/main/java/com/tudope/openapi_server`: Java source code
-- `src/main/resources/application.properties`: Application configuration
+- `src/main/resources/db/changelog`: Liquibase changelog files
+- `src/main/resources/application.yaml`: Application configuration (with multiple profile variants)
+- `src/test/java/com/tudope/openapi_server`: Java test code
+- `docker-compose.yaml`: Docker compose config for PostgreSQL and ElectricSQL server
 - `pom.xml`: Maven build file + dependencies
 
 ---
@@ -74,12 +79,15 @@ Spring Boot:
 - `public`: Static assets
 - `src/api/axios.ts`: Override Axios instance
 - `src/components`: Pure React components without any data
+- `src/features`: Feature-specific components and logic
 - `src/orval`: Generated API client code thanks to Orval
 - `src/providers/csrf-provider.tsx`: CSRF token provider making sure the app has initialized CSRF token
 - `src/providers/store-provider.tsx`: MobX store provider
 - `src/providers/theme-provider.tsx`: Theme provider to manage light/dark/system theme and prevent FOUC
 - `src/routes/__root.tsx`: Root route of the app
 - `src/routes/index.tsx`: Home route
+- `src/routes/signin.tsx`: Sign-in route
+- `src/routes/signup.tsx`: Sign-up route
 - `src/stores`: MobX stores for UI state management
 - `src/styles`: Global style + route-level styles
 - `src/utils`: Utility functions for class names, tailwind, etc.

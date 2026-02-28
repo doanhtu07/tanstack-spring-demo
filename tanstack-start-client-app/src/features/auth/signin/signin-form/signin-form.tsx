@@ -8,14 +8,18 @@ import { getTestId } from '@/utils/test-ids'
 import { Input } from '@/components/input/input'
 
 type Props = {
+  isSignup: boolean
+
   monitorChange?: SigninFormMonitorChangeFn
   defaultValues?: typeof defaultFormData
   triggerInitialValidation?: boolean
   disabled?: boolean
+
   'data-testid'?: string
 }
 
 export const SigninForm = ({
+  isSignup,
   monitorChange,
   defaultValues,
   triggerInitialValidation,
@@ -40,7 +44,7 @@ export const SigninForm = ({
         dirtyFields: true,
       },
       callback: (data) => {
-        const formState = getFormState(data)
+        const formState = getFormState({ isSignup, data })
         monitorChange?.(formState)
       },
     })
@@ -48,7 +52,7 @@ export const SigninForm = ({
     return () => {
       unsubscribe()
     }
-  }, [monitorChange, subscribe])
+  }, [isSignup, monitorChange, subscribe])
 
   // Effect: Initialize form values + trigger initial validation (if needed)
   useEffect(() => {
@@ -108,7 +112,7 @@ export const SigninForm = ({
         name="password"
         rules={{
           validate: (value) => {
-            return validatePassword(value) || true
+            return validatePassword({ password: value, isSignup }) || true
           },
         }}
         render={({ field, fieldState }) => {

@@ -17,13 +17,16 @@ const getIsFormValid = (input: { errors: SigninFormErrors }) => {
   return Object.values(errors).every((error) => !error)
 }
 
-export const getFormState = (
+export const getFormState = (input: {
+  isSignup: boolean
   data: Partial<FormState<SigninFormData>> & {
     values: SigninFormData
     name?: InternalFieldName
     type?: EventType
-  },
-): SigninFormState => {
+  }
+}): SigninFormState => {
+  const { isSignup, data } = input
+
   const formData: SigninFormData = {
     ...data.values,
   }
@@ -35,7 +38,10 @@ export const getFormState = (
 
   const errors: SigninFormErrors = {
     email: validateEmail(formData.email),
-    password: validatePassword(formData.password),
+    password: validatePassword({
+      password: formData.password,
+      isSignup,
+    }),
   }
 
   const isFormValid = getIsFormValid({ errors })
