@@ -11,6 +11,7 @@ import { postTranslate, useGetHello } from '@/orval/demo-controller'
 import styles from '@/styles/home.module.css'
 import { getTestId } from '@/utils/test-ids'
 import { CustomLink } from '@/components/custom-link/custom-link'
+import { Navbar } from '@/components/navbar/navbar'
 
 const TEST_ID_ROOT = 'home'
 
@@ -57,9 +58,7 @@ const Home = observer(() => {
 
   return (
     <div className={styles.root} {...getTestId([TEST_ID_ROOT, 'root'])}>
-      <CustomLink to="/signin" {...getTestId([TEST_ID_ROOT, 'signinLink'])}>
-        <p>Sign in</p>
-      </CustomLink>
+      <Navbar hideHome {...getTestId([TEST_ID_ROOT, 'navbar'])} />
 
       <p>{t('t_welcomeMessage')}</p>
       <p>{t('t_notifications', { count: 1 })}</p>

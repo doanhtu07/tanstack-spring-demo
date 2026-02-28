@@ -6,22 +6,41 @@
 }
 
 .input {
-  @apply rounded border border-gray-400 px-3 py-2;
+  @apply rounded border px-3 py-2;
+  background-color: var(--color-input-bg);
+  border-color: var(--color-input-border);
+  color: var(--color-input-text);
   outline-style: none;
+  transition: border-color 0.2s;
 
-  &:focus-visible {
-    @apply border-blue-500 ring-1 ring-blue-500;
+  &::placeholder {
+    color: var(--color-input-placeholder);
   }
-}
-
-.input.error {
-  @apply border-red-500;
 
   &:focus-visible {
-    @apply ring-red-500;
+    border-color: var(--color-primary-text);
+    box-shadow: 0 0 0 3px var(--color-ring);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: var(--color-input-disabled-bg);
+    color: var(--color-input-disabled-text);
+    opacity: 0.8;
+  }
+
+  &.error {
+    border-color: var(--color-error);
+
+    &:focus-visible {
+      /* We locally override the ring variable to a red version */
+      --color-ring: color-mix(in srgb, var(--color-error), transparent 70%);
+      box-shadow: 0 0 0 3px var(--color-ring);
+    }
   }
 }
 
 .errorMessage {
-  @apply mt-1 text-xs text-red-500;
+  @apply mt-1 text-xs;
+  color: var(--color-error);
 }

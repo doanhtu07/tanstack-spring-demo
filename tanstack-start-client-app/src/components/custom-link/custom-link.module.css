@@ -1,7 +1,11 @@
 @reference '#global.css';
 
 .root {
-  @apply text-blue-600 module-dark:text-blue-300;
-  text-decoration: underline;
+  color: var(--color-primary-text);
   width: fit-content;
+
+  &:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+  }
 }

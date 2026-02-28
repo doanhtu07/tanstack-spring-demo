@@ -12,13 +12,14 @@ This repository is a working demo of a full-stack application:
 - [x] Liquibase + PostgreSQL
 - [x] Memory optimization and profiling for Spring Boot application
 - [ ] Cookie authentication: Either same-site or cross-site cookies (with proxy server on client)
-    - [x] Server APIs
-    - [ ] Client sign-in + sign-up pages (React Hook Form)
+  - [x] Server APIs
+  - [x] Client sign-in + sign-up pages (React Hook Form)
+  - [ ] Integrate forms with APIs
 - [ ] Handle accessibility
 - [ ] Real-time support
-    1. Way 1: Pure Socket + STOMP support
-    2. Way 2: ElectricSQL sync engine or other similar open-source
-    3. Way 3: Convex
+  1. Way 1: Pure Socket + STOMP support
+  2. Way 2: ElectricSQL sync engine or other similar open-source
+  3. Way 3: Convex
 
 ## Running the application
 
@@ -88,13 +89,13 @@ Spring Boot:
 ## Issues
 
 - For CSS file to not complain about "Unknown at rule" when using Tailwind directives in VSCode:
-    - Install `Tailwind CSS IntelliSense` extension in VSCode
-    - Add file association in VSCode settings -> `"css": "tailwindcss"`
+  - Install `Tailwind CSS IntelliSense` extension in VSCode
+  - Add file association in VSCode settings -> `"css": "tailwindcss"`
 
 - For IntelliJ TypeScript support to function properly, make sure you are not marking `node_modules` as "Excluded"
-    - `node_modules` needs to be automatically marked by IntelliJ as "library root"
+  - `node_modules` needs to be automatically marked by IntelliJ as "library root"
 
 - For IntelliJ Spring Boot in Windows WSL2 to show Beans, Health, Mappings, and Environment properly
-    - Make sure you change the run configuration to include `-Djava.rmi.server.hostname=localhost`
+  - Make sure you change the run configuration to include `-Djava.rmi.server.hostname=localhost`
 
 ![Spring Boot Run Configuration](./docs/images/spring-boot-run-config.png)

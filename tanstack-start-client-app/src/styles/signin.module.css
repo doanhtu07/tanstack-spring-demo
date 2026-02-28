@@ -15,13 +15,3 @@
   display: flex;
   flex-direction: column;
 }
-
-.field {
-  @apply gap-1;
-  display: flex;
-  flex-direction: column;
-
-  > label {
-    @apply text-sm font-medium;
-  }
-}

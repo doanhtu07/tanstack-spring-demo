@@ -1,0 +1,7 @@
+@reference '#global.css';
+
+.root {
+  @apply gap-4;
+  display: flex;
+  flex-direction: row;
+}

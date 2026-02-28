@@ -1,19 +1,37 @@
 @reference '#global.css';
 
 .root {
-  @apply gap-2 rounded bg-blue-600 px-2 py-1;
+  @apply gap-2 rounded px-3 py-2 font-medium;
+
   display: flex;
   width: fit-content;
   cursor: pointer;
-  color: white;
-  transition: background-color 0.2s;
   outline: none;
+  border: 1px solid transparent; /* Prevents layout shift if adding borders later */
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
 
-  &:hover {
-    @apply bg-blue-500;
+  background-color: var(--color-primary);
+  color: var(--color-primary-fg);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
   }
 
   &:focus-visible {
-    @apply ring-2 ring-blue-300;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow:
+      0 0 0 2px var(--color-bg),
+      0 0 0 4px var(--color-ring);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: var(--color-input-disabled-bg);
+    color: var(--color-input-disabled-text);
+    border-color: var(--color-border);
   }
 }
