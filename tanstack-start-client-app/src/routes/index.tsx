@@ -10,6 +10,7 @@ import { Divider } from '@/components/divider/divider'
 import { postTranslate, useGetHello } from '@/orval/demo-controller'
 import styles from '@/styles/home.module.css'
 import { getTestId } from '@/utils/test-ids'
+import { CustomLink } from '@/components/custom-link/custom-link'
 
 const TEST_ID_ROOT = 'home'
 
@@ -56,6 +57,10 @@ const Home = observer(() => {
 
   return (
     <div className={styles.root} {...getTestId([TEST_ID_ROOT, 'root'])}>
+      <CustomLink to="/signin" {...getTestId([TEST_ID_ROOT, 'signinLink'])}>
+        <p>Sign in</p>
+      </CustomLink>
+
       <p>{t('t_welcomeMessage')}</p>
       <p>{t('t_notifications', { count: 1 })}</p>
       <p>{t('t_notifications', { count: 2 })}</p>
@@ -67,7 +72,7 @@ const Home = observer(() => {
         components={{
           Text: <p />,
           Bold: <strong title={t('t_helloMessage')} />,
-          Link: <Link to="/" className={styles.link} />,
+          Link: <CustomLink to="/" />,
         }}
       />
 

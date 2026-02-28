@@ -7,8 +7,13 @@
   cursor: pointer;
   color: white;
   transition: background-color 0.2s;
+  outline: none;
 
   &:hover {
     @apply bg-blue-500;
+  }
+
+  &:focus-visible {
+    @apply ring-2 ring-blue-300;
   }
 }

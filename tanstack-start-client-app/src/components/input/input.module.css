@@ -1,0 +1,27 @@
+@reference '#global.css';
+
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  @apply rounded border border-gray-400 px-3 py-2;
+  outline-style: none;
+
+  &:focus-visible {
+    @apply border-blue-500 ring-1 ring-blue-500;
+  }
+}
+
+.input.error {
+  @apply border-red-500;
+
+  &:focus-visible {
+    @apply ring-red-500;
+  }
+}
+
+.errorMessage {
+  @apply mt-1 text-xs text-red-500;
+}

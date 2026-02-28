@@ -1,21 +1,23 @@
 import styles from './button.module.css'
-import type { PropsWithChildren } from 'react'
+import type { ButtonHTMLAttributes, PropsWithChildren } from 'react'
 import { getTestId } from '@/utils/test-ids'
+import { cn } from '@/utils/tailwind-merge'
 
-type Props = PropsWithChildren & {
-  onClick?: () => void
-  'data-testid'?: string
-}
+type Props = PropsWithChildren &
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    'data-testid'?: string
+  }
 
 export const Button = ({
   children,
-  onClick,
+  className,
   'data-testid': dataTestId,
+  ...rest
 }: Props) => {
   return (
     <button
-      className={styles.root}
-      onClick={onClick}
+      {...rest}
+      className={cn(styles.root, className)}
       {...getTestId([dataTestId, 'root'])}
     >
       {children}
