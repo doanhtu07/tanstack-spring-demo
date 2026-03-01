@@ -25,7 +25,7 @@ export interface CurrentUserResponse {
   authorities?: GrantedAuthority[]
 }
 
-export type PostTranslateParams = {
+export type PostUpperCaseParams = {
   text: string
 }
 

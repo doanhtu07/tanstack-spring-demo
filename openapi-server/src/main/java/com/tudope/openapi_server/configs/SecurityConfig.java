@@ -11,12 +11,15 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
@@ -25,12 +28,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
-
-    private static final Logger logger = Logger.getLogger(SecurityConfig.class.getName());
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -38,38 +38,42 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            HttpSecurity http,
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) {
+        // This avoids the manual .build() loop entirely
+        return authConfig.getAuthenticationManager();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService(
             DataSource dataSource,
             PasswordEncoder passwordEncoder,
             @Value("${ACTUATOR_USERNAME:NOT_SET}") String actuatorUsername,
             @Value("${ACTUATOR_PASSWORD:NOT_SET}") String actuatorPassword
     ) {
-        AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
+        // 1. Setup the JDBC Manager (don't return it yet)
+        JdbcUserDetailsManager jdbcManager = new JdbcUserDetailsManager(dataSource);
+        jdbcManager.setUsersByUsernameQuery("SELECT email, password, enabled FROM app_user WHERE email = ?");
+        jdbcManager.setAuthoritiesByUsernameQuery("""
+                SELECT u.email, a.permission
+                FROM authority a
+                JOIN app_user u ON a.user_id = u.id
+                WHERE u.email = ?
+                """);
 
-        // Check the Database first
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .passwordEncoder(passwordEncoder)
-                .usersByUsernameQuery("SELECT email, password, enabled FROM app_user WHERE email = ?")
-                .authoritiesByUsernameQuery("""
-                        SELECT u.email, a.permission FROM authority a
-                        JOIN app_user u ON a.user_id = u.id
-                        WHERE u.email = ?
-                        """);
+        // 2. Return a custom lambda that checks both
+        return username -> {
+            // Check In-Memory (Actuator) first
+            if (username.equals(actuatorUsername)) {
+                return User.builder()
+                        .username(actuatorUsername)
+                        .password(passwordEncoder.encode(actuatorPassword))
+                        .authorities("ROLE_ACTUATOR")
+                        .build();
+            }
 
-        if ("NOT_SET".equals(actuatorUsername) || "NOT_SET".equals(actuatorPassword)) {
-            // You'll know immediately if the .env.example wasn't parsed
-            logger.warning("Using default 'NOT_SET' ACTUATOR_USERNAME or ACTUATOR_PASSWORD. Check your .env.example file!");
-        }
-
-        // Check the In-Memory Actuator user (from your .env.example)
-        auth.inMemoryAuthentication()
-                .withUser(actuatorUsername)
-                .password(passwordEncoder.encode(actuatorPassword))
-                .authorities(Permission.ROLE_ACTUATOR.name());
-
-        return auth.build();
+            // Fallback to JDBC
+            return jdbcManager.loadUserByUsername(username);
+        };
     }
 
     @Bean

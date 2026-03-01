@@ -21,7 +21,7 @@ import type {
 } from '@tanstack/react-query'
 
 import type {
-  PostTranslateParams,
+  PostUpperCaseParams,
   SimpleResponse,
 } from './openAPIDefinition.schemas'
 
@@ -29,14 +29,14 @@ import { axiosApi } from '../api/axios'
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
 
-export const postTranslate = (
-  params: PostTranslateParams,
+export const postUpperCase = (
+  params: PostUpperCaseParams,
   options?: SecondParameter<typeof axiosApi>,
   signal?: AbortSignal,
 ) => {
   return axiosApi<SimpleResponse>(
     {
-      url: `http://localhost:8080/api/translate`,
+      url: `http://localhost:8080/api/upper-case`,
       method: 'POST',
       params,
       signal,
@@ -45,24 +45,24 @@ export const postTranslate = (
   )
 }
 
-export const getPostTranslateMutationOptions = <
+export const getPostUpperCaseMutationOptions = <
   TError = unknown,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postTranslate>>,
+    Awaited<ReturnType<typeof postUpperCase>>,
     TError,
-    { params: PostTranslateParams },
+    { params: PostUpperCaseParams },
     TContext
   >
   request?: SecondParameter<typeof axiosApi>
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postTranslate>>,
+  Awaited<ReturnType<typeof postUpperCase>>,
   TError,
-  { params: PostTranslateParams },
+  { params: PostUpperCaseParams },
   TContext
 > => {
-  const mutationKey = ['postTranslate']
+  const mutationKey = ['postUpperCase']
   const { mutation: mutationOptions, request: requestOptions } = options
     ? options.mutation &&
       'mutationKey' in options.mutation &&
@@ -72,41 +72,41 @@ export const getPostTranslateMutationOptions = <
     : { mutation: { mutationKey }, request: undefined }
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postTranslate>>,
-    { params: PostTranslateParams }
+    Awaited<ReturnType<typeof postUpperCase>>,
+    { params: PostUpperCaseParams }
   > = (props) => {
     const { params } = props ?? {}
 
-    return postTranslate(params, requestOptions)
+    return postUpperCase(params, requestOptions)
   }
 
   return { mutationFn, ...mutationOptions }
 }
 
-export type PostTranslateMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postTranslate>>
+export type PostUpperCaseMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postUpperCase>>
 >
 
-export type PostTranslateMutationError = unknown
+export type PostUpperCaseMutationError = unknown
 
-export const usePostTranslate = <TError = unknown, TContext = unknown>(
+export const usePostUpperCase = <TError = unknown, TContext = unknown>(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postTranslate>>,
+      Awaited<ReturnType<typeof postUpperCase>>,
       TError,
-      { params: PostTranslateParams },
+      { params: PostUpperCaseParams },
       TContext
     >
     request?: SecondParameter<typeof axiosApi>
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
-  Awaited<ReturnType<typeof postTranslate>>,
+  Awaited<ReturnType<typeof postUpperCase>>,
   TError,
-  { params: PostTranslateParams },
+  { params: PostUpperCaseParams },
   TContext
 > => {
-  return useMutation(getPostTranslateMutationOptions(options), queryClient)
+  return useMutation(getPostUpperCaseMutationOptions(options), queryClient)
 }
 export const getInitCsrf = (
   options?: SecondParameter<typeof axiosApi>,

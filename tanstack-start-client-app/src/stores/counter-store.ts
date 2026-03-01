@@ -1,11 +1,7 @@
-import { makeAutoObservable, toJS } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 
 export class CounterStore {
-  // MARK: Properties
-
   private _count = 0
-
-  // MARK: Constructor
 
   constructor() {
     makeAutoObservable(this)
@@ -24,7 +20,7 @@ export class CounterStore {
   // MARK: Getters and Setters
 
   public get count() {
-    return toJS(this._count)
+    return this._count
   }
 
   private setCount(count: number) {

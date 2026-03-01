@@ -7,7 +7,7 @@ import { Button } from '@/components/button/button'
 import { useTheme } from '@/providers/theme-provider'
 import { useStore } from '@/providers/store-provider'
 import { Divider } from '@/components/divider/divider'
-import { postTranslate, useGetHello } from '@/orval/demo-controller'
+import { useGetHello } from '@/orval/demo-controller'
 import styles from '@/styles/home.module.css'
 import { getTestId } from '@/utils/test-ids'
 import { CustomLink } from '@/components/custom-link/custom-link'
@@ -18,7 +18,7 @@ const TEST_ID_ROOT = 'home'
 const Home = observer(() => {
   const { ready } = useCsrf()
   const { toggleTheme, setTheme } = useTheme()
-  const { counterStore } = useStore()
+  const { counterStore, demoApiStore } = useStore()
   const { t } = useTranslation('ns_home')
 
   const count = counterStore.count
@@ -39,20 +39,8 @@ const Home = observer(() => {
 
   useEffect(() => {
     if (!ready) return
-
-    postTranslate(
-      { text: 'Hello world' },
-      {
-        auth: { username: 'tudope', password: 'test123' },
-      },
-    )
-      .then((res) => {
-        console.log('translate', res.message)
-      })
-      .catch((err) => {
-        console.error('translate error', err)
-      })
-  }, [ready])
+    demoApiStore.testUpperCase().then()
+  }, [demoApiStore, ready])
 
   // MARK: Renderers
 

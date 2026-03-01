@@ -18,9 +18,9 @@ public class DemoController {
         return new SimpleResponse("Hello world!");
     }
 
-    @PostMapping(value = "/translate")
-    public SimpleResponse postTranslate(@RequestParam String text) {
-        return new SimpleResponse("Translated: " + text.toUpperCase());
+    @PostMapping(value = "/upper-case")
+    public SimpleResponse postUpperCase(@RequestParam String text) {
+        return new SimpleResponse("Upper case: " + text.toUpperCase());
     }
 
 }
