@@ -11,11 +11,13 @@ import { useGetHello } from '@/orval/demo-controller'
 import styles from '@/styles/home.module.css'
 import { getTestId } from '@/utils/test-ids'
 import { CustomLink } from '@/components/custom-link/custom-link'
-import { Navbar } from '@/components/navbar/navbar'
+import { Navbar } from '@/features/navbar/navbar'
+import { getCurrentUserFn } from '@/api/get-current-user'
 
 const TEST_ID_ROOT = 'home'
 
 const Home = observer(() => {
+  const { user } = Route.useRouteContext()
   const { ready } = useCsrf()
   const { toggleTheme, setTheme } = useTheme()
   const { counterStore, demoApiStore } = useStore()
@@ -45,8 +47,8 @@ const Home = observer(() => {
   // MARK: Renderers
 
   return (
-    <div className={styles.root} {...getTestId([TEST_ID_ROOT, 'root'])}>
-      <Navbar hideHome {...getTestId([TEST_ID_ROOT, 'navbar'])} />
+    <main className={styles.root} {...getTestId([TEST_ID_ROOT, 'root'])}>
+      <Navbar user={user} hideHome {...getTestId([TEST_ID_ROOT, 'navbar'])} />
 
       <p>{t('t_welcomeMessage')}</p>
       <p>{t('t_notifications', { count: 1 })}</p>
@@ -96,10 +98,21 @@ const Home = observer(() => {
       >
         <p>Decrement counter</p>
       </Button>
-    </div>
+    </main>
   )
 })
 
+// MARK: Route
+
 export const Route = createFileRoute('/')({
+  beforeLoad: async () => {
+    try {
+      const user = await getCurrentUserFn()
+      return { user }
+    } catch (err) {
+      // If there is an error, we can assume the user is not authenticated
+      return { user: undefined }
+    }
+  },
   component: Home,
 })

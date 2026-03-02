@@ -1,0 +1,14 @@
+@reference '#global.css';
+
+.root {
+  @apply gap-2;
+  display: flex;
+  flex-direction: column;
+}
+
+.linkContainer {
+  @apply gap-4;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

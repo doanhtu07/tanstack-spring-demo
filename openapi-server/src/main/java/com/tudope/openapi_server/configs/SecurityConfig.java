@@ -1,6 +1,9 @@
 package com.tudope.openapi_server.configs;
 
 import com.tudope.openapi_server.domains.authorities.Permission;
+import com.tudope.openapi_server.dtos.auth.AppUserDetails;
+import com.tudope.openapi_server.entities.AppUser;
+import com.tudope.openapi_server.repositories.AppUserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,22 +18,35 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.sql.DataSource;
 import java.util.List;
+import java.util.Objects;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
+
+    private static final Logger logger = Logger.getLogger(SecurityConfig.class.getName());
+    private final AppUserRepository userRepository;
+
+    public SecurityConfig(AppUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -38,29 +54,25 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) {
-        // This avoids the manual .build() loop entirely
-        return authConfig.getAuthenticationManager();
+    public SecurityContextRepository securityContextRepository() {
+        return new HttpSessionSecurityContextRepository();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
+        return config.getAuthenticationManager();
     }
 
     @Bean
     public UserDetailsService userDetailsService(
-            DataSource dataSource,
             PasswordEncoder passwordEncoder,
             @Value("${ACTUATOR_USERNAME:NOT_SET}") String actuatorUsername,
             @Value("${ACTUATOR_PASSWORD:NOT_SET}") String actuatorPassword
     ) {
-        // 1. Setup the JDBC Manager (don't return it yet)
-        JdbcUserDetailsManager jdbcManager = new JdbcUserDetailsManager(dataSource);
-        jdbcManager.setUsersByUsernameQuery("SELECT email, password, enabled FROM app_user WHERE email = ?");
-        jdbcManager.setAuthoritiesByUsernameQuery("""
-                SELECT u.email, a.permission
-                FROM authority a
-                JOIN app_user u ON a.user_id = u.id
-                WHERE u.email = ?
-                """);
+        if (Objects.equals(actuatorUsername, "NOT_SET") || Objects.equals(actuatorPassword, "NOT_SET")) {
+            logger.warning("Cannot find ACTUATOR_USERNAME or ACTUATOR_PASSWORD from environment variables!");
+        }
 
-        // 2. Return a custom lambda that checks both
         return username -> {
             // Check In-Memory (Actuator) first
             if (username.equals(actuatorUsername)) {
@@ -71,8 +83,20 @@ public class SecurityConfig {
                         .build();
             }
 
-            // Fallback to JDBC
-            return jdbcManager.loadUserByUsername(username);
+            // Fallback to database
+            AppUser appUser = userRepository.findByEmail(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+
+            List<GrantedAuthority> grantedAuthorities = appUser.getAuthorities().stream()
+                    .map(a -> new SimpleGrantedAuthority(a.getPermission().name()))
+                    .collect(Collectors.toList());
+
+            return new AppUserDetails(
+                    appUser.getId(),
+                    appUser.getEmail(),
+                    appUser.getPassword(),
+                    grantedAuthorities
+            );
         };
     }
 
@@ -129,6 +153,9 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout
                         .logoutUrl("/api/auth/signout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
                         .logoutSuccessHandler((_, res, _) -> res.setStatus(HttpServletResponse.SC_OK))
                 )
                 .exceptionHandling(ex -> ex

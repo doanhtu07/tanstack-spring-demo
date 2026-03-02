@@ -9,12 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnauthenticatedRouteRouteImport } from './routes/_unauthenticated/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UnauthenticatedSignupRouteImport } from './routes/_unauthenticated/signup'
+import { Route as UnauthenticatedSigninRouteImport } from './routes/_unauthenticated/signin'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
-import { Route as authSignupRouteImport } from './routes/(auth)/signup'
-import { Route as authSigninRouteImport } from './routes/(auth)/signin'
 
+const UnauthenticatedRouteRoute = UnauthenticatedRouteRouteImport.update({
+  id: '/_unauthenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -24,65 +29,73 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnauthenticatedSignupRoute = UnauthenticatedSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => UnauthenticatedRouteRoute,
+} as any)
+const UnauthenticatedSigninRoute = UnauthenticatedSigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
+  getParentRoute: () => UnauthenticatedRouteRoute,
+} as any)
 const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   id: '/app',
   path: '/app',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const authSignupRoute = authSignupRouteImport.update({
-  id: '/(auth)/signup',
-  path: '/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const authSigninRoute = authSigninRouteImport.update({
-  id: '/(auth)/signin',
-  path: '/signin',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/signin': typeof authSigninRoute
-  '/signup': typeof authSignupRoute
   '/app': typeof AuthenticatedAppRoute
+  '/signin': typeof UnauthenticatedSigninRoute
+  '/signup': typeof UnauthenticatedSignupRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/signin': typeof authSigninRoute
-  '/signup': typeof authSignupRoute
   '/app': typeof AuthenticatedAppRoute
+  '/signin': typeof UnauthenticatedSigninRoute
+  '/signup': typeof UnauthenticatedSignupRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/(auth)/signin': typeof authSigninRoute
-  '/(auth)/signup': typeof authSignupRoute
+  '/_unauthenticated': typeof UnauthenticatedRouteRouteWithChildren
   '/_authenticated/app': typeof AuthenticatedAppRoute
+  '/_unauthenticated/signin': typeof UnauthenticatedSigninRoute
+  '/_unauthenticated/signup': typeof UnauthenticatedSignupRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/signin' | '/signup' | '/app'
+  fullPaths: '/' | '/app' | '/signin' | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/signin' | '/signup' | '/app'
+  to: '/' | '/app' | '/signin' | '/signup'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
-    | '/(auth)/signin'
-    | '/(auth)/signup'
+    | '/_unauthenticated'
     | '/_authenticated/app'
+    | '/_unauthenticated/signin'
+    | '/_unauthenticated/signup'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  authSigninRoute: typeof authSigninRoute
-  authSignupRoute: typeof authSignupRoute
+  UnauthenticatedRouteRoute: typeof UnauthenticatedRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_unauthenticated': {
+      id: '/_unauthenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof UnauthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
@@ -97,26 +110,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_unauthenticated/signup': {
+      id: '/_unauthenticated/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof UnauthenticatedSignupRouteImport
+      parentRoute: typeof UnauthenticatedRouteRoute
+    }
+    '/_unauthenticated/signin': {
+      id: '/_unauthenticated/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof UnauthenticatedSigninRouteImport
+      parentRoute: typeof UnauthenticatedRouteRoute
+    }
     '/_authenticated/app': {
       id: '/_authenticated/app'
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AuthenticatedAppRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/(auth)/signup': {
-      id: '/(auth)/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof authSignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(auth)/signin': {
-      id: '/(auth)/signin'
-      path: '/signin'
-      fullPath: '/signin'
-      preLoaderRoute: typeof authSigninRouteImport
-      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -132,11 +145,23 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface UnauthenticatedRouteRouteChildren {
+  UnauthenticatedSigninRoute: typeof UnauthenticatedSigninRoute
+  UnauthenticatedSignupRoute: typeof UnauthenticatedSignupRoute
+}
+
+const UnauthenticatedRouteRouteChildren: UnauthenticatedRouteRouteChildren = {
+  UnauthenticatedSigninRoute: UnauthenticatedSigninRoute,
+  UnauthenticatedSignupRoute: UnauthenticatedSignupRoute,
+}
+
+const UnauthenticatedRouteRouteWithChildren =
+  UnauthenticatedRouteRoute._addFileChildren(UnauthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  authSigninRoute: authSigninRoute,
-  authSignupRoute: authSignupRoute,
+  UnauthenticatedRouteRoute: UnauthenticatedRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

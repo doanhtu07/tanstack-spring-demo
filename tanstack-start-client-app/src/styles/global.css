@@ -12,10 +12,10 @@
     --color-text-muted: theme('colors.gray.600');
 
     /* Interactive (Primary) */
-    --color-primary: theme('colors.blue.600');
-    --color-primary-hover: theme('colors.blue.700');
+    --color-primary: theme('colors.blue.700');
+    --color-primary-hover: theme('colors.blue.800');
     --color-primary-fg: theme('colors.white');
-    --color-primary-text: theme('colors.blue.600');
+    --color-primary-text: theme('colors.blue.700');
 
     /* Error */
     --color-error: theme('colors.red.600');
@@ -32,10 +32,10 @@
     --color-input-disabled-text: theme('colors.gray.500');
 
     /* Borders & Dividers */
-    --color-border: theme('colors.gray.200');
+    --color-border: theme('colors.gray.300');
 
     /* Focus ring */
-    --color-ring: color-mix(in srgb, theme('colors.blue.500'), transparent 30%);
+    --color-ring: color-mix(in srgb, theme('colors.blue.600'), transparent 20%);
   }
 
   .dark {
@@ -43,10 +43,10 @@
     --color-text: theme('colors.gray.100');
     --color-text-muted: theme('colors.gray.400');
 
-    --color-primary: theme('colors.blue.500');
-    --color-primary-hover: theme('colors.blue.400');
+    --color-primary: theme('colors.blue.600');
+    --color-primary-hover: theme('colors.blue.500');
     --color-primary-fg: theme('colors.white');
-    --color-primary-text: theme('colors.blue.400');
+    --color-primary-text: theme('colors.blue.300');
 
     --color-error: theme('colors.red.400');
     --color-error-bg: theme('colors.red.950');
@@ -59,9 +59,9 @@
     --color-input-disabled-bg: theme('colors.gray.800');
     --color-input-disabled-text: theme('colors.gray.500');
 
-    --color-border: theme('colors.gray.800');
+    --color-border: theme('colors.gray.700');
 
-    --color-ring: color-mix(in srgb, theme('colors.blue.400'), transparent 50%);
+    --color-ring: color-mix(in srgb, theme('colors.blue.400'), transparent 40%);
   }
 }
 

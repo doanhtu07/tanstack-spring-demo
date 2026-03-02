@@ -10,13 +10,7 @@ export class DemoApiStore {
 
   public async testUpperCase() {
     try {
-      const res = await postUpperCase(
-        { text: 'Hello world' },
-        {
-          auth: { username: 'tudope', password: 'test123' },
-        },
-      )
-
+      const res = await postUpperCase({ text: 'Hello world' })
       console.log('testUpperCase', res.message)
     } catch (err) {
       console.error('DemoApiStore testUpperCase - error', err)

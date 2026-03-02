@@ -58,7 +58,7 @@ export class AuthStore {
     try {
       await postSignout()
 
-      await queryClient.invalidateQueries({
+      queryClient.removeQueries({
         queryKey: getGetCurrentUserQueryKey(),
       })
     } catch (err) {

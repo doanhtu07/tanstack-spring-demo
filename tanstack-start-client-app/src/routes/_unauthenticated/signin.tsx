@@ -1,15 +1,14 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import z from 'zod'
 import { observer } from 'mobx-react-lite'
 import { useQueryClient } from '@tanstack/react-query'
 import type { SigninFormState } from '@/features/auth/signin/signin-form/types'
 import styles from '@/styles/signin.module.css'
-import { useTheme } from '@/providers/theme-provider'
 import { Button } from '@/components/button/button'
 import { getTestId } from '@/utils/test-ids'
 import { SigninForm } from '@/features/auth/signin/signin-form/signin-form'
-import { Navbar } from '@/components/navbar/navbar'
+import { Navbar } from '@/features/navbar/navbar'
 import { useStore } from '@/providers/store-provider'
 
 const TEST_ID_ROOT = 'signin'
@@ -21,9 +20,8 @@ const RouteComponent = observer(() => {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
-  const { toggleTheme } = useTheme()
-
   const [signinFormState, setSigninFormState] = useState<SigninFormState>()
+  const [error, setError] = useState<string>()
 
   const handleSignin = () => {
     if (!signinFormState?.isFormValid) return
@@ -37,20 +35,24 @@ const RouteComponent = observer(() => {
       .then(() => {
         navigate({ to: redirect || '/app' })
       })
+      .catch(() => {
+        setError('Invalid email or password. Please try again.')
+      })
   }
 
+  // MARK: Effects
+
+  useEffect(() => {
+    setError(undefined)
+  }, [signinFormState])
+
+  // MARK: Renderers
+
   return (
-    <div className={styles.root} {...getTestId([TEST_ID_ROOT, 'root'])}>
+    <main className={styles.root} {...getTestId([TEST_ID_ROOT, 'root'])}>
       <Navbar hideSignin {...getTestId([TEST_ID_ROOT, 'navbar'])} />
 
       <h1>Welcome!</h1>
-
-      <Button
-        onClick={() => toggleTheme()}
-        {...getTestId([TEST_ID_ROOT, 'toggleTheme'])}
-      >
-        <p>Toggle theme</p>
-      </Button>
 
       <form
         className={styles.form}
@@ -68,6 +70,8 @@ const RouteComponent = observer(() => {
           {...getTestId([TEST_ID_ROOT, 'signinForm'])}
         />
 
+        {error && <p className={styles.error}>{error}</p>}
+
         <Button
           type="submit"
           disabled={!signinFormState?.isFormValid}
@@ -76,15 +80,17 @@ const RouteComponent = observer(() => {
           <p>Sign in</p>
         </Button>
       </form>
-    </div>
+    </main>
   )
 })
+
+// MARK: Route
 
 const searchSchema = z.object({
   redirect: z.string().optional(),
 })
 
-export const Route = createFileRoute('/(auth)/signin')({
+export const Route = createFileRoute('/_unauthenticated/signin')({
   component: RouteComponent,
   validateSearch: (search) => searchSchema.parse(search),
 })

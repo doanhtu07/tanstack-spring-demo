@@ -36,7 +36,7 @@ public class AppUser {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "appUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Authority> authorities = new ArrayList<>();
 
     // MARK: Constructors

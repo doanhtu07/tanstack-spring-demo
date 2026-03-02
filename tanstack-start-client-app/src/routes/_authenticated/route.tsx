@@ -1,10 +1,10 @@
 import { createFileRoute, isRedirect, redirect } from '@tanstack/react-router'
-import { getCurrentUser } from '@/orval/auth-controller'
+import { getCurrentUserFn } from '@/api/get-current-user'
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: async ({ location }) => {
     try {
-      const user = await getCurrentUser()
+      const user = await getCurrentUserFn()
       return { user }
     } catch (err) {
       // Re-throw redirects (they're intentional, not errors)

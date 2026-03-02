@@ -12,11 +12,11 @@ This repository is a working demo of a full-stack application:
 - [x] Complex translation system
 - [x] Liquibase + PostgreSQL
 - [x] Memory optimization and profiling for Spring Boot application
-- [ ] Cookie authentication: Either same-site or cross-site cookies (with proxy server on client)
+- [x] Cookie authentication: Either same-site or cross-site cookies (with proxy server on client)
   - [x] Server APIs
   - [x] Client sign-in + sign-up pages (React Hook Form)
-  - [ ] Integrate forms with APIs
-- [ ] Handle accessibility
+  - [x] Integrate forms with APIs
+- [x] Handle accessibility (Check Lighthouse in Chrome Devtools for suggestions)
 - [ ] Real-time support
   1. Way 1: Pure Socket + STOMP support
   2. Way 2: ElectricSQL sync engine or other similar open-source

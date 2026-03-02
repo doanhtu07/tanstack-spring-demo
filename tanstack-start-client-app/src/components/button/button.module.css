@@ -1,7 +1,7 @@
 @reference '#global.css';
 
 .root {
-  @apply gap-2 rounded px-3 py-2 font-medium;
+  @apply gap-2 rounded px-2 py-1 text-sm font-medium;
 
   display: flex;
   width: fit-content;
