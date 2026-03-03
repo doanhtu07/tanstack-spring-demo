@@ -21,10 +21,10 @@ import type {
 } from '@tanstack/react-query'
 
 import type {
-  DeleteTodoRemoveParams,
-  PostTodoAddParams,
-  PutTodoUpdateParams,
+  TodoAddRequestBody,
+  TodoDeleteRequestBody,
   TodoResponse,
+  TodoUpdateRequestBody,
 } from './openAPIDefinition.schemas'
 
 import { axiosApi } from '../api/axios'
@@ -32,7 +32,7 @@ import { axiosApi } from '../api/axios'
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
 
 export const putTodoUpdate = (
-  params: PutTodoUpdateParams,
+  todoUpdateRequestBody: TodoUpdateRequestBody,
   options?: SecondParameter<typeof axiosApi>,
   signal?: AbortSignal,
 ) => {
@@ -40,7 +40,8 @@ export const putTodoUpdate = (
     {
       url: `http://localhost:8080/api/todo/update`,
       method: 'PUT',
-      params,
+      headers: { 'Content-Type': 'application/json' },
+      data: todoUpdateRequestBody,
       signal,
     },
     options,
@@ -54,14 +55,14 @@ export const getPutTodoUpdateMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof putTodoUpdate>>,
     TError,
-    { params: PutTodoUpdateParams },
+    { data: TodoUpdateRequestBody },
     TContext
   >
   request?: SecondParameter<typeof axiosApi>
 }): UseMutationOptions<
   Awaited<ReturnType<typeof putTodoUpdate>>,
   TError,
-  { params: PutTodoUpdateParams },
+  { data: TodoUpdateRequestBody },
   TContext
 > => {
   const mutationKey = ['putTodoUpdate']
@@ -75,11 +76,11 @@ export const getPutTodoUpdateMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof putTodoUpdate>>,
-    { params: PutTodoUpdateParams }
+    { data: TodoUpdateRequestBody }
   > = (props) => {
-    const { params } = props ?? {}
+    const { data } = props ?? {}
 
-    return putTodoUpdate(params, requestOptions)
+    return putTodoUpdate(data, requestOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -88,7 +89,7 @@ export const getPutTodoUpdateMutationOptions = <
 export type PutTodoUpdateMutationResult = NonNullable<
   Awaited<ReturnType<typeof putTodoUpdate>>
 >
-
+export type PutTodoUpdateMutationBody = TodoUpdateRequestBody
 export type PutTodoUpdateMutationError = unknown
 
 export const usePutTodoUpdate = <TError = unknown, TContext = unknown>(
@@ -96,7 +97,7 @@ export const usePutTodoUpdate = <TError = unknown, TContext = unknown>(
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof putTodoUpdate>>,
       TError,
-      { params: PutTodoUpdateParams },
+      { data: TodoUpdateRequestBody },
       TContext
     >
     request?: SecondParameter<typeof axiosApi>
@@ -105,13 +106,13 @@ export const usePutTodoUpdate = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof putTodoUpdate>>,
   TError,
-  { params: PutTodoUpdateParams },
+  { data: TodoUpdateRequestBody },
   TContext
 > => {
   return useMutation(getPutTodoUpdateMutationOptions(options), queryClient)
 }
 export const postTodoAdd = (
-  params: PostTodoAddParams,
+  todoAddRequestBody: TodoAddRequestBody,
   options?: SecondParameter<typeof axiosApi>,
   signal?: AbortSignal,
 ) => {
@@ -119,7 +120,8 @@ export const postTodoAdd = (
     {
       url: `http://localhost:8080/api/todo/add`,
       method: 'POST',
-      params,
+      headers: { 'Content-Type': 'application/json' },
+      data: todoAddRequestBody,
       signal,
     },
     options,
@@ -133,14 +135,14 @@ export const getPostTodoAddMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof postTodoAdd>>,
     TError,
-    { params: PostTodoAddParams },
+    { data: TodoAddRequestBody },
     TContext
   >
   request?: SecondParameter<typeof axiosApi>
 }): UseMutationOptions<
   Awaited<ReturnType<typeof postTodoAdd>>,
   TError,
-  { params: PostTodoAddParams },
+  { data: TodoAddRequestBody },
   TContext
 > => {
   const mutationKey = ['postTodoAdd']
@@ -154,11 +156,11 @@ export const getPostTodoAddMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postTodoAdd>>,
-    { params: PostTodoAddParams }
+    { data: TodoAddRequestBody }
   > = (props) => {
-    const { params } = props ?? {}
+    const { data } = props ?? {}
 
-    return postTodoAdd(params, requestOptions)
+    return postTodoAdd(data, requestOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -167,7 +169,7 @@ export const getPostTodoAddMutationOptions = <
 export type PostTodoAddMutationResult = NonNullable<
   Awaited<ReturnType<typeof postTodoAdd>>
 >
-
+export type PostTodoAddMutationBody = TodoAddRequestBody
 export type PostTodoAddMutationError = unknown
 
 export const usePostTodoAdd = <TError = unknown, TContext = unknown>(
@@ -175,7 +177,7 @@ export const usePostTodoAdd = <TError = unknown, TContext = unknown>(
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof postTodoAdd>>,
       TError,
-      { params: PostTodoAddParams },
+      { data: TodoAddRequestBody },
       TContext
     >
     request?: SecondParameter<typeof axiosApi>
@@ -184,7 +186,7 @@ export const usePostTodoAdd = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof postTodoAdd>>,
   TError,
-  { params: PostTodoAddParams },
+  { data: TodoAddRequestBody },
   TContext
 > => {
   return useMutation(getPostTodoAddMutationOptions(options), queryClient)
@@ -316,7 +318,7 @@ export function useGetTodoList<
 }
 
 export const deleteTodoRemove = (
-  params: DeleteTodoRemoveParams,
+  todoDeleteRequestBody: TodoDeleteRequestBody,
   options?: SecondParameter<typeof axiosApi>,
   signal?: AbortSignal,
 ) => {
@@ -324,7 +326,8 @@ export const deleteTodoRemove = (
     {
       url: `http://localhost:8080/api/todo/remove`,
       method: 'DELETE',
-      params,
+      headers: { 'Content-Type': 'application/json' },
+      data: todoDeleteRequestBody,
       signal,
     },
     options,
@@ -338,14 +341,14 @@ export const getDeleteTodoRemoveMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof deleteTodoRemove>>,
     TError,
-    { params: DeleteTodoRemoveParams },
+    { data: TodoDeleteRequestBody },
     TContext
   >
   request?: SecondParameter<typeof axiosApi>
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deleteTodoRemove>>,
   TError,
-  { params: DeleteTodoRemoveParams },
+  { data: TodoDeleteRequestBody },
   TContext
 > => {
   const mutationKey = ['deleteTodoRemove']
@@ -359,11 +362,11 @@ export const getDeleteTodoRemoveMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteTodoRemove>>,
-    { params: DeleteTodoRemoveParams }
+    { data: TodoDeleteRequestBody }
   > = (props) => {
-    const { params } = props ?? {}
+    const { data } = props ?? {}
 
-    return deleteTodoRemove(params, requestOptions)
+    return deleteTodoRemove(data, requestOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -372,7 +375,7 @@ export const getDeleteTodoRemoveMutationOptions = <
 export type DeleteTodoRemoveMutationResult = NonNullable<
   Awaited<ReturnType<typeof deleteTodoRemove>>
 >
-
+export type DeleteTodoRemoveMutationBody = TodoDeleteRequestBody
 export type DeleteTodoRemoveMutationError = unknown
 
 export const useDeleteTodoRemove = <TError = unknown, TContext = unknown>(
@@ -380,7 +383,7 @@ export const useDeleteTodoRemove = <TError = unknown, TContext = unknown>(
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof deleteTodoRemove>>,
       TError,
-      { params: DeleteTodoRemoveParams },
+      { data: TodoDeleteRequestBody },
       TContext
     >
     request?: SecondParameter<typeof axiosApi>
@@ -389,7 +392,7 @@ export const useDeleteTodoRemove = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof deleteTodoRemove>>,
   TError,
-  { params: DeleteTodoRemoveParams },
+  { data: TodoDeleteRequestBody },
   TContext
 > => {
   return useMutation(getDeleteTodoRemoveMutationOptions(options), queryClient)

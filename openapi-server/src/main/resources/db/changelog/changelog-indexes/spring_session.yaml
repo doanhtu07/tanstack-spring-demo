@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-idx-spring-session-expiry-time
+      author: tudope
+
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - indexExists:
+                indexName: idx_spring_session_expiry_time
+                tableName: spring_session
+
+      changes:
+        - createIndex:
+            tableName: spring_session
+            indexName: idx_spring_session_expiry_time
+            columns:
+              - column:
+                  name: expiry_time
+
+      rollback:
+        - dropIndex:
+            tableName: spring_session
+            indexName: idx_spring_session_expiry_time
+
+  - changeSet:
+      id: create-idx-spring-session-principal-name
+      author: tudope
+
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - indexExists:
+                indexName: idx_spring_session_principal_name
+                tableName: spring_session
+
+      changes:
+        - createIndex:
+            tableName: spring_session
+            indexName: idx_spring_session_principal_name
+            columns:
+              - column:
+                  name: principal_name
+
+      rollback:
+        - dropIndex:
+            tableName: spring_session
+            indexName: idx_spring_session_principal_name

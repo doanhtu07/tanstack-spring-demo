@@ -1,0 +1,67 @@
+databaseChangeLog:
+  - property:
+      name: uuid_function
+      value: gen_random_uuid()
+      dbms: postgresql
+
+  - changeSet:
+      id: create-spring-session
+      author: tudope
+
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: spring_session
+
+      changes:
+        - createTable:
+            tableName: spring_session
+            columns:
+              - column:
+                  name: primary_id
+                  type: char(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: session_id
+                  type: char(36)
+                  constraints:
+                    unique: true
+                    nullable: false
+
+              - column:
+                  name: creation_time
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: last_access_time
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: max_inactive_interval
+                  type: int
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: expiry_time
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: principal_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+
+      rollback:
+        - dropTable:
+            tableName: spring_session

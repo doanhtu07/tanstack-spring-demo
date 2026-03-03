@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-pk-spring-session-attributes
+      author: tudope
+
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - primaryKeyExists:
+                tableName: spring_session_attributes
+                primaryKeyName: spring_session_attributes_pk
+
+      changes:
+        - addPrimaryKey:
+            tableName: spring_session_attributes
+            columnNames: session_primary_id, attribute_name
+            constraintName: spring_session_attributes_pk
+
+      rollback:
+        - dropPrimaryKey:
+            tableName: spring_session_attributes
+            constraintName: spring_session_attributes_pk
+
+  - changeSet:
+      id: add-fk-spring-session-attributes
+      author: tudope
+
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - foreignKeyConstraintExists:
+                foreignKeyName: spring_session_attributes_fk
+
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: spring_session_attributes_fk
+            baseTableName: spring_session_attributes
+            baseColumnNames: session_primary_id
+            referencedTableName: spring_session
+            referencedColumnNames: primary_id
+            onDelete: CASCADE
+
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: spring_session_attributes
+            constraintName: spring_session_attributes_fk

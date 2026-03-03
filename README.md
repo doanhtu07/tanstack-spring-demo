@@ -4,7 +4,7 @@ This repository is a working demo of a full-stack application:
 
 - Tanstack Start + React Query + React Hook Form
 - Orval (OpenAPI code generator for TypeScript)
-- Spring Boot + OpenAPI
+- Spring Boot + OpenAPI + Session-based auth
 - ElectricSQL
 
 ## Roadmap

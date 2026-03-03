@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - property:
+      name: uuid_function
+      value: gen_random_uuid()
+      dbms: postgresql
+
+  - changeSet:
+      id: create-spring-session-attributes
+      author: tudope
+
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: spring_session_attributes
+
+      changes:
+        - createTable:
+            tableName: spring_session_attributes
+            columns:
+              - column:
+                  name: session_primary_id
+                  type: char(36)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: attribute_name
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: attribute_bytes
+                  type: bytea
+                  constraints:
+                    nullable: false
+
+      rollback:
+        - dropTable:
+            tableName: spring_session_attributes

@@ -24,12 +24,24 @@ databaseChangeLog:
       file: changelog-tables/authority.yaml
       relativeToChangelogFile: true
   - include:
+      file: changelog-tables/spring_session.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog-tables/spring_session_attributes.yaml
+      relativeToChangelogFile: true
+  - include:
       file: changelog-tables/todo.yaml
       relativeToChangelogFile: true
 
   # Indexes
   - include:
       file: changelog-indexes/authority.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog-indexes/spring_session.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog-indexes/spring_session_attributes.yaml
       relativeToChangelogFile: true
   - include:
       file: changelog-indexes/todo.yaml

@@ -22,7 +22,7 @@ import type {
 
 import type {
   CurrentUserResponse,
-  PostSigninParams,
+  SigninRequestBody,
   SignupRequestBody,
 } from './openAPIDefinition.schemas'
 
@@ -182,7 +182,7 @@ export const usePostSignout = <TError = unknown, TContext = unknown>(
   return useMutation(getPostSignoutMutationOptions(options), queryClient)
 }
 export const postSignin = (
-  params: PostSigninParams,
+  signinRequestBody: SigninRequestBody,
   options?: SecondParameter<typeof axiosApi>,
   signal?: AbortSignal,
 ) => {
@@ -190,7 +190,8 @@ export const postSignin = (
     {
       url: `http://localhost:8080/api/auth/signin`,
       method: 'POST',
-      params,
+      headers: { 'Content-Type': 'application/json' },
+      data: signinRequestBody,
       signal,
     },
     options,
@@ -204,14 +205,14 @@ export const getPostSigninMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof postSignin>>,
     TError,
-    { params: PostSigninParams },
+    { data: SigninRequestBody },
     TContext
   >
   request?: SecondParameter<typeof axiosApi>
 }): UseMutationOptions<
   Awaited<ReturnType<typeof postSignin>>,
   TError,
-  { params: PostSigninParams },
+  { data: SigninRequestBody },
   TContext
 > => {
   const mutationKey = ['postSignin']
@@ -225,11 +226,11 @@ export const getPostSigninMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postSignin>>,
-    { params: PostSigninParams }
+    { data: SigninRequestBody }
   > = (props) => {
-    const { params } = props ?? {}
+    const { data } = props ?? {}
 
-    return postSignin(params, requestOptions)
+    return postSignin(data, requestOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -238,7 +239,7 @@ export const getPostSigninMutationOptions = <
 export type PostSigninMutationResult = NonNullable<
   Awaited<ReturnType<typeof postSignin>>
 >
-
+export type PostSigninMutationBody = SigninRequestBody
 export type PostSigninMutationError = unknown
 
 export const usePostSignin = <TError = unknown, TContext = unknown>(
@@ -246,7 +247,7 @@ export const usePostSignin = <TError = unknown, TContext = unknown>(
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof postSignin>>,
       TError,
-      { params: PostSigninParams },
+      { data: SigninRequestBody },
       TContext
     >
     request?: SecondParameter<typeof axiosApi>
@@ -255,7 +256,7 @@ export const usePostSignin = <TError = unknown, TContext = unknown>(
 ): UseMutationResult<
   Awaited<ReturnType<typeof postSignin>>,
   TError,
-  { params: PostSigninParams },
+  { data: SigninRequestBody },
   TContext
 > => {
   return useMutation(getPostSigninMutationOptions(options), queryClient)

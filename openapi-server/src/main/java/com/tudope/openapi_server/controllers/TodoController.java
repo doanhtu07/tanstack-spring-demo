@@ -1,11 +1,16 @@
 package com.tudope.openapi_server.controllers;
 
-import com.tudope.openapi_server.dtos.TodoResponse;
 import com.tudope.openapi_server.dtos.auth.AppUserDetails;
+import com.tudope.openapi_server.dtos.todo.TodoAddRequestBody;
+import com.tudope.openapi_server.dtos.todo.TodoDeleteRequestBody;
+import com.tudope.openapi_server.dtos.todo.TodoResponse;
+import com.tudope.openapi_server.dtos.todo.TodoUpdateRequestBody;
 import com.tudope.openapi_server.entities.AppUser;
 import com.tudope.openapi_server.entities.Todo;
 import com.tudope.openapi_server.repositories.AppUserRepository;
 import com.tudope.openapi_server.repositories.TodoRepository;
+import com.tudope.openapi_server.utils.SecurityUtils;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +33,7 @@ public class TodoController {
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<TodoResponse>> getTodoList(@AuthenticationPrincipal AppUserDetails user) {
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        SecurityUtils.ensureUser(user);
 
         List<Todo> todos = todoRepository.findAllByOwnerId(user.id());
 
@@ -44,11 +47,11 @@ public class TodoController {
     @PostMapping(value = "/add")
     public ResponseEntity<TodoResponse> postTodoAdd(
             @AuthenticationPrincipal AppUserDetails user,
-            @RequestParam String description
+            @Valid @RequestBody TodoAddRequestBody requestBody
     ) {
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        SecurityUtils.ensureUser(user);
+
+        String description = requestBody.description();
 
         // This is the magic line. It returns a "Proxy" (no SQL SELECT is fired)
         AppUser appUser = appUserRepository.getReferenceById(user.id());
@@ -61,8 +64,15 @@ public class TodoController {
     }
 
     @DeleteMapping(value = "/remove")
-    public ResponseEntity<Void> deleteTodoRemove(@AuthenticationPrincipal AppUserDetails user, @RequestParam Long id) {
-        if (user == null || !todoRepository.existsByIdAndOwnerId(id, user.id())) {
+    public ResponseEntity<Void> deleteTodoRemove(
+            @AuthenticationPrincipal AppUserDetails user,
+            @Valid @RequestBody TodoDeleteRequestBody requestBody
+    ) {
+        SecurityUtils.ensureUser(user);
+
+        Long id = requestBody.id();
+
+        if (!todoRepository.existsByIdAndOwnerId(id, user.id())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
@@ -74,13 +84,13 @@ public class TodoController {
     @PutMapping(value = "/update")
     public ResponseEntity<TodoResponse> putTodoUpdate(
             @AuthenticationPrincipal AppUserDetails user,
-            @RequestParam Long id,
-            @RequestParam String description,
-            @RequestParam boolean completed
+            @Valid @RequestBody TodoUpdateRequestBody requestBody
     ) {
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        SecurityUtils.ensureUser(user);
+
+        Long id = requestBody.id();
+        String description = requestBody.description();
+        Boolean completed = requestBody.completed();
 
         Todo todo = todoRepository.findById(id).orElse(null);
         if (todo == null) {

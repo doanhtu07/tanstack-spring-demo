@@ -1,4 +1,4 @@
-package com.tudope.openapi_server.dtos;
+package com.tudope.openapi_server.dtos.todo;
 
 import com.tudope.openapi_server.entities.Todo;
 import jakarta.validation.constraints.NotNull;

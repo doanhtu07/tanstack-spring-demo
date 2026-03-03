@@ -2,8 +2,10 @@ package com.tudope.openapi_server.controllers;
 
 import com.tudope.openapi_server.dtos.auth.AppUserDetails;
 import com.tudope.openapi_server.dtos.auth.CurrentUserResponse;
+import com.tudope.openapi_server.dtos.auth.SigninRequestBody;
 import com.tudope.openapi_server.dtos.auth.SignupRequestBody;
 import com.tudope.openapi_server.services.AuthService;
+import com.tudope.openapi_server.utils.SecurityUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -26,13 +28,21 @@ public class AuthController {
     }
 
     @PostMapping(value = "/signin")
-    public ResponseEntity<Void> postSignin(HttpServletRequest request, HttpServletResponse response, @RequestParam String email, @RequestParam String password) {
-        authService.signin(request, response, email, password);
+    public ResponseEntity<Void> postSignin(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @Valid @RequestBody SigninRequestBody requestBody
+    ) {
+        authService.signin(request, response, requestBody.email(), requestBody.password());
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> postSignup(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody SignupRequestBody requestBody) {
+    public ResponseEntity<Void> postSignup(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @Valid @RequestBody SignupRequestBody requestBody
+    ) {
         authService.registerUser(requestBody.email(), requestBody.password());
         authService.signin(request, response, requestBody.email(), requestBody.password());
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -42,7 +52,7 @@ public class AuthController {
     public void postSignout() {
         // This method body is never reached.
         // It exists only to satisfy the OpenAPI generator.
-        throw new IllegalStateException("This request should be intercepted by Spring Security.");
+        throw new IllegalStateException("This request should be intercepted by Spring Security");
     }
 
     @GetMapping("/current-user")
@@ -51,9 +61,7 @@ public class AuthController {
             // By default, UserDetailsService returns built-in org.springframework.security.core.userdetails.User class
             @AuthenticationPrincipal AppUserDetails user
     ) {
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        SecurityUtils.ensureUser(user);
 
         return ResponseEntity.ok(new CurrentUserResponse(
                 user.id(),

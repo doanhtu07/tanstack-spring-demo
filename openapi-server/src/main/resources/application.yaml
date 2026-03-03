@@ -37,6 +37,12 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/changelog-root.yaml
 
+server:
+  servlet:
+    session:
+      cookie:
+        domain: ${SESSION_COOKIE_DOMAIN}
+
 logging:
   level:
     org:
