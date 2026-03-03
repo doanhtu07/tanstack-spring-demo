@@ -5,18 +5,21 @@ import { cn } from '@/utils/tailwind-merge'
 
 type Props = PropsWithChildren &
   ButtonHTMLAttributes<HTMLButtonElement> & {
+    isLoading?: boolean
     'data-testid'?: string
   }
 
 export const Button = ({
   children,
   className,
+  isLoading,
   'data-testid': dataTestId,
   ...rest
 }: Props) => {
   return (
     <button
       {...rest}
+      disabled={rest.disabled || isLoading}
       className={cn(styles.root, className)}
       {...getTestId([dataTestId, 'root'])}
     >

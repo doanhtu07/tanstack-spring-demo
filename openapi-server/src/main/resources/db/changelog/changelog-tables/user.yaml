@@ -11,8 +11,8 @@ databaseChangeLog:
       preConditions:
         - onFail: MARK_RAN
         - not:
-            tableExists:
-              tableName: app_user
+            - tableExists:
+                tableName: app_user
 
       changes:
         - createTable:

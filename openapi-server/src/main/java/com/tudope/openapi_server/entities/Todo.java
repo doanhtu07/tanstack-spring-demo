@@ -1,6 +1,5 @@
 package com.tudope.openapi_server.entities;
 
-import com.tudope.openapi_server.domains.authorities.Permission;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -9,22 +8,24 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.Instant;
 
 @Entity
-@Table(name = "authority")
+@Table(name = "todo")
 @EntityListeners(AuditingEntityListener.class)
-public class Authority {
+public class Todo {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "user_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private AppUser appUser;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "permission")
-    @Enumerated(EnumType.STRING)
-    private Permission permission;
+    @Column(name = "completed")
+    private boolean completed;
+
+    @JoinColumn(name = "owner_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private AppUser owner;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -36,20 +37,22 @@ public class Authority {
 
     // MARK: Constructors
 
-    public Authority() {
+    public Todo() {
     }
 
-    public Authority(Permission permission) {
-        this.permission = permission;
+    public Todo(String description, boolean completed) {
+        this.description = description;
+        this.completed = completed;
     }
 
     // MARK: Methods
 
     @Override
     public String toString() {
-        return "Authority{" +
+        return "Todo{" +
                 "id=" + id +
-                ", permission='" + permission + '\'' +
+                ", description='" + description + '\'' +
+                ", completed=" + completed +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
@@ -65,20 +68,28 @@ public class Authority {
         this.id = id;
     }
 
-    public AppUser getAppUser() {
-        return appUser;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAppUser(AppUser appUser) {
-        this.appUser = appUser;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Permission getPermission() {
-        return permission;
+    public boolean isCompleted() {
+        return completed;
     }
 
-    public void setPermission(Permission permission) {
-        this.permission = permission;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public AppUser getOwner() {
+        return owner;
+    }
+
+    public void setOwner(AppUser owner) {
+        this.owner = owner;
     }
 
     public Instant getCreatedAt() {

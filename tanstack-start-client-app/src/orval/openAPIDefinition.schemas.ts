@@ -4,6 +4,15 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
+export interface TodoResponse {
+  id: number
+  description: string
+  completed: boolean
+  ownerId: number
+  createdAt: string
+  updatedAt: string
+}
+
 export interface SimpleResponse {
   message: string
 }
@@ -25,11 +34,25 @@ export interface CurrentUserResponse {
   authorities?: GrantedAuthority[]
 }
 
+export type PutTodoUpdateParams = {
+  id: number
+  description: string
+  completed: boolean
+}
+
 export type PostUpperCaseParams = {
   text: string
+}
+
+export type PostTodoAddParams = {
+  description: string
 }
 
 export type PostSigninParams = {
   email: string
   password: string
+}
+
+export type DeleteTodoRemoveParams = {
+  id: number
 }

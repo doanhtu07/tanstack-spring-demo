@@ -3,7 +3,7 @@ databaseChangeLog:
   # Enable extensions (pgcrypto)
   # For PostgreSQL gen_random_uuid()
   # ------------------------------------------------------------
-  
+
   - changeSet:
       id: enable-pgcrypto
       author: tudope
@@ -23,10 +23,16 @@ databaseChangeLog:
   - include:
       file: changelog-tables/authority.yaml
       relativeToChangelogFile: true
+  - include:
+      file: changelog-tables/todo.yaml
+      relativeToChangelogFile: true
 
   # Indexes
   - include:
       file: changelog-indexes/authority.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog-indexes/todo.yaml
       relativeToChangelogFile: true
 
   # Triggers

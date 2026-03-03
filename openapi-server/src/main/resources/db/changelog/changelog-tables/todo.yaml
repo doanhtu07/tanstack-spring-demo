@@ -5,18 +5,18 @@ databaseChangeLog:
       dbms: postgresql
 
   - changeSet:
-      id: create-authority
+      id: create-todo
       author: tudope
 
       preConditions:
         - onFail: MARK_RAN
         - not:
             - tableExists:
-                tableName: authority
+                tableName: todo
 
       changes:
         - createTable:
-            tableName: authority
+            tableName: todo
             columns:
               - column:
                   name: id
@@ -27,14 +27,20 @@ databaseChangeLog:
                     nullable: false
 
               - column:
-                  name: user_id
-                  type: bigint
+                  name: description
+                  type: text
                   constraints:
                     nullable: false
 
               - column:
-                  name: permission
-                  type: text
+                  name: completed
+                  type: boolean
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: owner_id
+                  type: bigint
                   constraints:
                     nullable: false
 
@@ -54,4 +60,4 @@ databaseChangeLog:
 
       rollback:
         - dropTable:
-            tableName: authority
+            tableName: todo

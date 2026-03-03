@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-fk-todo-owner
+      author: tudope
+
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - foreignKeyConstraintExists:
+                foreignKeyName: fk_todo_owner
+                foreignKeyTableName: todo
+
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: todo
+            baseColumnNames: owner_id
+            constraintName: fk_todo_owner
+            referencedTableName: app_user
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: todo
+            constraintName: fk_todo_owner
+
+  - changeSet:
+      id: create-idx-todo-owner-id
+      author: tudope
+
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - indexExists:
+                indexName: idx_todo_owner_id
+                tableName: todo
+
+      changes:
+        - createIndex:
+            tableName: todo
+            indexName: idx_todo_owner_id
+            columns:
+              - column:
+                  name: owner_id
+
+      rollback:
+        - dropIndex:
+            tableName: todo
+            indexName: idx_todo_owner_id

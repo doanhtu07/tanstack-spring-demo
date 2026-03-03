@@ -6,9 +6,9 @@ databaseChangeLog:
       preConditions:
         - onFail: MARK_RAN
         - not:
-            foreignKeyConstraintExists:
-              foreignKeyName: fk_authority_user
-              foreignKeyTableName: authority
+            - foreignKeyConstraintExists:
+                foreignKeyName: fk_authority_user
+                foreignKeyTableName: authority
 
       changes:
         - addForeignKeyConstraint:
@@ -31,9 +31,9 @@ databaseChangeLog:
       preConditions:
         - onFail: MARK_RAN
         - not:
-            uniqueConstraintExists:
-              constraintName: uq_authority_user_permission
-              tableName: authority
+            - uniqueConstraintExists:
+                constraintName: uq_authority_user_permission
+                tableName: authority
 
       changes:
         - addUniqueConstraint:
@@ -53,9 +53,9 @@ databaseChangeLog:
       preConditions:
         - onFail: MARK_RAN
         - not:
-            indexExists:
-              indexName: idx_authority_user_id
-              tableName: authority
+            - indexExists:
+                indexName: idx_authority_user_id
+                tableName: authority
 
       changes:
         - createIndex:

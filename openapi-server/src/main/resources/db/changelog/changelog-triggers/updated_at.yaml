@@ -41,6 +41,24 @@ databaseChangeLog:
             sql: DROP TRIGGER IF EXISTS trg_authority_updated ON authority;
 
   - changeSet:
+      id: add-updated-at-trigger-todo
+      author: tudope
+
+      changes:
+        - sql:
+            sql: |
+              DROP TRIGGER IF EXISTS trg_todo_updated ON todo;
+              
+              CREATE TRIGGER trg_todo_updated
+              BEFORE UPDATE ON todo
+              FOR EACH ROW
+              EXECUTE FUNCTION set_updated_at();
+
+      rollback:
+        - sql:
+            sql: DROP TRIGGER IF EXISTS trg_todo_updated ON todo;
+
+  - changeSet:
       id: add-updated-at-trigger-app-user
       author: tudope
 
