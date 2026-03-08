@@ -70,7 +70,7 @@ public class TodoController {
     ) {
         SecurityUtils.ensureUser(user);
 
-        Long id = requestBody.id();
+        Long id = Long.valueOf(requestBody.id());
 
         if (!todoRepository.existsByIdAndOwnerId(id, user.id())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -88,7 +88,7 @@ public class TodoController {
     ) {
         SecurityUtils.ensureUser(user);
 
-        Long id = requestBody.id();
+        Long id = Long.valueOf(requestBody.id());
         String description = requestBody.description();
         Boolean completed = requestBody.completed();
 

@@ -32,7 +32,7 @@ export class TodoStore {
     }
   }
 
-  public async removeTodo(input: { queryClient: QueryClient; id: number }) {
+  public async removeTodo(input: { queryClient: QueryClient; id: string }) {
     try {
       await deleteTodoRemove({ id: input.id })
 
@@ -47,7 +47,7 @@ export class TodoStore {
 
   public async updateTodo(input: {
     queryClient: QueryClient
-    id: number
+    id: string
     description: string
     completed: boolean
   }) {

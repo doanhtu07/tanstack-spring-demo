@@ -12,7 +12,7 @@ import styles from '@/styles/home.module.css'
 import { getTestId } from '@/utils/test-ids'
 import { CustomLink } from '@/components/custom-link/custom-link'
 import { Navbar } from '@/features/navbar/navbar'
-import { getCurrentUserFn } from '@/api/get-current-user'
+import { getCurrentUserFn } from '@/server-actions/get-current-user'
 
 const TEST_ID_ROOT = 'home'
 

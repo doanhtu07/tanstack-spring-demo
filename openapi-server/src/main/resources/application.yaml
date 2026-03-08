@@ -71,3 +71,7 @@ management:
   info:
     env:
       enabled: true  # Enable the info endpoint with environment details
+
+electric:
+  api:
+    url: ${ELECTRIC_API_URL}

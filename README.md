@@ -17,10 +17,11 @@ This repository is a working demo of a full-stack application:
   - [x] Client sign-in + sign-up pages (React Hook Form)
   - [x] Integrate forms with APIs
 - [x] Handle accessibility (Check Lighthouse in Chrome Devtools for suggestions)
-- [ ] Real-time support
+- [x] Real-time support: Setup ElectricSQL for this project template
   1. Way 1: Pure Socket + STOMP support
   2. Way 2: ElectricSQL sync engine or other similar open-source
   3. Way 3: Convex
+- [ ] ElectricSQL authentication
 
 ## Running the application
 
@@ -29,13 +30,22 @@ Client (Tanstack Start):
 ```bash
 cd tanstack-start-client-app
 pnpm install
-pnpm run dev
+pnpm copy-env
+pnpm dev
 ```
 
 Server (Spring Boot):
 
 - I prefer using IntelliJ to run the server
 - But you can also use VSCode to run
+- But before running the server, make sure to run docker compose properly and copy environment variables
+
+```bash
+cd openapi-server
+pnpm install
+pnpm copy-env
+docker compose up -d
+```
 
 ## Features
 

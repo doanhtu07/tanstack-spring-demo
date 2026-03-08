@@ -5,6 +5,8 @@ import com.tudope.openapi_server.dtos.auth.AppUserDetails;
 import com.tudope.openapi_server.entities.AppUser;
 import com.tudope.openapi_server.repositories.AppUserRepository;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,13 +37,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
 
-    private static final Logger logger = Logger.getLogger(SecurityConfig.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     private final AppUserRepository userRepository;
 
     public SecurityConfig(AppUserRepository userRepository) {
@@ -70,7 +71,7 @@ public class SecurityConfig {
             @Value("${ACTUATOR_PASSWORD:NOT_SET}") String actuatorPassword
     ) {
         if (Objects.equals(actuatorUsername, "NOT_SET") || Objects.equals(actuatorPassword, "NOT_SET")) {
-            logger.warning("Cannot find ACTUATOR_USERNAME or ACTUATOR_PASSWORD from environment variables!");
+            logger.warn("Cannot find ACTUATOR_USERNAME or ACTUATOR_PASSWORD from environment variables");
         }
 
         return username -> {
@@ -110,6 +111,7 @@ public class SecurityConfig {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config); // apply to all endpoints
+
         return source;
     }
 

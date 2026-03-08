@@ -5,17 +5,17 @@
  * OpenAPI spec version: v0
  */
 export interface TodoUpdateRequestBody {
-  id: number
+  id: string
   /** @minLength 1 */
   description: string
   completed: boolean
 }
 
 export interface TodoResponse {
-  id: number
+  id: string
   description: string
   completed: boolean
-  ownerId: number
+  ownerId: string
   createdAt: string
   updatedAt: string
 }
@@ -54,9 +54,11 @@ export interface CurrentUserResponse {
 }
 
 export interface TodoDeleteRequestBody {
-  id: number
+  id: string
 }
 
 export type PostUpperCaseParams = {
   text: string
 }
+
+export type GetElectricTodoList200Item = { [key: string]: unknown }

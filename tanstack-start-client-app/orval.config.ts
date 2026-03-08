@@ -1,21 +1,32 @@
 import { defineConfig } from 'orval'
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+const baseUrl = process.env.VITE_SERVER_URL
+const specUrl = `${baseUrl}/v3/api-docs`
+
+const axiosPath = './src/api/axios.ts'
+const axiosName = 'axiosApi'
+
+const orvalTarget = './src/orval/'
 
 export default defineConfig({
   openapi_server: {
     input: {
-      target: 'http://localhost:8080/v3/api-docs',
+      target: specUrl,
     },
     output: {
       prettier: true,
-      baseUrl: 'http://localhost:8080',
+      baseUrl,
       mode: 'tags',
-      target: './src/orval/',
+      target: orvalTarget,
       client: 'react-query',
       httpClient: 'axios',
       override: {
         mutator: {
-          path: './src/api/axios.ts',
-          name: 'axiosApi',
+          path: axiosPath,
+          name: axiosName,
         },
       },
     },

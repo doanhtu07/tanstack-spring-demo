@@ -3,7 +3,7 @@ import type { AxiosRequestConfig } from 'axios'
 
 // Create an instance with defaults
 export const axiosApiInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: import.meta.env.VITE_SERVER_URL,
   withCredentials: true, // include cookies (JSESSIONID)
   withXSRFToken: true, // include XSRF token
   xsrfCookieName: 'XSRF-TOKEN', // Spring CSRF cookie

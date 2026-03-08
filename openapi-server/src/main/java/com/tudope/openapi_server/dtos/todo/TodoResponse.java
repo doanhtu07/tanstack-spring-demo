@@ -6,20 +6,20 @@ import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 
 public record TodoResponse(
-        @NotNull Long id,
+        @NotNull String id,
         @NotNull String description,
         @NotNull boolean completed,
-        @NotNull Long ownerId,
+        @NotNull String ownerId,
         @NotNull Instant createdAt,
         @NotNull Instant updatedAt
 ) {
 
     public static TodoResponse fromEntity(Todo todo) {
         return new TodoResponse(
-                todo.getId(),
+                todo.getId().toString(),
                 todo.getDescription(),
                 todo.isCompleted(),
-                todo.getOwner().getId(),
+                todo.getOwner().getId().toString(),
                 todo.getCreatedAt(),
                 todo.getUpdatedAt()
         );

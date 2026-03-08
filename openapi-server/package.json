@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "copy-env": "cp .env.example .env",
     "lqb:test": "pnpm exec dotenv -e .env.example -- bash -c 'echo $LIQUIBASE_COMMAND_URL'",
     "lqb:status": "pnpm exec dotenv -e .env.example -- mvn liquibase:status",
     "lqb:update": "pnpm exec dotenv -e .env.example -- mvn liquibase:update",
