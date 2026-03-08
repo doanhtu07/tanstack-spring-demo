@@ -57,8 +57,14 @@ export interface TodoDeleteRequestBody {
   id: string
 }
 
+export type HandleElectricTodoListBody = { [key: string]: unknown }
+
+export type HandleElectricTodoList200Item = { [key: string]: unknown }
+
+export type HandleElectricTodoList1Body = { [key: string]: unknown }
+
+export type HandleElectricTodoList1200Item = { [key: string]: unknown }
+
 export type PostUpperCaseParams = {
   text: string
 }
-
-export type GetElectricTodoList200Item = { [key: string]: unknown }

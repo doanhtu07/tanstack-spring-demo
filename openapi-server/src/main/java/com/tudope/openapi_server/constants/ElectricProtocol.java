@@ -4,8 +4,6 @@ import java.util.Set;
 
 public final class ElectricProtocol {
 
-    // https://github.com/electric-sql/electric/blob/2d7e2d6bdfc33e403a3176690c09a3fbfd8af88a/packages/typescript-client/src/constants.ts
-
     private ElectricProtocol() {
     }
 
@@ -15,6 +13,7 @@ public final class ElectricProtocol {
     public static final String SHAPE_SCHEMA_HEADER = "electric-schema";
     public static final String CHUNK_UP_TO_DATE_HEADER = "electric-up-to-date";
 
+    public static final String SECRET_QUERY_PARAM = "secret";
     public static final String COLUMNS_QUERY_PARAM = "columns";
     public static final String LIVE_CACHE_BUSTER_QUERY_PARAM = "cursor";
     public static final String EXPIRED_HANDLE_QUERY_PARAM = "expired_handle";
@@ -40,8 +39,19 @@ public final class ElectricProtocol {
     public static final String SUBSET_PARAM_WHERE_EXPR = "subset__where_expr";
     public static final String SUBSET_PARAM_ORDER_BY_EXPR = "subset__order_by_expr";
 
+    public static final String SUBSET_BODY_WHERE = "where";
+    public static final String SUBSET_BODY_PARAMS = "params";
+    public static final String SUBSET_BODY_LIMIT = "limit";
+    public static final String SUBSET_BODY_OFFSET = "offset";
+    public static final String SUBSET_BODY_ORDER_BY = "order_by";
+
     public static final String CACHE_BUSTER_QUERY_PARAM = "cache-buster";
 
+    /**
+     * <a href="https://github.com/electric-sql/electric/blob/2d7e2d6bdfc33e403a3176690c09a3fbfd8af88a/packages/typescript-client/src/constants.ts">
+     * Electric protocol query params
+     * </a>
+     */
     public static final Set<String> ELECTRIC_PROTOCOL_QUERY_PARAMS = Set.of(
             LIVE_QUERY_PARAM,
             LIVE_SSE_QUERY_PARAM,
@@ -58,6 +68,19 @@ public final class ElectricProtocol {
             SUBSET_PARAM_WHERE_EXPR,
             SUBSET_PARAM_ORDER_BY_EXPR,
             CACHE_BUSTER_QUERY_PARAM
+    );
+
+    /**
+     * <a href="https://electric-sql.com/docs/guides/auth#post-body-format">
+     * Post body format
+     * </a>
+     */
+    public static final Set<String> ELECTRIC_SUBSET_BODY_PARAMS = Set.of(
+            SUBSET_BODY_WHERE,
+            SUBSET_BODY_PARAMS,
+            SUBSET_BODY_LIMIT,
+            SUBSET_BODY_OFFSET,
+            SUBSET_BODY_ORDER_BY
     );
 
 }

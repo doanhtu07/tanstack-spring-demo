@@ -15,11 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Tutorial link: <a href="https://www.baeldung.com/spring-security-auto-login-user-after-registration#:~:text=Next%2C%20we%20can%20also%20directly,created%20account%20is%20still%20disabled">
+ * Spring Security auto login user after registration
+ * </a>.
+ */
 @RestController
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthController {
-
-    // Tutorial link: https://www.baeldung.com/spring-security-auto-login-user-after-registration#:~:text=Next%2C%20we%20can%20also%20directly,created%20account%20is%20still%20disabled.
 
     private final AuthService authService;
 

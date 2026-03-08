@@ -30,7 +30,7 @@ const RouteComponent = observer(() => {
   //   },
   // })
 
-  const { data: rawTodos } = useShape(todoShapeStream)
+  const { data: rawTodos, isLoading } = useShape(todoShapeStream)
 
   const todos = useMemo(() => {
     return rawTodos.map((rawTodo) => TodoResponseSchema.parse(rawTodo))
@@ -70,14 +70,20 @@ const RouteComponent = observer(() => {
     <main className={styles.root} {...getTestId([TEST_ID_ROOT, 'root'])}>
       <Navbar user={user} hideApp {...getTestId([TEST_ID_ROOT, 'navbar'])} />
 
-      {todos.map((todo) => renderTodoItem(todo))}
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          {todos.map((todo) => renderTodoItem(todo))}
 
-      <CreateTodoButton
-        onCreate={async (data) => {
-          await todoStore.addTodo({ queryClient, ...data })
-        }}
-        {...getTestId([TEST_ID_ROOT, 'createButton'])}
-      />
+          <CreateTodoButton
+            onCreate={async (data) => {
+              await todoStore.addTodo({ queryClient, ...data })
+            }}
+            {...getTestId([TEST_ID_ROOT, 'createButton'])}
+          />
+        </>
+      )}
     </main>
   )
 })

@@ -12,7 +12,7 @@ import java.time.Duration;
 public class WebConfig {
 
     @Bean
-    public RestClient electricRestClient(@Value("${electric.api.url}") String electricApiUrl) {
+    public RestClient electricRestClient(@Value("${electric.url}") String electricUrl) {
         /*
             How Electric's Long Polling Works
             - The Request: Your client (via your Java proxy) sends a GET request to Electric.
@@ -30,7 +30,7 @@ public class WebConfig {
         factory.setReadTimeout(Duration.ofSeconds(30));
 
         return RestClient.builder()
-                .baseUrl(electricApiUrl + "/v1/shape")
+                .baseUrl(electricUrl + "/v1/shape")
                 .requestFactory(factory)
                 .build();
     }

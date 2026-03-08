@@ -5,7 +5,7 @@ This repository is a working demo of a full-stack application:
 - Tanstack Start + React Query + React Hook Form
 - Orval (OpenAPI code generator for TypeScript)
 - Spring Boot + OpenAPI + Session-based auth
-- ElectricSQL
+- ElectricSQL (Real-time support for PostgreSQL)
 
 ## Roadmap
 
@@ -21,7 +21,7 @@ This repository is a working demo of a full-stack application:
   1. Way 1: Pure Socket + STOMP support
   2. Way 2: ElectricSQL sync engine or other similar open-source
   3. Way 3: Convex
-- [ ] ElectricSQL authentication
+- [x] ElectricSQL authentication
 
 ## Running the application
 
@@ -52,11 +52,16 @@ docker compose up -d
 Tanstack Start:
 
 - React Query: Data fetching and caching
-- React Hook Form: My own convention of composing nested independent forms + monitoring form states
 - Orval: Type-safe API client generation from OpenAPI spec
+- ElectricSQL client: Real-time read path with PostgreSQL
+  - NOTE: I haven't implemented true local-first approach to support real-time write path yet
+
 - MobX: State management for UI state
+- React Hook Form: My own convention of composing nested independent forms + monitoring form states
+
 - CSS modules + Tailwind
 - Theme provider with system theme support and FOUC prevention
+
 - Translation support with react-i18next
 - Test ID naming ([See doc](./docs/tanstack/test-ids.md))
 
@@ -64,11 +69,15 @@ Spring Boot:
 
 - OpenAPI: API documentation and contract
 - Security: Basic auth, CSRF protection for SPA, and CORS configuration
-- Liquibase: Database migrations ([See doc](./docs/spring/liquibase.md))
-- Testing: Unit tests with Surefire and integration tests with Failsafe (Bonus: Testcontainers for running PostgreSQL
-  Docker containers during tests) ([See doc](./docs/spring/testing.md))
+- ElectricSQL proxy server: A proxy layer between client and ElectricSQL server to handle authentication and filtering
+
 - Spring Audit: Auditing entity with @CreatedBy createdAt, @LastModifiedBy updatedAt,
   etc. ([See doc](./docs/spring/audit.md))
+- Liquibase: Database migrations ([See doc](./docs/spring/liquibase.md))
+
+- Testing: Unit tests with Surefire and integration tests with Failsafe (Bonus: Testcontainers for running PostgreSQL
+  Docker containers during tests) ([See doc](./docs/spring/testing.md))
+
 - Memory optimization + Profiling: ([See doc](docs/spring/memory-profiling.md))
 
 ## Structure
@@ -87,17 +96,26 @@ Spring Boot:
 `tanstack-start-client-app`: Tanstack Start application
 
 - `public`: Static assets
+
 - `src/api/axios.ts`: Override Axios instance
+- `src/api/fetch.ts`: Override Fetch instance
+
 - `src/components`: Pure React components without any data
+- `src/electric-shapes`: ElectricSQL shape definitions
 - `src/features`: Feature-specific components and logic
 - `src/orval`: Generated API client code thanks to Orval
+
 - `src/providers/csrf-provider.tsx`: CSRF token provider making sure the app has initialized CSRF token
 - `src/providers/store-provider.tsx`: MobX store provider
 - `src/providers/theme-provider.tsx`: Theme provider to manage light/dark/system theme and prevent FOUC
+
 - `src/routes/__root.tsx`: Root route of the app
 - `src/routes/index.tsx`: Home route
-- `src/routes/signin.tsx`: Sign-in route
-- `src/routes/signup.tsx`: Sign-up route
+- `src/routes/_authenticated/app.tsx`: App route after user has signed in
+- `src/routes/_unauthenticated/signin.tsx`: Sign-in route
+- `src/routes/_unauthenticated/signup.tsx`: Sign-up route
+
+- `src/server-actions`: Global server actions
 - `src/stores`: MobX stores for UI state management
 - `src/styles`: Global style + route-level styles
 - `src/utils`: Utility functions for class names, tailwind, etc.

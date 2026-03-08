@@ -14,13 +14,13 @@ export const TodoShapeSchema = z.object({
 })
 
 export const TodoResponseSchema = TodoShapeSchema.transform(
-  (wire): TodoResponse => ({
-    id: wire.id.toString(),
-    description: wire.description,
-    completed: wire.completed,
-    ownerId: wire.owner_id.toString(),
-    createdAt: wire.created_at,
-    updatedAt: wire.updated_at,
+  (shape): TodoResponse => ({
+    id: shape.id.toString(),
+    description: shape.description,
+    completed: shape.completed,
+    ownerId: shape.owner_id.toString(),
+    createdAt: shape.created_at,
+    updatedAt: shape.updated_at,
   }),
 )
 
@@ -30,4 +30,5 @@ export const todoShapeStream: ShapeOptions<TodoShape> = {
   url: `${import.meta.env.VITE_SERVER_URL}/api/electric/todo/list`,
   subscribe: true,
   fetchClient: authenticatedFetch,
+  subsetMethod: 'POST',
 }
