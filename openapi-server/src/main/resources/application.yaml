@@ -19,6 +19,10 @@ spring:
   application:
     name: openapi-server
 
+  threads:
+    virtual:
+      enabled: true
+
   datasource:
     url: ${DB_URL}
     username: ${DB_USER}
