@@ -22,3 +22,7 @@ management:
   endpoint:
     health:
       show-details: always
+
+admin-monitor:
+  username: ${ADMIN_USERNAME}
+  password: ${ADMIN_PASSWORD}

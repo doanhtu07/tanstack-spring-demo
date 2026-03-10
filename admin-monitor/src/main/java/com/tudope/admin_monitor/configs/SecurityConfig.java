@@ -126,8 +126,8 @@ public class SecurityConfig {
     @Bean
     public InMemoryUserDetailsManager userDetailsService(
             PasswordEncoder passwordEncoder,
-            @Value("${ADMIN_USERNAME:NOT_SET}") String adminUsername,
-            @Value("${ADMIN_PASSWORD:NOT_SET}") String adminPassword
+            @Value("${admin-monitor.username:NOT_SET}") String adminUsername,
+            @Value("${admin-monitor.password:NOT_SET}") String adminPassword
     ) {
         if ("NOT_SET".equals(adminUsername) || "NOT_SET".equals(adminPassword)) {
             // You'll know immediately if the .env wasn't parsed
