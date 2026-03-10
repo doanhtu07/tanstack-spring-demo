@@ -47,13 +47,16 @@ server:
   servlet:
     session:
       cookie:
-        domain: ${SESSION_COOKIE_DOMAIN}
+        domain: ${SESSION_COOKIE_DOMAIN:}
+        same-site: ${SESSION_COOKIE_SAME_SITE:}
+        secure: ${SESSION_COOKIE_SECURE:}
+        http-only: ${SESSION_COOKIE_HTTP_ONLY:}
 
 logging:
   level:
     org:
       springframework:
-        security: ${LOG_LEVEL_SECURITY}  # default to INFO if not set
+        security: info
 
 management:
   endpoints:

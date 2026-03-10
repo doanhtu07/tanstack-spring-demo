@@ -22,6 +22,9 @@ This repository is a working demo of a full-stack application:
   2. Way 2: ElectricSQL sync engine or other similar open-source
   3. Way 3: Convex
 - [x] ElectricSQL authentication
+- [ ] Deployment
+  - [ ] Render (electric-server, admin-monitor, openapi-server, tanstack-start-client-app)
+  - [ ] Supabase (PostgreSQL with easy logical replication support)
 
 ## Running the application
 
