@@ -42,6 +42,8 @@ spring:
     change-log: classpath:db/changelog/changelog-root.yaml
 
 server:
+  port: ${PORT}
+
   servlet:
     session:
       cookie:
