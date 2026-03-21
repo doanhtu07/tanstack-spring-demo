@@ -22,12 +22,12 @@ This repository is a working demo of a full-stack application:
   2. Way 2: ElectricSQL sync engine or other similar open-source
   3. Way 3: Convex
 - [x] ElectricSQL authentication
-- [ ] Deployment
-  - [ ] Render
+- [x] Deployment
+  - [x] Render
     - [x] electric-server
     - [x] admin-monitor
-    - [ ] openapi-server
-    - [ ] tanstack-start-client-app
+    - [x] openapi-server
+    - [x] tanstack-start-client-app: https://tanstack-start-client-app.onrender.com
   - [x] Neon (PostgreSQL with easy logical replication support, but need to be careful with scale down to zero)
     - Need to set ELECTRIC_REPLICATION_IDLE_TIMEOUT, so Electric can scale down
     - To prevent storage bloat, Neon automatically removes inactive replication slots after approximately 40 hours

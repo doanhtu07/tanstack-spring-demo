@@ -2,20 +2,6 @@ spring:
   profiles:
     active: ${SPRING_PROFILE:dev}
 
-  boot:
-    admin:
-      client:
-        url: ${ADMIN_MONITOR_URL}  # URL of your Admin Server
-        username: ${ADMIN_MONITOR_USERNAME}
-        password: ${ADMIN_MONITOR_PASSWORD}
-
-        instance:
-          service-base-url: ${SERVICE_BASE_URL:${RENDER_EXTERNAL_URL}}
-          management-base-url: ${MANAGEMENT_BASE_URL:${RENDER_EXTERNAL_URL}}
-          metadata:
-            user.name: ${ACTUATOR_USERNAME}
-            user.password: ${ACTUATOR_PASSWORD}
-  
   application:
     name: openapi-server
 
@@ -35,9 +21,25 @@ spring:
         jdbc:
           time_zone: UTC
 
+  # Liquibase integration
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/changelog-root.yaml
+
+  # Spring Boot Admin integration
+  boot:
+    admin:
+      client:
+        url: ${ADMIN_MONITOR_URL}  # URL of your Admin Server
+        username: ${ADMIN_MONITOR_USERNAME}
+        password: ${ADMIN_MONITOR_PASSWORD}
+
+        instance:
+          service-base-url: ${SERVICE_BASE_URL:${RENDER_EXTERNAL_URL}}
+          management-base-url: ${MANAGEMENT_BASE_URL:${RENDER_EXTERNAL_URL}}
+          metadata:
+            user.name: ${ACTUATOR_USERNAME}
+            user.password: ${ACTUATOR_PASSWORD}
 
 server:
   port: ${PORT}
@@ -56,6 +58,7 @@ logging:
       springframework:
         security: info
 
+# Actuator configuration
 management:
   endpoints:
     web:
@@ -79,6 +82,11 @@ management:
     env:
       enabled: true  # Enable the info endpoint with environment details
 
+# MARK: Custom application properties
+
 electric:
   url: ${ELECTRIC_URL}
   secret: ${ELECTRIC_SECRET}
+
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS}
