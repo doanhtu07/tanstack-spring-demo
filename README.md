@@ -17,11 +17,17 @@ This repository is a working demo of a full-stack application:
   - [x] Client sign-in + sign-up pages (React Hook Form)
   - [x] Integrate forms with APIs
 - [x] Handle accessibility (Check Lighthouse in Chrome Devtools for suggestions)
+
+---
+
 - [x] Real-time support: Setup ElectricSQL for this project template
   1. Way 1: Pure Socket + STOMP support
   2. Way 2: ElectricSQL sync engine or other similar open-source
   3. Way 3: Convex
 - [x] ElectricSQL authentication
+
+---
+
 - [x] Deployment
   - [x] Render
     - [x] electric-server
@@ -31,9 +37,10 @@ This repository is a working demo of a full-stack application:
   - [x] Neon (PostgreSQL with easy logical replication support, but need to be careful with scale down to zero)
     - Need to set ELECTRIC_REPLICATION_IDLE_TIMEOUT, so Electric can scale down
     - To prevent storage bloat, Neon automatically removes inactive replication slots after approximately 40 hours
-  - [x] Github Actions: For running free cron jobs
+  - [x] Github Actions: For running free more complex cron jobs
     - Wake up ElectricSQL server for example (if you set ELECTRIC_REPLICATION_IDLE_TIMEOUT to scale down after certain
       idle time)
+  - [x] cron-job.org: For simple pinging servers every 15 mins so they don't go to sleep
 
 ## Running the application
 
