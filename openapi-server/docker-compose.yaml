@@ -7,7 +7,7 @@ services:
     image: docker.io/postgres:18-alpine
     environment:
       POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
+      POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "${DB_PORT}:5432"
@@ -21,7 +21,7 @@ services:
       - -c
       - wal_level=logical # Enables logical replication in PostgreSQL (Required for Electric)
     healthcheck:
-      test: [ 'CMD-SHELL', "pg_isready -U ${DB_USER}" ]
+      test: [ 'CMD-SHELL', "pg_isready -U ${DB_USERNAME}" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -29,7 +29,7 @@ services:
   electric:
     image: docker.io/electricsql/electric:latest
     environment:
-      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}?sslmode=disable
+      DATABASE_URL: postgresql://${DB_USERNAME}:${DB_PASSWORD}@postgres:5432/${DB_NAME}?sslmode=disable
       ELECTRIC_INSECURE: false
       ELECTRIC_SECRET: ${ELECTRIC_SECRET}
     ports:

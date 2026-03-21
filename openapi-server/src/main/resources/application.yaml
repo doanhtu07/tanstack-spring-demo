@@ -10,8 +10,8 @@ spring:
         password: ${ADMIN_MONITOR_PASSWORD}
 
         instance:
-          service-base-url: ${SERVICE_BASE_URL}
-          management-base-url: ${MANAGEMENT_BASE_URL}
+          service-base-url: ${SERVICE_BASE_URL:${RENDER_EXTERNAL_URL}}
+          management-base-url: ${MANAGEMENT_BASE_URL:${RENDER_EXTERNAL_URL}}
           metadata:
             user.name: ${ACTUATOR_USERNAME}
             user.password: ${ACTUATOR_PASSWORD}
@@ -24,9 +24,7 @@ spring:
       enabled: true
 
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: ${DB_JDBC_URL}
 
   jpa:
     hibernate:

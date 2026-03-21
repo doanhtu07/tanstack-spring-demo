@@ -151,11 +151,7 @@
                     <!--suppress UnresolvedMavenProperty-->
                     <changeLogFile>${env.LIQUIBASE_COMMAND_CHANGELOG_FILE}</changeLogFile>
                     <!--suppress UnresolvedMavenProperty-->
-                    <url>${env.LIQUIBASE_COMMAND_URL}</url>
-                    <!--suppress UnresolvedMavenProperty-->
-                    <username>${env.LIQUIBASE_COMMAND_USERNAME}</username>
-                    <!--suppress UnresolvedMavenProperty-->
-                    <password>${env.LIQUIBASE_COMMAND_PASSWORD}</password>
+                    <url>${env.DB_JDBC_URL}</url>
                 </configuration>
             </plugin>
             <plugin>
