@@ -121,10 +121,8 @@ public class TodoListElectricController {
                 .filter(e -> ElectricProtocol.ELECTRIC_PROTOCOL_QUERY_PARAMS.contains(e.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> List.of(e.getValue())));
 
-        builder.queryParam(ElectricProtocol.SECRET_QUERY_PARAM, electricSecret);
-        builder.queryParams(CollectionUtils.toMultiValueMap(protocolParams));
-
-        builder.path("/")
+        builder.queryParam(ElectricProtocol.SECRET_QUERY_PARAM, electricSecret)
+                .queryParams(CollectionUtils.toMultiValueMap(protocolParams))
                 .queryParam(ElectricProtocol.TABLE_QUERY_PARAM, "todo")
                 .queryParam(ElectricProtocol.WHERE_QUERY_PARAM, "owner_id = $1")
                 .queryParam("params[1]", userId);

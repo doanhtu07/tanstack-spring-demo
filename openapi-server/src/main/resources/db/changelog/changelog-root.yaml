@@ -32,6 +32,9 @@ databaseChangeLog:
   - include:
       file: changelog-tables/todo.yaml
       relativeToChangelogFile: true
+  - include:
+      file: changelog-tables/replication_pulse.yaml
+      relativeToChangelogFile: true
 
   # Indexes
   - include:

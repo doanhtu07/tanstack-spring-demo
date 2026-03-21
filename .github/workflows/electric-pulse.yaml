@@ -1,0 +1,24 @@
+name: Electric Server Pulse
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every day
+    - cron: '0 0 * * *'
+  # Allows manual triggering from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Pulse to Electric Server
+        env:
+          # These values must be added to your repository's Secrets and Variables
+          ELECTRIC_URL: ${{ vars.ELECTRIC_URL }}
+          ELECTRIC_SECRET: ${{ secrets.ELECTRIC_SECRET }}
+          # Hardcoded table name as requested
+          TABLE_NAME: "replication_pulse"
+        run: |
+          curl --location "${ELECTRIC_URL}/v1/shape?secret=${ELECTRIC_SECRET}&table=${TABLE_NAME}&offset=-1" \
+               --max-time 90 \
+               --fail
