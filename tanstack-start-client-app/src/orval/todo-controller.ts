@@ -38,7 +38,7 @@ export const putTodoUpdate = (
 ) => {
   return axiosApi<TodoResponse>(
     {
-      url: `http://localhost:8080/api/todo/update`,
+      url: `/api/todo/update`,
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       data: todoUpdateRequestBody,
@@ -118,7 +118,7 @@ export const postTodoAdd = (
 ) => {
   return axiosApi<TodoResponse>(
     {
-      url: `http://localhost:8080/api/todo/add`,
+      url: `/api/todo/add`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: todoAddRequestBody,
@@ -196,13 +196,13 @@ export const getTodoList = (
   signal?: AbortSignal,
 ) => {
   return axiosApi<TodoResponse[]>(
-    { url: `http://localhost:8080/api/todo/list`, method: 'GET', signal },
+    { url: `/api/todo/list`, method: 'GET', signal },
     options,
   )
 }
 
 export const getGetTodoListQueryKey = () => {
-  return [`http://localhost:8080/api/todo/list`] as const
+  return [`/api/todo/list`] as const
 }
 
 export const getGetTodoListQueryOptions = <
@@ -324,7 +324,7 @@ export const deleteTodoRemove = (
 ) => {
   return axiosApi<void>(
     {
-      url: `http://localhost:8080/api/todo/remove`,
+      url: `/api/todo/remove`,
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       data: todoDeleteRequestBody,

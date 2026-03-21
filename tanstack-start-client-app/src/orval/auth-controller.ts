@@ -37,7 +37,7 @@ export const postSignup = (
 ) => {
   return axiosApi<void>(
     {
-      url: `http://localhost:8080/api/auth/signup`,
+      url: `/api/auth/signup`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: signupRequestBody,
@@ -115,7 +115,7 @@ export const postSignout = (
   signal?: AbortSignal,
 ) => {
   return axiosApi<void>(
-    { url: `http://localhost:8080/api/auth/signout`, method: 'POST', signal },
+    { url: `/api/auth/signout`, method: 'POST', signal },
     options,
   )
 }
@@ -188,7 +188,7 @@ export const postSignin = (
 ) => {
   return axiosApi<void>(
     {
-      url: `http://localhost:8080/api/auth/signin`,
+      url: `/api/auth/signin`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: signinRequestBody,
@@ -266,17 +266,13 @@ export const getCurrentUser = (
   signal?: AbortSignal,
 ) => {
   return axiosApi<CurrentUserResponse>(
-    {
-      url: `http://localhost:8080/api/auth/current-user`,
-      method: 'GET',
-      signal,
-    },
+    { url: `/api/auth/current-user`, method: 'GET', signal },
     options,
   )
 }
 
 export const getGetCurrentUserQueryKey = () => {
-  return [`http://localhost:8080/api/auth/current-user`] as const
+  return [`/api/auth/current-user`] as const
 }
 
 export const getGetCurrentUserQueryOptions = <

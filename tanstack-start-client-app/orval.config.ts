@@ -18,7 +18,6 @@ export default defineConfig({
     },
     output: {
       prettier: true,
-      baseUrl,
       mode: 'tags',
       target: orvalTarget,
       client: 'react-query',

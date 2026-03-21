@@ -38,7 +38,7 @@ export const handleElectricTodoList = (
 ) => {
   return axiosApi<HandleElectricTodoList200Item[]>(
     {
-      url: `http://localhost:8080/api/electric/todo/list`,
+      url: `/api/electric/todo/list`,
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       signal,
@@ -50,10 +50,7 @@ export const handleElectricTodoList = (
 export const getHandleElectricTodoListQueryKey = (
   handleElectricTodoListBody?: HandleElectricTodoListBody,
 ) => {
-  return [
-    `http://localhost:8080/api/electric/todo/list`,
-    handleElectricTodoListBody,
-  ] as const
+  return [`/api/electric/todo/list`, handleElectricTodoListBody] as const
 }
 
 export const getHandleElectricTodoListQueryOptions = <
@@ -208,7 +205,7 @@ export const handleElectricTodoList1 = (
 ) => {
   return axiosApi<HandleElectricTodoList1200Item[]>(
     {
-      url: `http://localhost:8080/api/electric/todo/list`,
+      url: `/api/electric/todo/list`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: handleElectricTodoList1Body,

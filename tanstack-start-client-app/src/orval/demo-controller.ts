@@ -35,12 +35,7 @@ export const postUpperCase = (
   signal?: AbortSignal,
 ) => {
   return axiosApi<SimpleResponse>(
-    {
-      url: `http://localhost:8080/api/upper-case`,
-      method: 'POST',
-      params,
-      signal,
-    },
+    { url: `/api/upper-case`, method: 'POST', params, signal },
     options,
   )
 }
@@ -113,17 +108,13 @@ export const getInitCsrf = (
   signal?: AbortSignal,
 ) => {
   return axiosApi<SimpleResponse>(
-    {
-      url: `http://localhost:8080/api/public/init-csrf`,
-      method: 'GET',
-      signal,
-    },
+    { url: `/api/public/init-csrf`, method: 'GET', signal },
     options,
   )
 }
 
 export const getGetInitCsrfQueryKey = () => {
-  return [`http://localhost:8080/api/public/init-csrf`] as const
+  return [`/api/public/init-csrf`] as const
 }
 
 export const getGetInitCsrfQueryOptions = <
@@ -243,13 +234,13 @@ export const getHello = (
   signal?: AbortSignal,
 ) => {
   return axiosApi<SimpleResponse>(
-    { url: `http://localhost:8080/api/public/hello`, method: 'GET', signal },
+    { url: `/api/public/hello`, method: 'GET', signal },
     options,
   )
 }
 
 export const getGetHelloQueryKey = () => {
-  return [`http://localhost:8080/api/public/hello`] as const
+  return [`/api/public/hello`] as const
 }
 
 export const getGetHelloQueryOptions = <
