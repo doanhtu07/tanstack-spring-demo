@@ -23,8 +23,14 @@ This repository is a working demo of a full-stack application:
   3. Way 3: Convex
 - [x] ElectricSQL authentication
 - [ ] Deployment
-  - [ ] Render (electric-server, admin-monitor, openapi-server, tanstack-start-client-app)
-  - [ ] Supabase (PostgreSQL with easy logical replication support)
+  - [ ] Render
+    - [x] electric-server
+    - [x] admin-monitor
+    - [ ] openapi-server
+    - [ ] tanstack-start-client-app
+  - [x] Neon (PostgreSQL with easy logical replication support, but need to be careful with scale down to zero)
+    - Need to set ELECTRIC_REPLICATION_IDLE_TIMEOUT, so Electric can scale down
+    - To prevent storage bloat, Neon automatically removes inactive replication slots after approximately 40 hours
 
 ## Running the application
 
