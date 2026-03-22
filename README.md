@@ -42,7 +42,7 @@ This repository is a working demo of a full-stack application:
       idle time)
   - [x] cron-job.org: For simple pinging servers every 15 mins so they don't go to sleep
 
-## Running the application
+## Running the application system
 
 Client (Tanstack Start):
 
@@ -140,6 +140,15 @@ Spring Boot:
 - `src/utils`: Utility functions for class names, tailwind, etc.
 - `src/router.tsx`: Application router configuration
 - `orval.config.ts`: Orval configuration file to generate API client from OpenAPI spec
+
+## Maintenance the template project
+
+- `pnpm outdated`: Check for outdated dependencies for client
+  - `pnpm up --latest`: Update dependencies to latest versions for client
+  - Or choose certain dependencies to update by specifying package names
+
+- `mvn versions:display-dependency-updates`: Check for outdated dependencies for server
+  - Update `pom.xml` with latest versions for dependencies
 
 ## Issues
 
