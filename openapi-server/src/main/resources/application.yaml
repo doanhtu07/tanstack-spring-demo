@@ -48,9 +48,9 @@ server:
     session:
       cookie:
         domain: ${SESSION_COOKIE_DOMAIN:}
-        same-site: ${SESSION_COOKIE_SAME_SITE:}
-        secure: ${SESSION_COOKIE_SECURE:}
-        http-only: ${SESSION_COOKIE_HTTP_ONLY:}
+        same-site: ${SESSION_COOKIE_SAME_SITE:lax}
+        secure: ${SESSION_COOKIE_SECURE:false}
+        http-only: ${SESSION_COOKIE_HTTP_ONLY:true}
 
 logging:
   level:

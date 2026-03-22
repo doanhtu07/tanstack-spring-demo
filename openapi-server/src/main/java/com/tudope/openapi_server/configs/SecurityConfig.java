@@ -4,6 +4,8 @@ import com.tudope.openapi_server.domains.authorities.Permission;
 import com.tudope.openapi_server.dtos.auth.AppUserDetails;
 import com.tudope.openapi_server.entities.AppUser;
 import com.tudope.openapi_server.repositories.AppUserRepository;
+import com.tudope.openapi_server.services.SecurityService;
+import com.tudope.openapi_server.utils.SpaCsrfTokenRequestHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,9 +46,11 @@ public class SecurityConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     private final AppUserRepository userRepository;
+    private final SecurityService securityService;
 
-    public SecurityConfig(AppUserRepository userRepository) {
+    public SecurityConfig(AppUserRepository userRepository, SecurityService securityService) {
         this.userRepository = userRepository;
+        this.securityService = securityService;
     }
 
     @Bean
@@ -153,7 +157,10 @@ public class SecurityConfig {
     public SecurityFilterChain apiFilterChain(HttpSecurity http) {
         http
                 .securityMatcher("/api/**")
-                .csrf(CsrfConfigurer::spa)
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(securityService.cookieCsrfTokenRepository())
+                        .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler())
+                )
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout

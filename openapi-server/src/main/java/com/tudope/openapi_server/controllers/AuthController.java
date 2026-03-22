@@ -5,7 +5,7 @@ import com.tudope.openapi_server.dtos.auth.CurrentUserResponse;
 import com.tudope.openapi_server.dtos.auth.SigninRequestBody;
 import com.tudope.openapi_server.dtos.auth.SignupRequestBody;
 import com.tudope.openapi_server.services.AuthService;
-import com.tudope.openapi_server.utils.SecurityUtils;
+import com.tudope.openapi_server.services.SecurityService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final SecurityService securityService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, SecurityService securityService) {
         this.authService = authService;
+        this.securityService = securityService;
     }
 
     @PostMapping(value = "/signin")
@@ -64,7 +66,7 @@ public class AuthController {
             // By default, UserDetailsService returns built-in org.springframework.security.core.userdetails.User class
             @AuthenticationPrincipal AppUserDetails user
     ) {
-        SecurityUtils.ensureUser(user);
+        securityService.ensureUser(user);
 
         return ResponseEntity.ok(new CurrentUserResponse(
                 user.id(),

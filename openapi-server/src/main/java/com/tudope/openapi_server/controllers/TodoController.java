@@ -9,7 +9,7 @@ import com.tudope.openapi_server.entities.AppUser;
 import com.tudope.openapi_server.entities.Todo;
 import com.tudope.openapi_server.repositories.AppUserRepository;
 import com.tudope.openapi_server.repositories.TodoRepository;
-import com.tudope.openapi_server.utils.SecurityUtils;
+import com.tudope.openapi_server.services.SecurityService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,15 +25,17 @@ public class TodoController {
 
     private final TodoRepository todoRepository;
     private final AppUserRepository appUserRepository;
+    private final SecurityService securityService;
 
-    public TodoController(TodoRepository todoRepository, AppUserRepository appUserRepository) {
+    public TodoController(TodoRepository todoRepository, AppUserRepository appUserRepository, SecurityService securityService) {
         this.todoRepository = todoRepository;
         this.appUserRepository = appUserRepository;
+        this.securityService = securityService;
     }
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<TodoResponse>> getTodoList(@AuthenticationPrincipal AppUserDetails user) {
-        SecurityUtils.ensureUser(user);
+        securityService.ensureUser(user);
 
         List<Todo> todos = todoRepository.findAllByOwnerId(user.id());
 
@@ -49,7 +51,7 @@ public class TodoController {
             @AuthenticationPrincipal AppUserDetails user,
             @Valid @RequestBody TodoAddRequestBody requestBody
     ) {
-        SecurityUtils.ensureUser(user);
+        securityService.ensureUser(user);
 
         String description = requestBody.description();
 
@@ -68,7 +70,7 @@ public class TodoController {
             @AuthenticationPrincipal AppUserDetails user,
             @Valid @RequestBody TodoDeleteRequestBody requestBody
     ) {
-        SecurityUtils.ensureUser(user);
+        securityService.ensureUser(user);
 
         Long id = Long.valueOf(requestBody.id());
 
@@ -86,7 +88,7 @@ public class TodoController {
             @AuthenticationPrincipal AppUserDetails user,
             @Valid @RequestBody TodoUpdateRequestBody requestBody
     ) {
-        SecurityUtils.ensureUser(user);
+        securityService.ensureUser(user);
 
         Long id = Long.valueOf(requestBody.id());
         String description = requestBody.description();

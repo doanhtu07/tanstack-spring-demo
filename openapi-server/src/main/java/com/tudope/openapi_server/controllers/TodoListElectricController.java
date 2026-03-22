@@ -2,7 +2,7 @@ package com.tudope.openapi_server.controllers;
 
 import com.tudope.openapi_server.constants.ElectricProtocol;
 import com.tudope.openapi_server.dtos.auth.AppUserDetails;
-import com.tudope.openapi_server.utils.SecurityUtils;
+import com.tudope.openapi_server.services.SecurityService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -28,13 +28,16 @@ public class TodoListElectricController {
 
     private final RestClient electricRestClient;
     private final String electricSecret;
+    private final SecurityService securityService;
 
     public TodoListElectricController(
             RestClient electricRestClient,
-            @Value("${electric.secret}") String electricSecret
+            @Value("${electric.secret}") String electricSecret,
+            SecurityService securityService
     ) {
         this.electricRestClient = electricRestClient;
         this.electricSecret = electricSecret;
+        this.securityService = securityService;
     }
 
     /**
@@ -53,7 +56,7 @@ public class TodoListElectricController {
             @RequestBody(required = false) Map<String, Object> body,
             @AuthenticationPrincipal AppUserDetails user
     ) {
-        SecurityUtils.ensureUser(user);
+        securityService.ensureUser(user);
 
         String method = request.getMethod();
 
