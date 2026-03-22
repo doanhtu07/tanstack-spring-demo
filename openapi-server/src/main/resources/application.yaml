@@ -56,7 +56,7 @@ logging:
   level:
     org:
       springframework:
-        security: info
+        security: ${SPRING_SECURITY_LOG_LEVEL:info}
 
 # Actuator configuration
 management:
