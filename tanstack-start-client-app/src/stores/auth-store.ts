@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import type { QueryClient } from '@tanstack/react-query'
+import type { AnyRouter } from '@tanstack/react-router'
 import {
   getGetCurrentUserQueryKey,
   postSignin,
@@ -52,8 +53,8 @@ export class AuthStore {
     }
   }
 
-  public async signout(input: { queryClient: QueryClient }) {
-    const { queryClient } = input
+  public async signout(input: { queryClient: QueryClient; router: AnyRouter }) {
+    const { queryClient, router } = input
 
     try {
       await postSignout()
@@ -61,6 +62,8 @@ export class AuthStore {
       queryClient.removeQueries({
         queryKey: getGetCurrentUserQueryKey(),
       })
+
+      await router.invalidate()
     } catch (err) {
       console.error('AuthStore signout - error', err)
       throw err

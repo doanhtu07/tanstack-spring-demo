@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import { useQueryClient } from '@tanstack/react-query'
+import { useRouter } from '@tanstack/react-router'
 import { CustomLink } from '../../components/custom-link/custom-link'
 import styles from './navbar.module.css'
 import type { CurrentUserResponse } from '@/orval/openAPIDefinition.schemas'
@@ -29,6 +30,7 @@ export const Navbar = observer(
     'data-testid': dataTestId,
   }: Props) => {
     const { authStore } = useStore()
+    const router = useRouter()
     const queryClient = useQueryClient()
     const { toggleTheme } = useTheme()
 
@@ -78,7 +80,7 @@ export const Navbar = observer(
           {currentUser && (
             <CustomLink
               onClick={() => {
-                authStore.signout({ queryClient }).then()
+                authStore.signout({ queryClient, router }).then()
               }}
               {...getTestId([dataTestId, 'logoutLink'])}
             >
