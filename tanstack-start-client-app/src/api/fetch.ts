@@ -10,7 +10,7 @@ export const authenticatedFetch = (
 ) => {
   return fetch(input, {
     ...init,
-    credentials: 'include', // The JSESSIONID part
+    credentials: 'include', // Cookies JSESSIONID, SESSION, ...
     headers: {
       ...init?.headers,
       'X-XSRF-TOKEN': getXsrfToken(), // The Spring CSRF part

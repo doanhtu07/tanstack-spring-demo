@@ -147,6 +147,8 @@ Spring Boot:
   - Install `Tailwind CSS IntelliSense` extension in VSCode
   - Add file association in VSCode settings -> `"css": "tailwindcss"`
 
+---
+
 - For IntelliJ TypeScript support to function properly, make sure you are not marking `node_modules` as "Excluded"
   - `node_modules` needs to be automatically marked by IntelliJ as "library root"
 
@@ -154,3 +156,12 @@ Spring Boot:
   - Make sure you change the run configuration to include `-Djava.rmi.server.hostname=localhost`
 
 ![Spring Boot Run Configuration](./docs/images/spring-boot-run-config.png)
+
+---
+
+- To test CORS + cookie issues, use Ngrok to create HTTPS public URLs for both backend and frontend
+- Then, adjust CORS allowed origins and server url properly
+- Now, you can simulate how it works in production with HTTPS and cross-site cookies
+- But after playing around, I recommend using same-site cookies for fewer headaches
+  - Use either actual same domain or reverse proxy
+  - In this template, we use reverse proxy thanks to Nitro

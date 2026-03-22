@@ -1,12 +1,13 @@
 import axios from 'axios'
 import type { AxiosRequestConfig } from 'axios'
+import { getBaseUrl } from '@/api/utils'
 
 // Create an instance with defaults
 export const axiosApiInstance = axios.create({
-  baseURL: import.meta.env.VITE_SERVER_URL,
-  withCredentials: true, // include cookies (JSESSIONID)
+  baseURL: getBaseUrl(),
+  withCredentials: true, // include cookies (JSESSIONID, SESSION, ...)
   withXSRFToken: true, // include XSRF token
-  xsrfCookieName: 'XSRF-TOKEN', // Spring CSRF cookie
+  xsrfCookieName: 'XSRF-TOKEN', // Spring CSRF cookie (Only work for same-origin. For cross-origin, we manually get the token and set it in header)
   xsrfHeaderName: 'X-XSRF-TOKEN', // header Spring expects
 })
 

@@ -44,6 +44,10 @@ spring:
 server:
   port: ${PORT}
 
+  # Useful for reverse proxies (Spring will scope cookies appropriately)
+  forward-headers-strategy: framework
+
+  # JSESSIONID cookie configuration (But we pass these settings for SESSION and CSRF cookies as well)
   servlet:
     session:
       cookie:

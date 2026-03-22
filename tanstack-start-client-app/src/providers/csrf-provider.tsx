@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { PropsWithChildren } from 'react'
-import { getInitCsrf } from '@/orval/demo-controller'
+import { getInitCsrf } from '@/orval/auth-controller'
 
 type CsrfProviderProps = PropsWithChildren
 
@@ -14,10 +14,21 @@ export const CsrfProvider = ({ children }: CsrfProviderProps) => {
   useEffect(() => {
     let mounted = true
 
-    // Hit the server to initialize session & CSRF
+    // Same-origin setup (with CSRF cookie)
+    // - Hit the server to initialize session & CSRF
+    // - This approach with CSRF cookie only works for same-origin
     getInitCsrf().finally(() => {
       if (mounted) setReady(true)
     })
+
+    // Cross-origin setup (manually get the token and set it in header)
+    // - Not recommended
+    // getCsrfToken().then(({ token }) => {
+    //   if (mounted) {
+    //     axiosApiInstance.defaults.headers.common['X-XSRF-TOKEN'] = token
+    //     setReady(true)
+    //   }
+    // })
 
     return () => {
       mounted = false

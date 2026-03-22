@@ -7,6 +7,9 @@ import viteTsConfigPaths from 'vite-tsconfig-paths'
 
 import tailwindcss from '@tailwindcss/vite'
 import { nitro } from 'nitro/vite'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const config = defineConfig({
   resolve: {
@@ -16,7 +19,15 @@ const config = defineConfig({
   },
   plugins: [
     devtools(),
-    nitro(),
+    nitro({
+      routeRules: {
+        '/server-proxy/**': {
+          proxy: {
+            to: `${process.env.VITE_SERVER_URL}/**`,
+          },
+        },
+      },
+    }),
     tanstackStart(),
     viteReact(),
 

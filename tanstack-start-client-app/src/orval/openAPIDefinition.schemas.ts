@@ -53,6 +53,10 @@ export interface CurrentUserResponse {
   authorities?: GrantedAuthority[]
 }
 
+export interface CsrfTokenResponse {
+  token: string
+}
+
 export interface TodoDeleteRequestBody {
   id: string
 }

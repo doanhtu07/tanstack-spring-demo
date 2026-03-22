@@ -8,11 +8,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DemoController {
 
-    @GetMapping(value = "/public/init-csrf")
-    public SimpleResponse getInitCsrf() {
-        return new SimpleResponse("Welcome to API!");
-    }
-
     @GetMapping(value = "/public/hello")
     public SimpleResponse getHello() {
         return new SimpleResponse("Hello world!");

@@ -7,16 +7,18 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
 import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
-import org.springframework.util.StringUtils;
 
 import java.util.function.Supplier;
 
 /**
- * Copy implementation from Spring CsrfConfigurer
+ * Based on implementation of CsrfConfigurer.SpaCsrfTokenRequestHandler
+ * - But for cross site setup, client cannot read XSRF cookie even if it's set to HttpOnly false
+ * - So we have an endpoint to return the CSRF token value in response body (NOTE: the token here is masked for BREACH attack protection)
+ * - With default CsrfConfigurer::spa, it needs raw token in header X-XSRF-TOKEN
+ * - So we rewrite the handler and always use XorCsrfTokenRequestAttributeHandler to resolve the token, which decodes the masked token
  */
-public final class SpaCsrfTokenRequestHandler implements CsrfTokenRequestHandler {
+public class SpaCsrfTokenRequestHandler implements CsrfTokenRequestHandler {
 
-    private final CsrfTokenRequestAttributeHandler plain = new CsrfTokenRequestAttributeHandler();
     private final CsrfTokenRequestAttributeHandler xor = new XorCsrfTokenRequestAttributeHandler();
 
     public SpaCsrfTokenRequestHandler() {
@@ -29,9 +31,8 @@ public final class SpaCsrfTokenRequestHandler implements CsrfTokenRequestHandler
     }
 
     @Override
-    public String resolveCsrfTokenValue(HttpServletRequest request, CsrfToken csrfToken) {
-        String headerValue = request.getHeader(csrfToken.getHeaderName());
-        return (StringUtils.hasText(headerValue) ? this.plain : this.xor).resolveCsrfTokenValue(request, csrfToken);
+    public String resolveCsrfTokenValue(@NonNull HttpServletRequest request, @NonNull CsrfToken csrfToken) {
+        return this.xor.resolveCsrfTokenValue(request, csrfToken);
     }
 
 }

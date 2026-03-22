@@ -4,8 +4,6 @@ import com.tudope.openapi_server.domains.authorities.Permission;
 import com.tudope.openapi_server.dtos.auth.AppUserDetails;
 import com.tudope.openapi_server.entities.AppUser;
 import com.tudope.openapi_server.repositories.AppUserRepository;
-import com.tudope.openapi_server.services.SecurityService;
-import com.tudope.openapi_server.utils.SpaCsrfTokenRequestHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +31,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -45,12 +45,28 @@ import java.util.stream.Collectors;
 public class SecurityConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
-    private final AppUserRepository userRepository;
-    private final SecurityService securityService;
 
-    public SecurityConfig(AppUserRepository userRepository, SecurityService securityService) {
+    private final AppUserRepository userRepository;
+
+    private final String cookieDomain;
+    private final String cookieSameSite;
+    private final boolean cookieSecure;
+    private final boolean cookieHttpOnly;
+
+    public SecurityConfig(
+            AppUserRepository userRepository,
+
+            @Value("${server.servlet.session.cookie.domain}") String cookieDomain,
+            @Value("${server.servlet.session.cookie.same-site}") String cookieSameSite,
+            @Value("${server.servlet.session.cookie.secure}") boolean cookieSecure,
+            @Value("${server.servlet.session.cookie.http-only}") boolean cookieHttpOnly
+    ) {
         this.userRepository = userRepository;
-        this.securityService = securityService;
+
+        this.cookieDomain = cookieDomain;
+        this.cookieSameSite = cookieSameSite;
+        this.cookieSecure = cookieSecure;
+        this.cookieHttpOnly = cookieHttpOnly;
     }
 
     @Bean
@@ -123,6 +139,17 @@ public class SecurityConfig {
     }
 
     @Bean
+    public CookieSerializer cookieSerializer() {
+        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+        serializer.setCookieName("SESSION");
+        serializer.setDomainName(cookieDomain);
+        serializer.setSameSite(cookieSameSite);
+        serializer.setUseSecureCookie(cookieSecure);
+        serializer.setUseHttpOnlyCookie(cookieHttpOnly);
+        return serializer;
+    }
+
+    @Bean
     @Order(1)
     @Profile("dev")
     public SecurityFilterChain springdocFilterChain(HttpSecurity http) {
@@ -157,10 +184,16 @@ public class SecurityConfig {
     public SecurityFilterChain apiFilterChain(HttpSecurity http) {
         http
                 .securityMatcher("/api/**")
-                .csrf(csrf -> csrf
-                        .csrfTokenRepository(securityService.cookieCsrfTokenRepository())
-                        .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler())
-                )
+
+                // Same-origin setup
+                .csrf(CsrfConfigurer::spa)
+
+                // Cross-origin setup (Not recommended)
+                //.csrf(csrf -> csrf
+                //        .csrfTokenRepository(securityService.cookieCsrfTokenRepository())
+                //        .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler())
+                //)
+
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout
@@ -183,7 +216,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
 
                         // All other App APIs (Required JDBC User)
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated()
+                );
 
         return http.build();
     }

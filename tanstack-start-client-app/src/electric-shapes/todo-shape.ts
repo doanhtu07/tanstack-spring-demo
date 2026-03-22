@@ -2,6 +2,7 @@ import z from 'zod'
 import { authenticatedFetch } from '../api/fetch'
 import type { ShapeOptions } from '.'
 import type { TodoResponse } from '@/orval/openAPIDefinition.schemas'
+import { getBaseUrl } from '@/api/utils'
 
 // Inspect `electric-schema` header when calling Electric API in backend
 export const TodoShapeSchema = z.object({
@@ -27,7 +28,7 @@ export const TodoResponseSchema = TodoShapeSchema.transform(
 export type TodoShape = z.infer<typeof TodoShapeSchema>
 
 export const todoShapeStream: ShapeOptions<TodoShape> = {
-  url: `${import.meta.env.VITE_SERVER_URL}/api/electric/todo/list`,
+  url: `${getBaseUrl()}/api/electric/todo/list`,
   subscribe: true,
   fetchClient: authenticatedFetch,
   subsetMethod: 'POST',
