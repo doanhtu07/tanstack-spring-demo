@@ -148,6 +148,7 @@ Spring Boot:
   - Or choose certain dependencies to update by specifying package names
 
 - `mvn versions:display-dependency-updates`: Check for outdated dependencies for server
+- `mvn versions:display-plugin-updates`: Check for outdated plugins for server
   - Update `pom.xml` with latest versions for dependencies
 
 ## Issues
