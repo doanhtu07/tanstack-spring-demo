@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UnauthenticatedRouteRouteImport } from './routes/_unauthenticated/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiHeartbeatRouteImport } from './routes/api/heartbeat'
 import { Route as UnauthenticatedSignupRouteImport } from './routes/_unauthenticated/signup'
 import { Route as UnauthenticatedSigninRouteImport } from './routes/_unauthenticated/signin'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
@@ -27,6 +28,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHeartbeatRoute = ApiHeartbeatRouteImport.update({
+  id: '/api/heartbeat',
+  path: '/api/heartbeat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UnauthenticatedSignupRoute = UnauthenticatedSignupRouteImport.update({
@@ -50,12 +56,14 @@ export interface FileRoutesByFullPath {
   '/app': typeof AuthenticatedAppRoute
   '/signin': typeof UnauthenticatedSigninRoute
   '/signup': typeof UnauthenticatedSignupRoute
+  '/api/heartbeat': typeof ApiHeartbeatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AuthenticatedAppRoute
   '/signin': typeof UnauthenticatedSigninRoute
   '/signup': typeof UnauthenticatedSignupRoute
+  '/api/heartbeat': typeof ApiHeartbeatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -65,12 +73,13 @@ export interface FileRoutesById {
   '/_authenticated/app': typeof AuthenticatedAppRoute
   '/_unauthenticated/signin': typeof UnauthenticatedSigninRoute
   '/_unauthenticated/signup': typeof UnauthenticatedSignupRoute
+  '/api/heartbeat': typeof ApiHeartbeatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/signin' | '/signup'
+  fullPaths: '/' | '/app' | '/signin' | '/signup' | '/api/heartbeat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/signin' | '/signup'
+  to: '/' | '/app' | '/signin' | '/signup' | '/api/heartbeat'
   id:
     | '__root__'
     | '/'
@@ -79,12 +88,14 @@ export interface FileRouteTypes {
     | '/_authenticated/app'
     | '/_unauthenticated/signin'
     | '/_unauthenticated/signup'
+    | '/api/heartbeat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   UnauthenticatedRouteRoute: typeof UnauthenticatedRouteRouteWithChildren
+  ApiHeartbeatRoute: typeof ApiHeartbeatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -108,6 +119,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/heartbeat': {
+      id: '/api/heartbeat'
+      path: '/api/heartbeat'
+      fullPath: '/api/heartbeat'
+      preLoaderRoute: typeof ApiHeartbeatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_unauthenticated/signup': {
@@ -162,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   UnauthenticatedRouteRoute: UnauthenticatedRouteRouteWithChildren,
+  ApiHeartbeatRoute: ApiHeartbeatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
