@@ -151,6 +151,8 @@ Spring Boot:
 - `mvn versions:display-plugin-updates`: Check for outdated plugins for server
   - Update `pom.xml` with latest versions for dependencies
 
+- Use Github Dependabot to automate dependency updates (recommended) and security patches (optional)
+
 ## Issues
 
 - For CSS file to not complain about "Unknown at rule" when using Tailwind directives in VSCode:
