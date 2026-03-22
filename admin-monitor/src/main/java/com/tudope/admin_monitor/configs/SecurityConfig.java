@@ -39,6 +39,31 @@ public class SecurityConfig {
     }
 
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService(
+            PasswordEncoder passwordEncoder,
+            @Value("${admin-monitor.username:NOT_SET}") String adminUsername,
+            @Value("${admin-monitor.password:NOT_SET}") String adminPassword
+    ) {
+        if ("NOT_SET".equals(adminUsername) || "NOT_SET".equals(adminPassword)) {
+            // You'll know immediately if the .env wasn't parsed
+            logger.warning("Using default 'NOT_SET' username or password. Check your .env.example file!");
+        }
+
+        UserDetails user = User.builder()
+                .username(adminUsername)
+                .password(passwordEncoder.encode(adminPassword))
+                .authorities(Permission.ROLE_ADMIN.name())
+                .build();
+
+        return new InMemoryUserDetailsManager(user);
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
         // Redirect to login after successful authentication
         SavedRequestAwareAuthenticationSuccessHandler successHandler =
@@ -49,6 +74,13 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
+                        // Permit access to our custom public API endpoints
+                        .requestMatchers(
+                                PathPatternRequestMatcher.withDefaults()
+                                        .matcher(adminServer.path("/api/public/**"))
+                        )
+                        .permitAll()
+
                         // Permit access to static resources
                         .requestMatchers(
                                 PathPatternRequestMatcher.withDefaults()
@@ -121,31 +153,6 @@ public class SecurityConfig {
         );
 
         return http.build();
-    }
-
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService(
-            PasswordEncoder passwordEncoder,
-            @Value("${admin-monitor.username:NOT_SET}") String adminUsername,
-            @Value("${admin-monitor.password:NOT_SET}") String adminPassword
-    ) {
-        if ("NOT_SET".equals(adminUsername) || "NOT_SET".equals(adminPassword)) {
-            // You'll know immediately if the .env wasn't parsed
-            logger.warning("Using default 'NOT_SET' username or password. Check your .env.example file!");
-        }
-
-        UserDetails user = User.builder()
-                .username(adminUsername)
-                .password(passwordEncoder.encode(adminPassword))
-                .authorities(Permission.ROLE_ADMIN.name())
-                .build();
-
-        return new InMemoryUserDetailsManager(user);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
 }

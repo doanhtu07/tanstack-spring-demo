@@ -1,7 +1,9 @@
 package com.tudope.openapi_server.controllers;
 
-import com.tudope.openapi_server.dtos.SimpleResponse;
-import com.tudope.openapi_server.dtos.auth.*;
+import com.tudope.openapi_server.dtos.auth.AppUserDetails;
+import com.tudope.openapi_server.dtos.auth.CurrentUserResponse;
+import com.tudope.openapi_server.dtos.auth.SigninRequestBody;
+import com.tudope.openapi_server.dtos.auth.SignupRequestBody;
 import com.tudope.openapi_server.services.AuthService;
 import com.tudope.openapi_server.services.SecurityService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -72,23 +73,6 @@ public class AuthController {
                 user.getUsername(),
                 user.getAuthorities()
         ));
-    }
-
-    /**
-     * Used for simple same-site setup
-     */
-    @GetMapping(value = "/init-csrf")
-    public SimpleResponse getInitCsrf() {
-        return new SimpleResponse("Welcome to API!");
-    }
-
-    /**
-     * Used for cross-site setup (Not recommended)
-     */
-    @GetMapping("/csrf-token")
-    public CsrfTokenResponse getCsrfToken(HttpServletRequest request) {
-        CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-        return new CsrfTokenResponse(token.getToken());
     }
 
 }

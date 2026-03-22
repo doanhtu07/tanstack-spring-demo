@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { PropsWithChildren } from 'react'
-import { getInitCsrf } from '@/orval/auth-controller'
+import { getInitCsrf } from '@/orval/csrf-controller'
 
 type CsrfProviderProps = PropsWithChildren
 

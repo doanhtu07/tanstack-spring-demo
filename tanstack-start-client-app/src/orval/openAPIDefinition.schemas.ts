@@ -43,6 +43,10 @@ export interface SigninRequestBody {
   password: string
 }
 
+export interface CsrfTokenResponse {
+  token: string
+}
+
 export interface GrantedAuthority {
   authority?: string
 }
@@ -51,10 +55,6 @@ export interface CurrentUserResponse {
   id?: number
   email?: string
   authorities?: GrantedAuthority[]
-}
-
-export interface CsrfTokenResponse {
-  token: string
 }
 
 export interface TodoDeleteRequestBody {
