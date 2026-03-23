@@ -20,13 +20,14 @@ const config = defineConfig({
   plugins: [
     devtools(),
     nitro({
-      routeRules: {
-        '/server-proxy/**': {
-          proxy: {
-            to: `${process.env.VITE_SERVER_URL}/**`,
-          },
-        },
-      },
+      // This setting masked any errors from server to 502 Bad Gateway, so we write our own proxy route for now
+      // routeRules: {
+      //   '/server-proxy/**': {
+      //     proxy: {
+      //       to: `${process.env.VITE_SERVER_URL}/**`,
+      //     },
+      //   },
+      // },
     }),
     tanstackStart(),
     viteReact(),

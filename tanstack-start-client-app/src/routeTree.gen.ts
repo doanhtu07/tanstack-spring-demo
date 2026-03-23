@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UnauthenticatedRouteRouteImport } from './routes/_unauthenticated/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServerProxySplatRouteImport } from './routes/server-proxy/$'
 import { Route as ApiHeartbeatRouteImport } from './routes/api/heartbeat'
 import { Route as UnauthenticatedSignupRouteImport } from './routes/_unauthenticated/signup'
 import { Route as UnauthenticatedSigninRouteImport } from './routes/_unauthenticated/signin'
@@ -28,6 +29,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServerProxySplatRoute = ServerProxySplatRouteImport.update({
+  id: '/server-proxy/$',
+  path: '/server-proxy/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiHeartbeatRoute = ApiHeartbeatRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/signin': typeof UnauthenticatedSigninRoute
   '/signup': typeof UnauthenticatedSignupRoute
   '/api/heartbeat': typeof ApiHeartbeatRoute
+  '/server-proxy/$': typeof ServerProxySplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByTo {
   '/signin': typeof UnauthenticatedSigninRoute
   '/signup': typeof UnauthenticatedSignupRoute
   '/api/heartbeat': typeof ApiHeartbeatRoute
+  '/server-proxy/$': typeof ServerProxySplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -74,12 +82,25 @@ export interface FileRoutesById {
   '/_unauthenticated/signin': typeof UnauthenticatedSigninRoute
   '/_unauthenticated/signup': typeof UnauthenticatedSignupRoute
   '/api/heartbeat': typeof ApiHeartbeatRoute
+  '/server-proxy/$': typeof ServerProxySplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/signin' | '/signup' | '/api/heartbeat'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/signin'
+    | '/signup'
+    | '/api/heartbeat'
+    | '/server-proxy/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/signin' | '/signup' | '/api/heartbeat'
+  to:
+    | '/'
+    | '/app'
+    | '/signin'
+    | '/signup'
+    | '/api/heartbeat'
+    | '/server-proxy/$'
   id:
     | '__root__'
     | '/'
@@ -89,6 +110,7 @@ export interface FileRouteTypes {
     | '/_unauthenticated/signin'
     | '/_unauthenticated/signup'
     | '/api/heartbeat'
+    | '/server-proxy/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -96,6 +118,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   UnauthenticatedRouteRoute: typeof UnauthenticatedRouteRouteWithChildren
   ApiHeartbeatRoute: typeof ApiHeartbeatRoute
+  ServerProxySplatRoute: typeof ServerProxySplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -119,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/server-proxy/$': {
+      id: '/server-proxy/$'
+      path: '/server-proxy/$'
+      fullPath: '/server-proxy/$'
+      preLoaderRoute: typeof ServerProxySplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/heartbeat': {
@@ -181,6 +211,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   UnauthenticatedRouteRoute: UnauthenticatedRouteRouteWithChildren,
   ApiHeartbeatRoute: ApiHeartbeatRoute,
+  ServerProxySplatRoute: ServerProxySplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
