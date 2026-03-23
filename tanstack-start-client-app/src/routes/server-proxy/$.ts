@@ -28,13 +28,22 @@ export const Route = createFileRoute('/server-proxy/$')({
         )
         headers.delete('connection') // hop-by-hop header, must be stripped
 
-        const response = await fetch(targetUrl, {
-          method: request.method,
-          headers,
-          ...(!['HEAD', 'GET'].includes(request.method)
-            ? { body: request.body, duplex: 'half' }
-            : {}),
-        } as RequestInit)
+        let response: Response
+        if (['HEAD', 'GET'].includes(request.method)) {
+          response = await fetch(targetUrl, {
+            method: request.method,
+            headers,
+          })
+        } else {
+          const requestTextBody = await request.text()
+
+          response = await fetch(targetUrl, {
+            method: request.method,
+            headers,
+            body: requestTextBody,
+            duplex: 'half',
+          } as RequestInit)
+        }
 
         const responseHeaders = new Headers(response.headers)
         // Strip to avoid double-decompression on the client

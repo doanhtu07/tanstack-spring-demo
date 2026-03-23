@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { observer } from 'mobx-react-lite'
 import { useQueryClient } from '@tanstack/react-query'
 import { useShape } from '@electric-sql/react'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import type { TodoResponse } from '@/orval/openAPIDefinition.schemas'
 import styles from '@/styles/app.module.css'
 import { getTestId } from '@/utils/test-ids'
@@ -12,7 +12,7 @@ import { useStore } from '@/providers/store-provider'
 import { CreateTodoButton } from '@/features/todo/create-todo-button/create-todo-button'
 import {
   TodoResponseSchema,
-  todoShapeStream,
+  getTodoShapeStream,
 } from '@/electric-shapes/todo-shape'
 
 const TEST_ID_ROOT = 'app'
@@ -22,6 +22,8 @@ const RouteComponent = observer(() => {
   const { todoStore } = useStore()
   const queryClient = useQueryClient()
 
+  const [abortController] = useState(new AbortController())
+
   // const { data: todos } = useGetTodoList({
   //   query: {
   //     staleTime: 1000 * 60,
@@ -30,7 +32,9 @@ const RouteComponent = observer(() => {
   //   },
   // })
 
-  const { data: rawTodos, isLoading } = useShape(todoShapeStream)
+  const { data: rawTodos, isLoading } = useShape(
+    getTodoShapeStream({ abortController }),
+  )
 
   const todos = useMemo(() => {
     return rawTodos.map((rawTodo) => TodoResponseSchema.parse(rawTodo))

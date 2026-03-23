@@ -1,4 +1,5 @@
 import z from 'zod'
+import { FetchError } from '@electric-sql/client'
 import { authenticatedFetch } from '../api/fetch'
 import type { ShapeOptions } from '.'
 import type { TodoResponse } from '@/orval/openAPIDefinition.schemas'
@@ -27,9 +28,32 @@ export const TodoResponseSchema = TodoShapeSchema.transform(
 
 export type TodoShape = z.infer<typeof TodoShapeSchema>
 
-export const todoShapeStream: ShapeOptions<TodoShape> = {
+export const getTodoShapeStream = (input: {
+  abortController?: AbortController
+}): ShapeOptions<TodoShape> => ({
   url: `${getBaseUrl()}/api/electric/todo/list`,
   subscribe: true,
   fetchClient: authenticatedFetch,
   subsetMethod: 'POST',
-}
+
+  // this will abort polling for this shape globally (not just within the current component)
+  // a quirk of Electric that needs some caution when use
+  signal: input.abortController?.signal,
+
+  onError: (error) => {
+    if (
+      error instanceof FetchError &&
+      error.status >= 400 &&
+      error.status < 500
+    ) {
+      // abort to prevent tab-focus refetch from restarting it
+      input.abortController?.abort()
+
+      // stop syncing permanently
+      return
+    }
+
+    // for other errors, we can just return an empty object to signal Electric to retry
+    return {}
+  },
+})
