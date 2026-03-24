@@ -11,6 +11,9 @@ spring:
 
   datasource:
     url: ${DB_JDBC_URL}
+    hikari:
+      minimum-idle: ${HIKARI_MINIMUM_IDLE:}
+      idle-timeout: ${HIKARI_IDLE_TIMEOUT:}
 
   jpa:
     hibernate:
