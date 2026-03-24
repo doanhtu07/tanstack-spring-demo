@@ -14,6 +14,7 @@ spring:
     hikari:
       minimum-idle: ${HIKARI_MINIMUM_IDLE:}
       idle-timeout: ${HIKARI_IDLE_TIMEOUT:}
+      keepalive-time: ${HIKARI_KEEPALIVE_TIME:}
 
   jpa:
     hibernate:
