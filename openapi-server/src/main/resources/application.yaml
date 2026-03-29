@@ -11,10 +11,12 @@ spring:
 
   datasource:
     url: ${DB_JDBC_URL}
+
+    # https://github.com/brettwooldridge/HikariCP
     hikari:
-      minimum-idle: ${HIKARI_MINIMUM_IDLE:}
-      idle-timeout: ${HIKARI_IDLE_TIMEOUT:}
-      keepalive-time: ${HIKARI_KEEPALIVE_TIME:}
+      minimum-idle: ${HIKARI_MINIMUM_IDLE:10}
+      idle-timeout: ${HIKARI_IDLE_TIMEOUT:600000}
+      keepalive-time: ${HIKARI_KEEPALIVE_TIME:120000}
 
   jpa:
     hibernate:

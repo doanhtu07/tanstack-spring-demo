@@ -109,7 +109,7 @@ export const Route = createFileRoute('/')({
     try {
       const user = await getCurrentUserFn()
       return { user }
-    } catch (err) {
+    } catch {
       // If there is an error, we can assume the user is not authenticated
       return { user: undefined }
     }

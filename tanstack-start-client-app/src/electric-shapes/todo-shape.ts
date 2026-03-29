@@ -30,6 +30,7 @@ export type TodoShape = z.infer<typeof TodoShapeSchema>
 
 export const getTodoShapeStream = (input: {
   abortController?: AbortController
+  // enabled?: boolean
 }): ShapeOptions<TodoShape> => ({
   url: `${getBaseUrl()}/api/electric/todo/list`,
   subscribe: true,
@@ -39,6 +40,10 @@ export const getTodoShapeStream = (input: {
   // this will abort polling for this shape globally (not just within the current component)
   // a quirk of Electric that needs some caution when use
   signal: input.abortController?.signal,
+
+  // this will NOT abort everything since it will count references
+  // PR: https://github.com/electric-sql/electric/pull/4071
+  // enabled: input.enabled,
 
   onError: (error) => {
     if (
