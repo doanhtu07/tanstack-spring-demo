@@ -72,3 +72,12 @@ export type HandleElectricTodoList1200Item = { [key: string]: unknown }
 export type PostUpperCaseParams = {
   text: string
 }
+
+export type PostMailHelloParams = {
+  to: string
+}
+
+export type PostMailHelloHtmlParams = {
+  to: string
+  name: string
+}

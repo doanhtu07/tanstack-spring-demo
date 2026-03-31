@@ -42,6 +42,12 @@ This repository is a working demo of a full-stack application:
       idle time)
   - [x] cron-job.org: For simple pinging servers every 15 mins so they don't go to sleep
 
+---
+
+- [x] Email sending support
+  - [x] Dev env: Use Mailtrap
+  - Prod env: You can setup Mailtrap, Resend, Mailgun, ...
+
 ## Running the application system
 
 Client (Tanstack Start):

@@ -98,6 +98,22 @@ const Home = observer(() => {
       >
         <p>Decrement counter</p>
       </Button>
+
+      <Divider />
+
+      <Button
+        onClick={() => demoApiStore.testMailHello()}
+        {...getTestId([TEST_ID_ROOT, 'testMailHello'])}
+      >
+        <p>Test send email</p>
+      </Button>
+
+      <Button
+        onClick={() => demoApiStore.testMailHelloHtml()}
+        {...getTestId([TEST_ID_ROOT, 'testMailHelloHtml'])}
+      >
+        <p>Test send html email</p>
+      </Button>
     </main>
   )
 })

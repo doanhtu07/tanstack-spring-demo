@@ -21,6 +21,8 @@ import type {
 } from '@tanstack/react-query'
 
 import type {
+  PostMailHelloHtmlParams,
+  PostMailHelloParams,
   PostUpperCaseParams,
   SimpleResponse,
 } from './openAPIDefinition.schemas'
@@ -102,6 +104,154 @@ export const usePostUpperCase = <TError = unknown, TContext = unknown>(
   TContext
 > => {
   return useMutation(getPostUpperCaseMutationOptions(options), queryClient)
+}
+export const postMailHello = (
+  params: PostMailHelloParams,
+  options?: SecondParameter<typeof axiosApi>,
+  signal?: AbortSignal,
+) => {
+  return axiosApi<SimpleResponse>(
+    { url: `/api/mail/hello`, method: 'POST', params, signal },
+    options,
+  )
+}
+
+export const getPostMailHelloMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postMailHello>>,
+    TError,
+    { params: PostMailHelloParams },
+    TContext
+  >
+  request?: SecondParameter<typeof axiosApi>
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postMailHello>>,
+  TError,
+  { params: PostMailHelloParams },
+  TContext
+> => {
+  const mutationKey = ['postMailHello']
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postMailHello>>,
+    { params: PostMailHelloParams }
+  > = (props) => {
+    const { params } = props ?? {}
+
+    return postMailHello(params, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PostMailHelloMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postMailHello>>
+>
+
+export type PostMailHelloMutationError = unknown
+
+export const usePostMailHello = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof postMailHello>>,
+      TError,
+      { params: PostMailHelloParams },
+      TContext
+    >
+    request?: SecondParameter<typeof axiosApi>
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof postMailHello>>,
+  TError,
+  { params: PostMailHelloParams },
+  TContext
+> => {
+  return useMutation(getPostMailHelloMutationOptions(options), queryClient)
+}
+export const postMailHelloHtml = (
+  params: PostMailHelloHtmlParams,
+  options?: SecondParameter<typeof axiosApi>,
+  signal?: AbortSignal,
+) => {
+  return axiosApi<SimpleResponse>(
+    { url: `/api/mail/hello-html`, method: 'POST', params, signal },
+    options,
+  )
+}
+
+export const getPostMailHelloHtmlMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postMailHelloHtml>>,
+    TError,
+    { params: PostMailHelloHtmlParams },
+    TContext
+  >
+  request?: SecondParameter<typeof axiosApi>
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postMailHelloHtml>>,
+  TError,
+  { params: PostMailHelloHtmlParams },
+  TContext
+> => {
+  const mutationKey = ['postMailHelloHtml']
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      'mutationKey' in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postMailHelloHtml>>,
+    { params: PostMailHelloHtmlParams }
+  > = (props) => {
+    const { params } = props ?? {}
+
+    return postMailHelloHtml(params, requestOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type PostMailHelloHtmlMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postMailHelloHtml>>
+>
+
+export type PostMailHelloHtmlMutationError = unknown
+
+export const usePostMailHelloHtml = <TError = unknown, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof postMailHelloHtml>>,
+      TError,
+      { params: PostMailHelloHtmlParams },
+      TContext
+    >
+    request?: SecondParameter<typeof axiosApi>
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof postMailHelloHtml>>,
+  TError,
+  { params: PostMailHelloHtmlParams },
+  TContext
+> => {
+  return useMutation(getPostMailHelloHtmlMutationOptions(options), queryClient)
 }
 export const getHello = (
   options?: SecondParameter<typeof axiosApi>,

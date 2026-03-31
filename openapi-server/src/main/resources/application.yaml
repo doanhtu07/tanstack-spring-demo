@@ -32,6 +32,19 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/changelog-root.yaml
 
+  # Mail integration
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.connectiontimeout: 5000
+      mail.smtp.timeout: 3000
+      mail.smtp.writetimeout: 5000
+
   # Spring Boot Admin integration
   boot:
     admin:
@@ -93,6 +106,9 @@ management:
       enabled: true  # Enable the info endpoint with environment details
 
 # MARK: Custom application properties
+
+from-email:
+  no-reply: ${MAIL_FROM_EMAIL_NO_REPLY}
 
 electric:
   url: ${ELECTRIC_URL}
