@@ -48,6 +48,11 @@ This repository is a working demo of a full-stack application:
   - [x] Dev env: Use Mailtrap
   - Prod env: You can setup Mailtrap, Resend, Mailgun, ...
 
+---
+
+- [ ] Password reset
+- [ ] Remember me token for longer session duration
+
 ## Running the application system
 
 Client (Tanstack Start):
