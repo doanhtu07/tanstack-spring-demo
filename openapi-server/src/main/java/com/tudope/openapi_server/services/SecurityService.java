@@ -30,12 +30,15 @@ public class SecurityService {
         }
     }
 
+    /**
+     * Used for cross-site setup (Not recommended)
+     */
     public CookieCsrfTokenRepository cookieCsrfTokenRepository() {
         // 'withHttpOnlyFalse' is required so your SPA (React/Vue/etc) can read the cookie
         CookieCsrfTokenRepository repository = CookieCsrfTokenRepository.withHttpOnlyFalse();
 
         repository.setCookieCustomizer(cookie -> {
-            cookie.domain(cookieDomain);
+            if (!cookieDomain.isBlank()) cookie.domain(cookieDomain);
             cookie.sameSite(cookieSameSite);
             cookie.secure(cookieSecure);
         });

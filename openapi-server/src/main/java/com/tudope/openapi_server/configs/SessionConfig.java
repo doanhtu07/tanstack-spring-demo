@@ -3,6 +3,8 @@ package com.tudope.openapi_server.configs;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.session.config.SessionRepositoryCustomizer;
+import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
@@ -29,10 +31,19 @@ public class SessionConfig {
     }
 
     @Bean
+    public SessionRepositoryCustomizer<JdbcIndexedSessionRepository> sessionRepositoryCustomizer(
+            @Value("${spring.session.jdbc.cleanup-cron}") String cleanupCron
+    ) {
+        return repository -> {
+            if (!cleanupCron.isBlank()) repository.setCleanupCron(cleanupCron);
+        };
+    }
+
+    @Bean
     public CookieSerializer cookieSerializer() {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
         serializer.setCookieName("SESSION");
-        serializer.setDomainName(cookieDomain);
+        if (!cookieDomain.isBlank()) serializer.setDomainName(cookieDomain);
         serializer.setSameSite(cookieSameSite);
         serializer.setUseSecureCookie(cookieSecure);
         serializer.setUseHttpOnlyCookie(cookieHttpOnly);

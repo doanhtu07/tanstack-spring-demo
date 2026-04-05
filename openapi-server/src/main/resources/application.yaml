@@ -32,7 +32,7 @@ spring:
   session:
     jdbc:
       # Runs once every 24 hours at midnight
-      cleanup-cron: "0 0 0 * * *"
+      cleanup-cron: ${SPRING_SESSION_CLEANUP_CRON:}
 
   # Liquibase integration
   liquibase:
@@ -77,10 +77,10 @@ server:
   servlet:
     session:
       cookie:
-        domain: ${SESSION_COOKIE_DOMAIN:}
-        same-site: ${SESSION_COOKIE_SAME_SITE:lax}
-        secure: ${SESSION_COOKIE_SECURE:false}
-        http-only: ${SESSION_COOKIE_HTTP_ONLY:true}
+        domain: ${JSESSION_COOKIE_DOMAIN:}
+        same-site: ${JSESSION_COOKIE_SAME_SITE:lax}
+        secure: ${JSESSION_COOKIE_SECURE:false}
+        http-only: ${JSESSION_COOKIE_HTTP_ONLY:true}
 
 logging:
   level:
