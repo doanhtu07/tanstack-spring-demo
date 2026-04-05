@@ -17,6 +17,7 @@ spring:
       minimum-idle: ${HIKARI_MINIMUM_IDLE:10}
       idle-timeout: ${HIKARI_IDLE_TIMEOUT:600000}
       keepalive-time: ${HIKARI_KEEPALIVE_TIME:120000}
+      connection-timeout: ${HIKARI_CONNECTION_TIMEOUT:30000}
 
   jpa:
     hibernate:
@@ -25,7 +26,7 @@ spring:
     properties:
       hibernate:
         jdbc:
-          time_zone: UTC
+          "[time_zone]": UTC
 
   # Liquibase integration
   liquibase:
@@ -39,11 +40,11 @@ spring:
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
     properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
-      mail.smtp.connectiontimeout: 5000
-      mail.smtp.timeout: 3000
-      mail.smtp.writetimeout: 5000
+      "[mail.smtp.auth]": true
+      "[mail.smtp.starttls.enable]": true
+      "[mail.smtp.connectiontimeout]": 5000
+      "[mail.smtp.timeout]": 3000
+      "[mail.smtp.writetimeout]": 5000
 
   # Spring Boot Admin integration
   boot:
@@ -57,8 +58,8 @@ spring:
           service-base-url: ${SERVICE_BASE_URL:${RENDER_EXTERNAL_URL}}
           management-base-url: ${MANAGEMENT_BASE_URL:${RENDER_EXTERNAL_URL}}
           metadata:
-            user.name: ${ACTUATOR_USERNAME}
-            user.password: ${ACTUATOR_PASSWORD}
+            "[user.name]": ${ACTUATOR_USERNAME}
+            "[user.password]": ${ACTUATOR_PASSWORD}
 
 server:
   port: ${PORT}

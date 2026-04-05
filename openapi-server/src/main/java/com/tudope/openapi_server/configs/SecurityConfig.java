@@ -30,8 +30,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.session.web.http.CookieSerializer;
-import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -47,25 +45,10 @@ public class SecurityConfig {
 
     private final AppUserRepository userRepository;
 
-    private final String cookieDomain;
-    private final String cookieSameSite;
-    private final boolean cookieSecure;
-    private final boolean cookieHttpOnly;
-
     public SecurityConfig(
-            AppUserRepository userRepository,
-
-            @Value("${server.servlet.session.cookie.domain}") String cookieDomain,
-            @Value("${server.servlet.session.cookie.same-site}") String cookieSameSite,
-            @Value("${server.servlet.session.cookie.secure}") boolean cookieSecure,
-            @Value("${server.servlet.session.cookie.http-only}") boolean cookieHttpOnly
+            AppUserRepository userRepository
     ) {
         this.userRepository = userRepository;
-
-        this.cookieDomain = cookieDomain;
-        this.cookieSameSite = cookieSameSite;
-        this.cookieSecure = cookieSecure;
-        this.cookieHttpOnly = cookieHttpOnly;
     }
 
     @Bean
@@ -138,17 +121,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CookieSerializer cookieSerializer() {
-        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-        serializer.setCookieName("SESSION");
-        serializer.setDomainName(cookieDomain);
-        serializer.setSameSite(cookieSameSite);
-        serializer.setUseSecureCookie(cookieSecure);
-        serializer.setUseHttpOnlyCookie(cookieHttpOnly);
-        return serializer;
-    }
-
-    @Bean
     @Order(1)
     @Profile("dev")
     public SecurityFilterChain springdocFilterChain(HttpSecurity http) {
@@ -212,6 +184,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(configurer -> configurer
                         // Your App's Public APIs
                         .requestMatchers("/api/public/**").permitAll()
+                        .requestMatchers("/api/csrf/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
 
                         // All other App APIs (Required JDBC User)

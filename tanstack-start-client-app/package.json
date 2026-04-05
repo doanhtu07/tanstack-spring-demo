@@ -12,6 +12,7 @@
     "lint": "eslint",
     "format": "prettier",
     "check": "prettier --write . && eslint --fix",
+    "type-check": "tsc --noEmit",
     "orval": "rimraf src/orval && orval"
   },
   "imports": {

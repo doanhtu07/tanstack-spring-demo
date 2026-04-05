@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { PropsWithChildren } from 'react'
-import { getInitCsrf } from '@/orval/csrf-controller'
+import { getCsrfInit } from '@/orval/csrf-controller'
 
 type CsrfProviderProps = PropsWithChildren
 
@@ -17,7 +17,7 @@ export const CsrfProvider = ({ children }: CsrfProviderProps) => {
     // Same-origin setup (with CSRF cookie)
     // - Hit the server to initialize session & CSRF
     // - This approach with CSRF cookie only works for same-origin
-    getInitCsrf().finally(() => {
+    getCsrfInit().finally(() => {
       if (mounted) setReady(true)
     })
 

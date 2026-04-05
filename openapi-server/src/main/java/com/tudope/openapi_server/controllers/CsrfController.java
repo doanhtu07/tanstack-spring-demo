@@ -10,21 +10,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/csrf", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CsrfController {
 
     /**
      * Used for simple same-site setup
      */
-    @GetMapping(value = "/public/init-csrf")
-    public SimpleResponse getInitCsrf() {
+    @GetMapping(value = "/init")
+    public SimpleResponse getCsrfInit() {
         return new SimpleResponse("Welcome to API!");
     }
 
     /**
      * Used for cross-site setup (Not recommended)
      */
-    @GetMapping("/public/csrf-token")
+    @GetMapping("/token")
     public CsrfTokenResponse getCsrfToken(HttpServletRequest request) {
         CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         return new CsrfTokenResponse(token.getToken());

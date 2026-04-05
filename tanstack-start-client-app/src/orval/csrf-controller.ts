@@ -26,144 +26,18 @@ import { axiosApi } from '../api/axios'
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1]
 
-export const getInitCsrf = (
-  options?: SecondParameter<typeof axiosApi>,
-  signal?: AbortSignal,
-) => {
-  return axiosApi<SimpleResponse>(
-    { url: `/api/public/init-csrf`, method: 'GET', signal },
-    options,
-  )
-}
-
-export const getGetInitCsrfQueryKey = () => {
-  return [`/api/public/init-csrf`] as const
-}
-
-export const getGetInitCsrfQueryOptions = <
-  TData = Awaited<ReturnType<typeof getInitCsrf>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getInitCsrf>>, TError, TData>
-  >
-  request?: SecondParameter<typeof axiosApi>
-}) => {
-  const { query: queryOptions, request: requestOptions } = options ?? {}
-
-  const queryKey = queryOptions?.queryKey ?? getGetInitCsrfQueryKey()
-
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getInitCsrf>>> = ({
-    signal,
-  }) => getInitCsrf(requestOptions, signal)
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getInitCsrf>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetInitCsrfQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getInitCsrf>>
->
-export type GetInitCsrfQueryError = unknown
-
-export function useGetInitCsrf<
-  TData = Awaited<ReturnType<typeof getInitCsrf>>,
-  TError = unknown,
->(
-  options: {
-    query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getInitCsrf>>, TError, TData>
-    > &
-      Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getInitCsrf>>,
-          TError,
-          Awaited<ReturnType<typeof getInitCsrf>>
-        >,
-        'initialData'
-      >
-    request?: SecondParameter<typeof axiosApi>
-  },
-  queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetInitCsrf<
-  TData = Awaited<ReturnType<typeof getInitCsrf>>,
-  TError = unknown,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getInitCsrf>>, TError, TData>
-    > &
-      Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getInitCsrf>>,
-          TError,
-          Awaited<ReturnType<typeof getInitCsrf>>
-        >,
-        'initialData'
-      >
-    request?: SecondParameter<typeof axiosApi>
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useGetInitCsrf<
-  TData = Awaited<ReturnType<typeof getInitCsrf>>,
-  TError = unknown,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getInitCsrf>>, TError, TData>
-    >
-    request?: SecondParameter<typeof axiosApi>
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-
-export function useGetInitCsrf<
-  TData = Awaited<ReturnType<typeof getInitCsrf>>,
-  TError = unknown,
->(
-  options?: {
-    query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getInitCsrf>>, TError, TData>
-    >
-    request?: SecondParameter<typeof axiosApi>
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getGetInitCsrfQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-
-  return { ...query, queryKey: queryOptions.queryKey }
-}
-
 export const getCsrfToken = (
   options?: SecondParameter<typeof axiosApi>,
   signal?: AbortSignal,
 ) => {
   return axiosApi<CsrfTokenResponse>(
-    { url: `/api/public/csrf-token`, method: 'GET', signal },
+    { url: `/api/csrf/token`, method: 'GET', signal },
     options,
   )
 }
 
 export const getGetCsrfTokenQueryKey = () => {
-  return [`/api/public/csrf-token`] as const
+  return [`/api/csrf/token`] as const
 }
 
 export const getGetCsrfTokenQueryOptions = <
@@ -269,6 +143,132 @@ export function useGetCsrfToken<
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions = getGetCsrfTokenQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return { ...query, queryKey: queryOptions.queryKey }
+}
+
+export const getCsrfInit = (
+  options?: SecondParameter<typeof axiosApi>,
+  signal?: AbortSignal,
+) => {
+  return axiosApi<SimpleResponse>(
+    { url: `/api/csrf/init`, method: 'GET', signal },
+    options,
+  )
+}
+
+export const getGetCsrfInitQueryKey = () => {
+  return [`/api/csrf/init`] as const
+}
+
+export const getGetCsrfInitQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCsrfInit>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getCsrfInit>>, TError, TData>
+  >
+  request?: SecondParameter<typeof axiosApi>
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getGetCsrfInitQueryKey()
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getCsrfInit>>> = ({
+    signal,
+  }) => getCsrfInit(requestOptions, signal)
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCsrfInit>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetCsrfInitQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCsrfInit>>
+>
+export type GetCsrfInitQueryError = unknown
+
+export function useGetCsrfInit<
+  TData = Awaited<ReturnType<typeof getCsrfInit>>,
+  TError = unknown,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCsrfInit>>, TError, TData>
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCsrfInit>>,
+          TError,
+          Awaited<ReturnType<typeof getCsrfInit>>
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof axiosApi>
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetCsrfInit<
+  TData = Awaited<ReturnType<typeof getCsrfInit>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCsrfInit>>, TError, TData>
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCsrfInit>>,
+          TError,
+          Awaited<ReturnType<typeof getCsrfInit>>
+        >,
+        'initialData'
+      >
+    request?: SecondParameter<typeof axiosApi>
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetCsrfInit<
+  TData = Awaited<ReturnType<typeof getCsrfInit>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCsrfInit>>, TError, TData>
+    >
+    request?: SecondParameter<typeof axiosApi>
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+
+export function useGetCsrfInit<
+  TData = Awaited<ReturnType<typeof getCsrfInit>>,
+  TError = unknown,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCsrfInit>>, TError, TData>
+    >
+    request?: SecondParameter<typeof axiosApi>
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetCsrfInitQueryOptions(options)
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

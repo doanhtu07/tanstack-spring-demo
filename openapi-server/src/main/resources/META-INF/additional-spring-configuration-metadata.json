@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "from-email.no-reply",
+      "type": "java.lang.String",
+      "description": "A description for 'from-email.no-reply'"
+    },
+    {
+      "name": "electric.url",
+      "type": "java.lang.String",
+      "description": "A description for 'electric.url'"
+    },
+    {
+      "name": "electric.secret",
+      "type": "java.lang.String",
+      "description": "A description for 'electric.secret'"
+    },
+    {
+      "name": "cors.allowed-origins",
+      "type": "java.lang.String",
+      "description": "A description for 'cors.allowed-origins'"
+    }
+  ]
+}
