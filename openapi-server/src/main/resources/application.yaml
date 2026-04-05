@@ -78,9 +78,10 @@ server:
 
 logging:
   level:
-    org:
-      springframework:
-        security: ${SPRING_SECURITY_LOG_LEVEL:info}
+    "[org.springframework.security]": ${SPRING_SECURITY_LOG_LEVEL:info}
+    "[org.springframework.session]": ${SPRING_SESSION_LOG_LEVEL:info}
+    "[org.hibernate.sql]": ${HIBERNATE_SQL_LOG_LEVEL:info}
+    "[com.zaxxer.hikari]": ${HIKARI_LOG_LEVEL:info}
 
 # Actuator configuration
 management:
