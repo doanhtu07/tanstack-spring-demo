@@ -1,4 +1,4 @@
-package com.tudope.openapi_server.filters;
+package com.tudope.openapi_server.configs.filters;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
