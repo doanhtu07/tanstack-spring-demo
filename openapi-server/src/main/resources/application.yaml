@@ -28,6 +28,12 @@ spring:
         jdbc:
           "[time_zone]": UTC
 
+  # Spring Session JDBC integration
+  session:
+    jdbc:
+      # Runs once every 24 hours at midnight
+      cleanup-cron: "0 0 0 * * *"
+
   # Liquibase integration
   liquibase:
     enabled: true
