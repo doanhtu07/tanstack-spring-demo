@@ -157,6 +157,8 @@ Spring Boot:
 - `pnpm outdated`: Check for outdated dependencies for client
   - `pnpm up --latest`: Update dependencies to latest versions for client
   - Or choose certain dependencies to update by specifying package names
+- `pnpm install --resolution-only`: Check for outdated dependencies or potential version conflicts
+- `pnpm why <package-name>`: Check why a certain package is installed and which other packages depend on it
 
 - `mvn versions:display-dependency-updates`: Check for outdated dependencies for server
 - `mvn versions:display-plugin-updates`: Check for outdated plugins for server
