@@ -17,23 +17,24 @@ public class SessionConfig {
     private final String cookieSameSite;
     private final boolean cookieSecure;
     private final boolean cookieHttpOnly;
+    private final String cleanupCron;
 
     public SessionConfig(
             @Value("${server.servlet.session.cookie.domain}") String cookieDomain,
             @Value("${server.servlet.session.cookie.same-site}") String cookieSameSite,
             @Value("${server.servlet.session.cookie.secure}") boolean cookieSecure,
-            @Value("${server.servlet.session.cookie.http-only}") boolean cookieHttpOnly
+            @Value("${server.servlet.session.cookie.http-only}") boolean cookieHttpOnly,
+            @Value("${spring.session.jdbc.cleanup-cron}") String cleanupCron
     ) {
         this.cookieDomain = cookieDomain;
         this.cookieSameSite = cookieSameSite;
         this.cookieSecure = cookieSecure;
         this.cookieHttpOnly = cookieHttpOnly;
+        this.cleanupCron = cleanupCron;
     }
 
     @Bean
-    public SessionRepositoryCustomizer<JdbcIndexedSessionRepository> sessionRepositoryCustomizer(
-            @Value("${spring.session.jdbc.cleanup-cron}") String cleanupCron
-    ) {
+    public SessionRepositoryCustomizer<JdbcIndexedSessionRepository> sessionRepositoryCustomizer() {
         return repository -> {
             if (!cleanupCron.isBlank()) repository.setCleanupCron(cleanupCron);
         };
