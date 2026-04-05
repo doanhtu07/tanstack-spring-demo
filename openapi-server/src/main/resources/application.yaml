@@ -31,7 +31,6 @@ spring:
   # Spring Session JDBC integration
   session:
     jdbc:
-      # Runs once every 24 hours at midnight
       cleanup-cron: ${SPRING_SESSION_CLEANUP_CRON:}
 
   # Liquibase integration
