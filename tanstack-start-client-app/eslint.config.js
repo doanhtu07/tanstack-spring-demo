@@ -1,4 +1,4 @@
-//  @ts-check
+// @ts-check
 
 import { globalIgnores } from 'eslint/config'
 import { tanstackConfig } from '@tanstack/eslint-config'
