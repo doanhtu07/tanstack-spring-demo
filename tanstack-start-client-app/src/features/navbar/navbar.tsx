@@ -1,15 +1,23 @@
 import { observer } from 'mobx-react-lite'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
 import { CustomLink } from '../../components/custom-link/custom-link'
 import styles from './navbar.module.css'
 import type { CurrentUserResponse } from '@/orval/openAPIDefinition.schemas'
 import { getTestId } from '@/utils/test-ids'
 import { useStore } from '@/providers/store-provider'
-import { useGetCurrentUser } from '@/orval/auth-controller'
+import {
+  getGetCurrentUserQueryKey,
+  getGetCurrentUserQueryOptions,
+} from '@/orval/auth-controller'
 import { Divider } from '@/components/divider/divider'
 import { Button } from '@/components/button/button'
 import { useTheme } from '@/providers/theme-provider'
+
+// Aggregation of query keys used in Navbar feature -> easy to bulk refresh
+export const featureNavbarQueryKeys = {
+  getGetCurrentUserQueryKey,
+} as const
 
 type Props = {
   user?: CurrentUserResponse
@@ -34,13 +42,16 @@ export const Navbar = observer(
     const queryClient = useQueryClient()
     const { toggleTheme } = useTheme()
 
-    const { data: cachedUser, isError } = useGetCurrentUser({
-      query: {
-        enabled: !inputUser,
-        staleTime: 1000 * 60,
-        retry: false,
-        refetchOnWindowFocus: false,
-      },
+    const { data: cachedUser, isError } = useQuery({
+      ...getGetCurrentUserQueryOptions({
+        query: {
+          enabled: !inputUser,
+          staleTime: 1000 * 60,
+          retry: false,
+          refetchOnWindowFocus: false,
+        },
+      }),
+      queryKey: featureNavbarQueryKeys.getGetCurrentUserQueryKey(),
     })
 
     const currentUser = inputUser || (isError ? undefined : cachedUser)

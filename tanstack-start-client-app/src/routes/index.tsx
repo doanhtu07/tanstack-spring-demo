@@ -2,12 +2,16 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Trans, useTranslation } from 'react-i18next'
+import { useQuery } from '@tanstack/react-query'
 import { useCsrf } from '@/providers/csrf-provider'
 import { Button } from '@/components/button/button'
 import { useTheme } from '@/providers/theme-provider'
 import { useStore } from '@/providers/store-provider'
 import { Divider } from '@/components/divider/divider'
-import { useGetHello } from '@/orval/demo-controller'
+import {
+  getGetHelloQueryKey,
+  getGetHelloQueryOptions,
+} from '@/orval/demo-controller'
 import styles from '@/styles/home.module.css'
 import { getTestId } from '@/utils/test-ids'
 import { CustomLink } from '@/components/custom-link/custom-link'
@@ -15,6 +19,11 @@ import { Navbar } from '@/features/navbar/navbar'
 import { getCurrentUserFn } from '@/server-actions/get-current-user'
 
 const TEST_ID_ROOT = 'home'
+
+// Aggregation of query keys used in Home route -> easy to bulk refresh
+export const routeHomeQueryKeys = {
+  getGetHelloQueryKey,
+} as const
 
 const Home = observer(() => {
   const { user } = Route.useRouteContext()
@@ -25,10 +34,13 @@ const Home = observer(() => {
 
   const count = counterStore.count
 
-  const { data } = useGetHello({
-    query: {
-      staleTime: 1000 * 60,
-    },
+  const { data } = useQuery({
+    ...getGetHelloQueryOptions({
+      query: {
+        staleTime: 1000 * 60,
+      },
+    }),
+    queryKey: routeHomeQueryKeys.getGetHelloQueryKey(),
   })
 
   const helloMessage = data?.message ?? 'No message'
