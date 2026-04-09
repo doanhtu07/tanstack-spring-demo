@@ -163,6 +163,10 @@ Spring Boot:
 - `mvn versions:display-dependency-updates`: Check for outdated dependencies for server
 - `mvn versions:display-plugin-updates`: Check for outdated plugins for server
   - Update `pom.xml` with latest versions for dependencies
+- `mvn wrapper:wrapper -Dmaven=3.9.14`: Update Maven wrapper to a certain version
+
+- `/usr/libexec/java_home -V`: Check installed Java versions in macOS
+- `ls /opt/homebrew/opt/ | grep jdk`: Check installed Java versions in Homebrew
 
 - Use Github Dependabot to automate dependency updates (recommended) and security patches (optional)
 
