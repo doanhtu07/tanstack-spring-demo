@@ -22,7 +22,7 @@
     "@electric-sql/client": "^1.5.14",
     "@electric-sql/react": "^1.0.43",
     "@tailwindcss/vite": "^4.2.2",
-    "@tanstack/react-query": "^5.96.2",
+    "@tanstack/react-query": "^5.97.0",
     "@tanstack/react-router": "^1.168.10",
     "@tanstack/react-router-ssr-query": "^1.166.10",
     "@tanstack/react-start": "^1.167.16",
