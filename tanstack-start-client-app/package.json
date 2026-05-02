@@ -27,7 +27,7 @@
     "@tanstack/react-router-ssr-query": "^1.166.11",
     "@tanstack/react-start": "^1.167.32",
     "@tanstack/router-plugin": "^1.167.18",
-    "@tanstack/router-ssr-query-core": "^1.167.1",
+    "@tanstack/router-ssr-query-core": "^1.168.0",
     "axios": "^1.15.0",
     "clsx": "^2.1.1",
     "i18next": "^26.0.4",

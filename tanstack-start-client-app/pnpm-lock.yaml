@@ -33,8 +33,8 @@ importers:
         specifier: ^1.167.18
         version: 1.167.18(@tanstack/react-router@1.168.22(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))
       '@tanstack/router-ssr-query-core':
-        specifier: ^1.167.1
-        version: 1.167.1(@tanstack/query-core@5.99.0)(@tanstack/router-core@1.168.15)
+        specifier: ^1.168.0
+        version: 1.168.0(@tanstack/query-core@5.99.0)(@tanstack/router-core@1.168.15)
       axios:
         specifier: ^1.15.0
         version: 1.15.0
@@ -1233,6 +1233,13 @@ packages:
 
   '@tanstack/router-ssr-query-core@1.167.1':
     resolution: {integrity: sha512-sJNRHa36lfuHw04akO9C6KU1P1Ncam2Azsk5XlgdQHMFgOtSlFAsuwqAHpyYSwu5Jyxj6P3PmyKYMIm4u8dI7Q==}
+    engines: {node: '>=20.19'}
+    peerDependencies:
+      '@tanstack/query-core': '>=5.90.0'
+      '@tanstack/router-core': '>=1.127.0'
+
+  '@tanstack/router-ssr-query-core@1.168.0':
+    resolution: {integrity: sha512-5yBUAF1d9z2kOFKoz1spvpvkMSTmRnRXEwi+bGKfrXYmt7CfHu3Pk8KUFMln67uQoKQ9VTkcd5tLkjJVrZ2/AQ==}
     engines: {node: '>=20.19'}
     peerDependencies:
       '@tanstack/query-core': '>=5.90.0'
@@ -4842,6 +4849,11 @@ snapshots:
       - supports-color
 
   '@tanstack/router-ssr-query-core@1.167.1(@tanstack/query-core@5.99.0)(@tanstack/router-core@1.168.15)':
+    dependencies:
+      '@tanstack/query-core': 5.99.0
+      '@tanstack/router-core': 1.168.15
+
+  '@tanstack/router-ssr-query-core@1.168.0(@tanstack/query-core@5.99.0)(@tanstack/router-core@1.168.15)':
     dependencies:
       '@tanstack/query-core': 5.99.0
       '@tanstack/router-core': 1.168.15
