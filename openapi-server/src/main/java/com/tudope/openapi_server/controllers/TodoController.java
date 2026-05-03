@@ -11,13 +11,12 @@ import com.tudope.openapi_server.repositories.AppUserRepository;
 import com.tudope.openapi_server.repositories.TodoRepository;
 import com.tudope.openapi_server.services.SecurityService;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/todo", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,7 +26,8 @@ public class TodoController {
     private final AppUserRepository appUserRepository;
     private final SecurityService securityService;
 
-    public TodoController(TodoRepository todoRepository, AppUserRepository appUserRepository, SecurityService securityService) {
+    public TodoController(
+            TodoRepository todoRepository, AppUserRepository appUserRepository, SecurityService securityService) {
         this.todoRepository = todoRepository;
         this.appUserRepository = appUserRepository;
         this.securityService = securityService;
@@ -39,18 +39,15 @@ public class TodoController {
 
         List<Todo> todos = todoRepository.findAllByOwnerId(user.id());
 
-        List<TodoResponse> todoResponses = todos.stream()
-                .map(TodoResponse::fromEntity)
-                .toList();
+        List<TodoResponse> todoResponses =
+                todos.stream().map(TodoResponse::fromEntity).toList();
 
         return ResponseEntity.ok(todoResponses);
     }
 
     @PostMapping(value = "/add")
     public ResponseEntity<TodoResponse> postTodoAdd(
-            @AuthenticationPrincipal AppUserDetails user,
-            @Valid @RequestBody TodoAddRequestBody requestBody
-    ) {
+            @AuthenticationPrincipal AppUserDetails user, @Valid @RequestBody TodoAddRequestBody requestBody) {
         securityService.ensureUser(user);
 
         String description = requestBody.description();
@@ -67,9 +64,7 @@ public class TodoController {
 
     @DeleteMapping(value = "/remove")
     public ResponseEntity<Void> deleteTodoRemove(
-            @AuthenticationPrincipal AppUserDetails user,
-            @Valid @RequestBody TodoDeleteRequestBody requestBody
-    ) {
+            @AuthenticationPrincipal AppUserDetails user, @Valid @RequestBody TodoDeleteRequestBody requestBody) {
         securityService.ensureUser(user);
 
         Long id = Long.valueOf(requestBody.id());
@@ -85,9 +80,7 @@ public class TodoController {
 
     @PutMapping(value = "/update")
     public ResponseEntity<TodoResponse> putTodoUpdate(
-            @AuthenticationPrincipal AppUserDetails user,
-            @Valid @RequestBody TodoUpdateRequestBody requestBody
-    ) {
+            @AuthenticationPrincipal AppUserDetails user, @Valid @RequestBody TodoUpdateRequestBody requestBody) {
         securityService.ensureUser(user);
 
         Long id = Long.valueOf(requestBody.id());
@@ -109,5 +102,4 @@ public class TodoController {
 
         return ResponseEntity.ok(TodoResponse.fromEntity(todo));
     }
-
 }

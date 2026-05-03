@@ -36,8 +36,7 @@ public class AuthController {
     public ResponseEntity<Void> postSignin(
             HttpServletRequest request,
             HttpServletResponse response,
-            @Valid @RequestBody SigninRequestBody requestBody
-    ) {
+            @Valid @RequestBody SigninRequestBody requestBody) {
         authService.signin(request, response, requestBody.email(), requestBody.password());
         return ResponseEntity.ok().build();
     }
@@ -46,8 +45,7 @@ public class AuthController {
     public ResponseEntity<Void> postSignup(
             HttpServletRequest request,
             HttpServletResponse response,
-            @Valid @RequestBody SignupRequestBody requestBody
-    ) {
+            @Valid @RequestBody SignupRequestBody requestBody) {
         authService.registerUser(requestBody.email(), requestBody.password());
         authService.signin(request, response, requestBody.email(), requestBody.password());
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -62,17 +60,12 @@ public class AuthController {
 
     @GetMapping("/current-user")
     public ResponseEntity<CurrentUserResponse> getCurrentUser(
-            // NOTE: Type "AppUserDetails" is really sensitive. It will be null if UserDetailsService returns a different type
+            // NOTE: Type "AppUserDetails" is really sensitive. It will be null if UserDetailsService returns a
+            // different type
             // By default, UserDetailsService returns built-in org.springframework.security.core.userdetails.User class
-            @AuthenticationPrincipal AppUserDetails user
-    ) {
+            @AuthenticationPrincipal AppUserDetails user) {
         securityService.ensureUser(user);
 
-        return ResponseEntity.ok(new CurrentUserResponse(
-                user.id(),
-                user.getUsername(),
-                user.getAuthorities()
-        ));
+        return ResponseEntity.ok(new CurrentUserResponse(user.id(), user.getUsername(), user.getAuthorities()));
     }
-
 }

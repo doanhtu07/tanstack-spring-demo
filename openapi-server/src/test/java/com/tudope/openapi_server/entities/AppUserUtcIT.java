@@ -1,9 +1,12 @@
 package com.tudope.openapi_server.entities;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import com.tudope.openapi_server.configs.TestFixedTimeConfig;
 import com.tudope.openapi_server.configs.TestcontainersConfig;
 import com.tudope.openapi_server.repositories.AppUserRepository;
 import jakarta.persistence.EntityManager;
+import java.time.Instant;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -11,10 +14,6 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.liquibase.autoconfigure.LiquibaseAutoConfiguration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.time.Instant;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
 @ActiveProfiles("test")

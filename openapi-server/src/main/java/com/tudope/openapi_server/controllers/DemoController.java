@@ -4,10 +4,9 @@ import com.tudope.openapi_server.constants.MailTemplates;
 import com.tudope.openapi_server.dtos.SimpleResponse;
 import com.tudope.openapi_server.services.EmailService;
 import jakarta.mail.MessagingException;
+import java.util.Map;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,17 +35,10 @@ public class DemoController {
     }
 
     @PostMapping("/mail/hello-html")
-    public SimpleResponse postMailHelloHtml(
-            @RequestParam String to,
-            @RequestParam String name
-    ) throws MessagingException {
-        Map<String, Object> vars = Map.of(
-                "name", name,
-                "message", "Welcome to the app!"
-        );
+    public SimpleResponse postMailHelloHtml(@RequestParam String to, @RequestParam String name)
+            throws MessagingException {
+        Map<String, Object> vars = Map.of("name", name, "message", "Welcome to the app!");
         emailService.sendHtml(to, "Hello!", MailTemplates.HELLO, vars);
-
         return new SimpleResponse("HTML email sent to " + to);
     }
-
 }

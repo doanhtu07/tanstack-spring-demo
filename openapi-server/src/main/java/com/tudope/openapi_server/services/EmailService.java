@@ -2,6 +2,7 @@ package com.tudope.openapi_server.services;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,8 +10,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
-import java.util.Map;
 
 @Service
 public class EmailService {
@@ -35,7 +34,8 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void sendHtml(String to, String subject, String templateName, Map<String, Object> variables) throws MessagingException {
+    public void sendHtml(String to, String subject, String templateName, Map<String, Object> variables)
+            throws MessagingException {
         // render template
         Context context = new Context();
         context.setVariables(variables);
@@ -50,5 +50,4 @@ public class EmailService {
         helper.setText(html, true);
         mailSender.send(message);
     }
-
 }

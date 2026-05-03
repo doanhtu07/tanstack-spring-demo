@@ -2,11 +2,10 @@ package com.tudope.openapi_server.entities;
 
 import com.tudope.openapi_server.domains.authorities.Permission;
 import jakarta.persistence.*;
+import java.time.Instant;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.Instant;
 
 @Entity
 @Table(name = "authority")
@@ -36,8 +35,7 @@ public class Authority {
 
     // MARK: Constructors
 
-    public Authority() {
-    }
+    public Authority() {}
 
     public Authority(Permission permission) {
         this.permission = permission;
@@ -47,12 +45,11 @@ public class Authority {
 
     @Override
     public String toString() {
-        return "Authority{" +
-                "id=" + id +
-                ", permission='" + permission + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        return "Authority{" + "id="
+                + id + ", permission='"
+                + permission + '\'' + ", createdAt="
+                + createdAt + ", updatedAt="
+                + updatedAt + '}';
     }
 
     // MARK: Getters and Setters
@@ -96,5 +93,4 @@ public class Authority {
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 }

@@ -2,7 +2,6 @@ package com.tudope.openapi_server.dtos.todo;
 
 import com.tudope.openapi_server.entities.Todo;
 import jakarta.validation.constraints.NotNull;
-
 import java.time.Instant;
 
 public record TodoResponse(
@@ -11,8 +10,7 @@ public record TodoResponse(
         @NotNull boolean completed,
         @NotNull String ownerId,
         @NotNull Instant createdAt,
-        @NotNull Instant updatedAt
-) {
+        @NotNull Instant updatedAt) {
 
     public static TodoResponse fromEntity(Todo todo) {
         return new TodoResponse(
@@ -21,8 +19,6 @@ public record TodoResponse(
                 todo.isCompleted(),
                 todo.getOwner().getId().toString(),
                 todo.getCreatedAt(),
-                todo.getUpdatedAt()
-        );
+                todo.getUpdatedAt());
     }
-
 }

@@ -29,8 +29,7 @@ public class AuthService {
             AppUserRepository userRepository,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
-            SecurityContextRepository securityContextRepository
-    ) {
+            SecurityContextRepository securityContextRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
@@ -39,8 +38,7 @@ public class AuthService {
 
     public void signin(HttpServletRequest request, HttpServletResponse response, String email, String password) {
         // Create authentication token
-        UsernamePasswordAuthenticationToken authToken =
-                new UsernamePasswordAuthenticationToken(email, password);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, password);
 
         Authentication auth = authenticationManager.authenticate(authToken);
 
@@ -67,5 +65,4 @@ public class AuthService {
         // Save (CascadeType.ALL handles the Authority table)
         userRepository.save(user);
     }
-
 }

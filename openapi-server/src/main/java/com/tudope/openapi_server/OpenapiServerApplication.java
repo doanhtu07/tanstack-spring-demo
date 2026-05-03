@@ -9,5 +9,4 @@ public class OpenapiServerApplication {
     static void main(String[] args) {
         SpringApplication.run(OpenapiServerApplication.class, args);
     }
-
 }

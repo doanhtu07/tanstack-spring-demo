@@ -4,6 +4,11 @@ import com.tudope.openapi_server.constants.ElectricProtocol;
 import com.tudope.openapi_server.dtos.auth.AppUserDetails;
 import com.tudope.openapi_server.services.SecurityService;
 import jakarta.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -16,12 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriBuilder;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping(value = "/api/electric/todo/list")
 public class TodoListElectricController {
@@ -33,8 +32,7 @@ public class TodoListElectricController {
     public TodoListElectricController(
             RestClient electricRestClient,
             @Value("${electric.secret}") String electricSecret,
-            SecurityService securityService
-    ) {
+            SecurityService securityService) {
         this.electricRestClient = electricRestClient;
         this.electricSecret = electricSecret;
         this.securityService = securityService;
@@ -49,13 +47,11 @@ public class TodoListElectricController {
      */
     @RequestMapping(
             method = {RequestMethod.GET, RequestMethod.POST},
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Map<String, Object>>> handleElectricTodoList(
             HttpServletRequest request,
             @RequestBody(required = false) Map<String, Object> body,
-            @AuthenticationPrincipal AppUserDetails user
-    ) {
+            @AuthenticationPrincipal AppUserDetails user) {
         securityService.ensureUser(user);
 
         String method = request.getMethod();
@@ -68,10 +64,7 @@ public class TodoListElectricController {
     }
 
     private ResponseEntity<List<Map<String, Object>>> handlePost(
-            HttpServletRequest request,
-            Map<String, Object> body,
-            AppUserDetails user
-    ) {
+            HttpServletRequest request, Map<String, Object> body, AppUserDetails user) {
         Map<String, String[]> requestParams = request.getParameterMap();
         Map<String, Object> sanitizedBody = new HashMap<>();
 
@@ -83,27 +76,24 @@ public class TodoListElectricController {
             });
         }
 
-        var responseEntity = electricRestClient.post()
+        var responseEntity = electricRestClient
+                .post()
                 .uri(uriBuilder -> buildTodoListBaseUri(uriBuilder, requestParams, user.id()))
                 .body(sanitizedBody)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<List<Map<String, Object>>>() {
-                });
+                .toEntity(new ParameterizedTypeReference<List<Map<String, Object>>>() {});
 
         return proxyResponse(responseEntity);
     }
 
-    private ResponseEntity<List<Map<String, Object>>> handleGet(
-            HttpServletRequest request,
-            AppUserDetails user
-    ) {
+    private ResponseEntity<List<Map<String, Object>>> handleGet(HttpServletRequest request, AppUserDetails user) {
         Map<String, String[]> requestParams = request.getParameterMap();
 
-        var responseEntity = electricRestClient.get()
+        var responseEntity = electricRestClient
+                .get()
                 .uri(uriBuilder -> buildTodoListBaseUri(uriBuilder, requestParams, user.id()))
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<List<Map<String, Object>>>() {
-                });
+                .toEntity(new ParameterizedTypeReference<List<Map<String, Object>>>() {});
 
         return proxyResponse(responseEntity);
     }
@@ -115,11 +105,7 @@ public class TodoListElectricController {
      * <p>
      * Usually, we want to establish security in base URI
      */
-    private URI buildTodoListBaseUri(
-            UriBuilder builder,
-            Map<String, String[]> params,
-            Long userId
-    ) {
+    private URI buildTodoListBaseUri(UriBuilder builder, Map<String, String[]> params, Long userId) {
         var protocolParams = params.entrySet().stream()
                 .filter(e -> ElectricProtocol.ELECTRIC_PROTOCOL_QUERY_PARAMS.contains(e.getKey()))
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> List.of(e.getValue())));
@@ -134,20 +120,15 @@ public class TodoListElectricController {
     }
 
     private ResponseEntity<List<Map<String, Object>>> proxyResponse(
-            ResponseEntity<List<Map<String, Object>>> upstream
-    ) {
+            ResponseEntity<List<Map<String, Object>>> upstream) {
         var headers = new HttpHeaders();
 
         upstream.getHeaders().forEach((name, values) -> {
-            if (
-                    name.toLowerCase().startsWith("electric-") ||
-                            name.equalsIgnoreCase("access-control-expose-headers")
-            ) {
+            if (name.toLowerCase().startsWith("electric-") || name.equalsIgnoreCase("access-control-expose-headers")) {
                 headers.addAll(name, values);
             }
         });
 
         return new ResponseEntity<>(upstream.getBody(), headers, HttpStatus.OK);
     }
-
 }

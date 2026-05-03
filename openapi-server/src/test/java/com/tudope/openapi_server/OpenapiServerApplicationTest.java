@@ -12,7 +12,5 @@ import org.springframework.test.context.ActiveProfiles;
 class OpenapiServerApplicationTest {
 
     @Test
-    void contextLoads() {
-    }
-
+    void contextLoads() {}
 }

@@ -5,6 +5,9 @@ import com.tudope.openapi_server.dtos.auth.AppUserDetails;
 import com.tudope.openapi_server.entities.AppUser;
 import com.tudope.openapi_server.repositories.AppUserRepository;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,10 +37,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
 
@@ -45,9 +44,7 @@ public class SecurityConfig {
 
     private final AppUserRepository userRepository;
 
-    public SecurityConfig(
-            AppUserRepository userRepository
-    ) {
+    public SecurityConfig(AppUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -70,8 +67,7 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService(
             PasswordEncoder passwordEncoder,
             @Value("${ACTUATOR_USERNAME:NOT_SET}") String actuatorUsername,
-            @Value("${ACTUATOR_PASSWORD:NOT_SET}") String actuatorPassword
-    ) {
+            @Value("${ACTUATOR_PASSWORD:NOT_SET}") String actuatorPassword) {
         if (Objects.equals(actuatorUsername, "NOT_SET") || Objects.equals(actuatorPassword, "NOT_SET")) {
             logger.warn("Cannot find ACTUATOR_USERNAME or ACTUATOR_PASSWORD from environment variables");
         }
@@ -87,27 +83,21 @@ public class SecurityConfig {
             }
 
             // Fallback to database
-            AppUser appUser = userRepository.findByEmail(username)
+            AppUser appUser = userRepository
+                    .findByEmail(username)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
             List<GrantedAuthority> grantedAuthorities = appUser.getAuthorities().stream()
                     .map(a -> new SimpleGrantedAuthority(a.getPermission().name()))
                     .collect(Collectors.toList());
 
-            return new AppUserDetails(
-                    appUser.getId(),
-                    appUser.getEmail(),
-                    appUser.getPassword(),
-                    grantedAuthorities
-            );
+            return new AppUserDetails(appUser.getId(), appUser.getEmail(), appUser.getPassword(), grantedAuthorities);
         };
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource(
-            @Value("${cors.allowed-origins}")
-            List<String> allowedOrigins
-    ) {
+            @Value("${cors.allowed-origins}") List<String> allowedOrigins) {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(allowedOrigins);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
@@ -124,12 +114,7 @@ public class SecurityConfig {
     @Order(1)
     @Profile("dev")
     public SecurityFilterChain springdocFilterChain(HttpSecurity http) {
-        http
-                .securityMatcher(
-                        "/v3/api-docs/**",
-                        "/swagger-ui/**",
-                        "/swagger-ui.html"
-                )
+        http.securityMatcher("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
                 .authorizeHttpRequests(configurer -> configurer.anyRequest().permitAll());
 
         return http.build();
@@ -138,14 +123,16 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain actuatorFilterChain(HttpSecurity http) {
-        http
-                .securityMatcher("/actuator/**")
+        http.securityMatcher("/actuator/**")
                 .csrf(CsrfConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/actuator/health/**").permitAll()
-                        .requestMatchers("/actuator/info/**").permitAll()
-                        .requestMatchers("/actuator/**").hasAuthority(Permission.ROLE_ACTUATOR.name()));
+                        .requestMatchers("/actuator/health/**")
+                        .permitAll()
+                        .requestMatchers("/actuator/info/**")
+                        .permitAll()
+                        .requestMatchers("/actuator/**")
+                        .hasAuthority(Permission.ROLE_ACTUATOR.name()));
 
         return http.build();
     }
@@ -153,45 +140,43 @@ public class SecurityConfig {
     @Bean
     @Order(3)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) {
-        http
-                .securityMatcher("/api/**")
+        http.securityMatcher("/api/**")
 
                 // Same-origin setup
                 .csrf(CsrfConfigurer::spa)
 
                 // Cross-origin setup (Not recommended)
-                //.csrf(csrf -> csrf
+                // .csrf(csrf -> csrf
                 //        .csrfTokenRepository(securityService.cookieCsrfTokenRepository())
                 //        .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler())
-                //)
+                // )
 
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .logout(logout -> logout
-                        .logoutUrl("/api/auth/signout")
+                .logout(logout -> logout.logoutUrl("/api/auth/signout")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies(
                                 "JSESSIONID", // In-memory session
                                 "SESSION" // JDBC session
-                        )
-                        .logoutSuccessHandler((_, res, _) -> res.setStatus(HttpServletResponse.SC_OK))
-                )
+                                )
+                        .logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK)))
                 .exceptionHandling(ex -> ex
                         // Return 401 instead of triggering a browser Basic Auth popup
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                )
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests(configurer -> configurer
                         // Your App's Public APIs
-                        .requestMatchers("/api/public/**").permitAll()
-                        .requestMatchers("/api/csrf/**").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/public/**")
+                        .permitAll()
+                        .requestMatchers("/api/csrf/**")
+                        .permitAll()
+                        .requestMatchers("/api/auth/**")
+                        .permitAll()
 
                         // All other App APIs (Required JDBC User)
-                        .anyRequest().authenticated()
-                );
+                        .anyRequest()
+                        .authenticated());
 
         return http.build();
     }
-
 }

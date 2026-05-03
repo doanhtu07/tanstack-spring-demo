@@ -2,13 +2,12 @@ package com.tudope.openapi_server.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.function.Supplier;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
 import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
-
-import java.util.function.Supplier;
 
 /**
  * Based on implementation of CsrfConfigurer.SpaCsrfTokenRequestHandler
@@ -26,7 +25,10 @@ public class SpaCsrfTokenRequestHandler implements CsrfTokenRequestHandler {
     }
 
     @Override
-    public void handle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Supplier<CsrfToken> csrfToken) {
+    public void handle(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull Supplier<CsrfToken> csrfToken) {
         this.xor.handle(request, response, csrfToken);
     }
 
@@ -34,5 +36,4 @@ public class SpaCsrfTokenRequestHandler implements CsrfTokenRequestHandler {
     public String resolveCsrfTokenValue(@NonNull HttpServletRequest request, @NonNull CsrfToken csrfToken) {
         return this.xor.resolveCsrfTokenValue(request, csrfToken);
     }
-
 }

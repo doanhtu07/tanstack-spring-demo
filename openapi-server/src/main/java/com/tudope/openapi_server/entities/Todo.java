@@ -1,11 +1,10 @@
 package com.tudope.openapi_server.entities;
 
 import jakarta.persistence.*;
+import java.time.Instant;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.Instant;
 
 @Entity
 @Table(name = "todo")
@@ -37,8 +36,7 @@ public class Todo {
 
     // MARK: Constructors
 
-    public Todo() {
-    }
+    public Todo() {}
 
     public Todo(String description, boolean completed) {
         this.description = description;
@@ -49,13 +47,12 @@ public class Todo {
 
     @Override
     public String toString() {
-        return "Todo{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", completed=" + completed +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        return "Todo{" + "id="
+                + id + ", description='"
+                + description + '\'' + ", completed="
+                + completed + ", createdAt="
+                + createdAt + ", updatedAt="
+                + updatedAt + '}';
     }
 
     // MARK: Getters and Setters
@@ -107,5 +104,4 @@ public class Todo {
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 }

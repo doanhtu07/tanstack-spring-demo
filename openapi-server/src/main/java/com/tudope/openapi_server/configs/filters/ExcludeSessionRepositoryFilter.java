@@ -4,6 +4,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
 import org.jspecify.annotations.NonNull;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -12,9 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
-
-import java.io.IOException;
-import java.util.List;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -27,15 +26,14 @@ public class ExcludeSessionRepositoryFilter extends OncePerRequestFilter {
             pathPatternParser.parse("/swagger-ui/**"),
             pathPatternParser.parse("/swagger-ui.html"),
             pathPatternParser.parse("/actuator/**"),
-            pathPatternParser.parse("/api/public/**")
-    );
+            pathPatternParser.parse("/api/public/**"));
 
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest httpRequest,
             @NonNull HttpServletResponse httpResponse,
-            @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
+            @NonNull FilterChain filterChain)
+            throws ServletException, IOException {
         PathContainer pathContainer = PathContainer.parsePath(httpRequest.getRequestURI());
         boolean excluded = excludePatterns.stream().anyMatch(p -> p.matches(pathContainer));
 
@@ -45,12 +43,9 @@ public class ExcludeSessionRepositoryFilter extends OncePerRequestFilter {
         // See: https://github.com/spring-projects/spring-session/issues/244
         if (excluded) {
             httpRequest.setAttribute(
-                    "org.springframework.session.web.http.SessionRepositoryFilter.FILTERED",
-                    Boolean.TRUE
-            );
+                    "org.springframework.session.web.http.SessionRepositoryFilter.FILTERED", Boolean.TRUE);
         }
 
         filterChain.doFilter(httpRequest, httpResponse);
     }
-
 }

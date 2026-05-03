@@ -1,12 +1,11 @@
 package com.tudope.admin_monitor.filters;
 
-import java.io.IOException;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,10 +17,8 @@ public class CustomCsrfFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(
-            HttpServletRequest request,
-            @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
+            HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
+            throws ServletException, IOException {
         CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
 
         if (csrf != null) {
@@ -37,5 +34,4 @@ public class CustomCsrfFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
 }

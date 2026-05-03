@@ -1,13 +1,12 @@
 package com.tudope.openapi_server.entities;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "app_user")
@@ -44,8 +43,7 @@ public class AppUser {
 
     // MARK: Constructors
 
-    public AppUser() {
-    }
+    public AppUser() {}
 
     public AppUser(String email, String password, boolean enabled) {
         this.email = email;
@@ -67,14 +65,13 @@ public class AppUser {
 
     @Override
     public String toString() {
-        return "AppUser{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", enabled=" + enabled +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        return "AppUser{" + "id="
+                + id + ", email='"
+                + email + '\'' + ", password='"
+                + password + '\'' + ", enabled="
+                + enabled + ", createdAt="
+                + createdAt + ", updatedAt="
+                + updatedAt + '}';
     }
 
     // MARK: Getters and Setters
@@ -142,5 +139,4 @@ public class AppUser {
     public void setTodos(List<Todo> todos) {
         this.todos = todos;
     }
-
 }

@@ -14,5 +14,4 @@ public class SystemController {
     public SimpleResponse getHeartbeat() {
         return new SimpleResponse("Heartbeat OK!");
     }
-
 }

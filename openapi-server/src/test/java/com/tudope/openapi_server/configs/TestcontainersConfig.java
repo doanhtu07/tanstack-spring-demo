@@ -14,5 +14,4 @@ public class TestcontainersConfig {
     PostgreSQLContainer postgresContainer() {
         return new PostgreSQLContainer(DockerImageName.parse("postgres:18-alpine"));
     }
-
 }

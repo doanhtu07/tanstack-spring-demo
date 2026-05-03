@@ -4,8 +4,7 @@ import java.util.Set;
 
 public final class ElectricProtocol {
 
-    private ElectricProtocol() {
-    }
+    private ElectricProtocol() {}
 
     public static final String LIVE_CACHE_BUSTER_HEADER = "electric-cursor";
     public static final String SHAPE_HANDLE_HEADER = "electric-handle";
@@ -67,20 +66,13 @@ public final class ElectricProtocol {
             SUBSET_PARAM_WHERE_PARAMS,
             SUBSET_PARAM_WHERE_EXPR,
             SUBSET_PARAM_ORDER_BY_EXPR,
-            CACHE_BUSTER_QUERY_PARAM
-    );
+            CACHE_BUSTER_QUERY_PARAM);
 
     /**
      * <a href="https://electric-sql.com/docs/guides/auth#post-body-format">
      * Post body format
      * </a>
      */
-    public static final Set<String> ELECTRIC_SUBSET_BODY_PARAMS = Set.of(
-            SUBSET_BODY_WHERE,
-            SUBSET_BODY_PARAMS,
-            SUBSET_BODY_LIMIT,
-            SUBSET_BODY_OFFSET,
-            SUBSET_BODY_ORDER_BY
-    );
-
+    public static final Set<String> ELECTRIC_SUBSET_BODY_PARAMS =
+            Set.of(SUBSET_BODY_WHERE, SUBSET_BODY_PARAMS, SUBSET_BODY_LIMIT, SUBSET_BODY_OFFSET, SUBSET_BODY_ORDER_BY);
 }

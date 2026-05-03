@@ -24,8 +24,7 @@ public class SessionConfig {
             @Value("${server.servlet.session.cookie.same-site}") String cookieSameSite,
             @Value("${server.servlet.session.cookie.secure}") boolean cookieSecure,
             @Value("${server.servlet.session.cookie.http-only}") boolean cookieHttpOnly,
-            @Value("${spring.session.jdbc.cleanup-cron}") String cleanupCron
-    ) {
+            @Value("${spring.session.jdbc.cleanup-cron}") String cleanupCron) {
         this.cookieDomain = cookieDomain;
         this.cookieSameSite = cookieSameSite;
         this.cookieSecure = cookieSecure;
@@ -50,5 +49,4 @@ public class SessionConfig {
         serializer.setUseHttpOnlyCookie(cookieHttpOnly);
         return serializer;
     }
-
 }

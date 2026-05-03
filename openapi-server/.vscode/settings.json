@@ -1,3 +1,6 @@
 {
-  "git.openRepositoryInParentFolders": "always"
+  "git.openRepositoryInParentFolders": "always",
+
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.format.enabled": false
 }

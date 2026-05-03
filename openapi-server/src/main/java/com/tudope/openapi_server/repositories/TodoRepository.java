@@ -1,12 +1,11 @@
 package com.tudope.openapi_server.repositories;
 
 import com.tudope.openapi_server.entities.Todo;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Long> {
@@ -16,5 +15,4 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     @Query("SELECT COUNT(t) > 0 FROM Todo t WHERE t.id = :id AND t.owner.id = :ownerId")
     boolean existsByIdAndOwnerId(@Param("id") Long id, @Param("ownerId") Long ownerId);
-
 }

@@ -6,9 +6,6 @@ import jakarta.validation.constraints.NotNull;
 public record TodoUpdateRequestBody(
         @NotNull String id,
 
-        @NotBlank(message = "Description is required")
-        String description,
+        @NotBlank(message = "Description is required") String description,
 
-        @NotNull Boolean completed
-) {
-}
+        @NotNull Boolean completed) {}

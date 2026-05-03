@@ -17,8 +17,7 @@ public class SecurityService {
     public SecurityService(
             @Value("${server.servlet.session.cookie.domain}") String cookieDomain,
             @Value("${server.servlet.session.cookie.same-site}") String cookieSameSite,
-            @Value("${server.servlet.session.cookie.secure}") boolean cookieSecure
-    ) {
+            @Value("${server.servlet.session.cookie.secure}") boolean cookieSecure) {
         this.cookieDomain = cookieDomain;
         this.cookieSameSite = cookieSameSite;
         this.cookieSecure = cookieSecure;
@@ -45,5 +44,4 @@ public class SecurityService {
 
         return repository;
     }
-
 }

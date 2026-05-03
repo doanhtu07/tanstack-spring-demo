@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SystemController {
-    
+
     @GetMapping(value = "/public/heartbeat")
     public SimpleResponse getHeartbeat() {
         return new SimpleResponse("Heartbeat OK!");
     }
-
 }

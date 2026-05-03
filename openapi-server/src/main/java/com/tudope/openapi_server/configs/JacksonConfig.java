@@ -11,11 +11,9 @@ public class JacksonConfig {
     @Bean
     public JsonMapper jsonMapper(JsonMapper.Builder builder) {
         // The 'builder' here is already pre-configured with Spring Boot defaults
-        return builder
-                .changeDefaultPropertyInclusion(include ->
-                        include.withValueInclusion(JsonInclude.Include.NON_NULL) // Don't send nulls
-                )
+        return builder.changeDefaultPropertyInclusion(
+                        include -> include.withValueInclusion(JsonInclude.Include.NON_NULL) // Don't send nulls
+                        )
                 .build();
     }
-
 }

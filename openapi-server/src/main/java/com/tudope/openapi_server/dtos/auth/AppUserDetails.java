@@ -1,17 +1,12 @@
 package com.tudope.openapi_server.dtos.auth;
 
+import java.util.Collection;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-
-public record AppUserDetails(
-        Long id,
-        String email,
-        String password,
-        Collection<? extends GrantedAuthority> authorities
-) implements UserDetails {
+public record AppUserDetails(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities)
+        implements UserDetails {
 
     @Override
     @NonNull
@@ -30,5 +25,4 @@ public record AppUserDetails(
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
-
 }
