@@ -32,6 +32,7 @@ export const ViewTodoItem = ({
   // MARK: Effects
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLocalCompleted(completed)
   }, [completed])
 

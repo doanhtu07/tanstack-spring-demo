@@ -32,6 +32,7 @@ export const EditTodoItem = ({
   // MARK: Effects
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLocalDescription(description)
   }, [description])
 

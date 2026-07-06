@@ -17,7 +17,7 @@ export default defineConfig({
       target: specUrl,
     },
     output: {
-      prettier: true,
+      formatter: 'prettier',
       mode: 'tags',
       target: orvalTarget,
       client: 'react-query',
