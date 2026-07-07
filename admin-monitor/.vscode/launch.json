@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-AdminMonitorApplication<admin-monitor>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.tudope.admin_monitor.AdminMonitorApplication",
+      "projectName": "admin-monitor",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

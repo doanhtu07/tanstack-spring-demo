@@ -87,10 +87,20 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/app' | '/signin' | '/signup' | '/api/heartbeat' | '/server-proxy/$'
+    | '/'
+    | '/app'
+    | '/signin'
+    | '/signup'
+    | '/api/heartbeat'
+    | '/server-proxy/$'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/app' | '/signin' | '/signup' | '/api/heartbeat' | '/server-proxy/$'
+    | '/'
+    | '/app'
+    | '/signin'
+    | '/signup'
+    | '/api/heartbeat'
+    | '/server-proxy/$'
   id:
     | '__root__'
     | '/'
