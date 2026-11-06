@@ -1,0 +1,7 @@
+{
+  "**/*.{js,jsx,mjs,cjs,ts,tsx}": [
+    "pnpm --dir tanstack-start-client-app exec eslint --fix",
+    "pnpm --dir tanstack-start-client-app exec prettier --write"
+  ],
+  "**/*.{css,html,json,md,yaml,yml}": "pnpm --dir tanstack-start-client-app exec prettier --write"
+}

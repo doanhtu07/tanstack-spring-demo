@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-OpenapiServerApplication<openapi-server>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.tudope.openapi_server.OpenapiServerApplication",
+      "projectName": "openapi-server",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

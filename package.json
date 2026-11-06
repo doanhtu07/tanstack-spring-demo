@@ -1,0 +1,16 @@
+{
+  "name": "tanstack-spring-demo",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.16.1",
+  "scripts": {
+    "prepare": "husky",
+    "typecheck": "pnpm --dir tanstack-start-client-app typecheck"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0"
+  }
+}

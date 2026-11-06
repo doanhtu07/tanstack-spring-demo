@@ -14,9 +14,10 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriBuilder;
@@ -41,26 +42,25 @@ public class TodoListElectricController {
     /**
      * Handle Electric SQL API requests for todo list
      * <p>
-     * <a href="https://electric-sql.com/docs/guides/auth#implementing-post-support-in-your-proxy">
+     * <a href=
+     * "https://electric-sql.com/docs/guides/auth#implementing-post-support-in-your-proxy">
      * Implementing POST support in your proxy
      * </a>
      */
-    @RequestMapping(
-            method = {RequestMethod.GET, RequestMethod.POST},
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Map<String, Object>>> handleElectricTodoList(
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Map<String, Object>>> handleElectricTodoListGet(
+            HttpServletRequest request, @AuthenticationPrincipal AppUserDetails user) {
+        securityService.ensureUser(user);
+        return handleGet(request, user);
+    }
+
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Map<String, Object>>> handleElectricTodoListPost(
             HttpServletRequest request,
             @RequestBody(required = false) Map<String, Object> body,
             @AuthenticationPrincipal AppUserDetails user) {
         securityService.ensureUser(user);
-
-        String method = request.getMethod();
-
-        if (HttpMethod.POST.name().equalsIgnoreCase(method)) {
-            return handlePost(request, body, user);
-        } else {
-            return handleGet(request, user);
-        }
+        return handlePost(request, body, user);
     }
 
     private ResponseEntity<List<Map<String, Object>>> handlePost(
@@ -81,7 +81,8 @@ public class TodoListElectricController {
                 .uri(uriBuilder -> buildTodoListBaseUri(uriBuilder, requestParams, user.id()))
                 .body(sanitizedBody)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<List<Map<String, Object>>>() {});
+                .toEntity(new ParameterizedTypeReference<List<Map<String, Object>>>() {
+                });
 
         return proxyResponse(responseEntity);
     }
@@ -93,7 +94,8 @@ public class TodoListElectricController {
                 .get()
                 .uri(uriBuilder -> buildTodoListBaseUri(uriBuilder, requestParams, user.id()))
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<List<Map<String, Object>>>() {});
+                .toEntity(new ParameterizedTypeReference<List<Map<String, Object>>>() {
+                });
 
         return proxyResponse(responseEntity);
     }
