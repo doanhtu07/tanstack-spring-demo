@@ -30,7 +30,7 @@
     "@tanstack/router-ssr-query-core": "^1.169.3",
     "axios": "^1.21.0",
     "clsx": "^2.1.1",
-    "i18next": "^26.7.1",
+    "i18next": "^27.1.1",
     "lucide-react": "^1.68.0",
     "mobx": "^7.1.4",
     "mobx-react-lite": "^5.1.2",
